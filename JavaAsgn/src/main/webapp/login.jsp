@@ -31,7 +31,6 @@ out.print("Sorry, error in login.. <br><h2>Please try again!</h2>");
 <form action="VerifyUser.jsp" method="POST" >
 <input type="text" name="loginid" placeholder="Username"/> <br/>
 <input type="password" name="password" placeholder="Password"/> <br/>
-<input class="blue-button" type="submit" name="btnSubmit" value="Submit" />
 <br>
 <button class="blue-button">Register as Member</button>
 <button class="blue-button">Continue As Guest</button>

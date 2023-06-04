@@ -59,7 +59,7 @@ String pwd=request.getParameter("password");
     			
     			session.setAttribute("loginStatus", "success");
     			session.setMaxInactiveInterval(3*60); //3 seconds //3*60=3 minutes
-    			
+    			//test
     			out.print("Loginid:"+user+"<br>");
     			out.print("Password:"+pwd);
     			out.print("<h1>Welcome!"+user+"</h1>");
