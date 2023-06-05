@@ -64,7 +64,7 @@ String pwd=request.getParameter("password");
     			out.print("Password:"+pwd);
     			out.print("<h1>Welcome!"+user+"</h1>");
     			//response.sendRedirect("displayMember.jsp");
-    			//response.sendRedirect("displayMember.jsp?user="+user+"&userRole="+userRole);
+    			response.sendRedirect("CategoryMember.jsp?user="+user);
     		}
     		else{
     			out.print("Sorry, login fail!");
