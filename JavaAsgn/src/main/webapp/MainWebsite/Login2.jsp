@@ -15,7 +15,11 @@ Description         : JavaAsgn
 Admission no        : P2235077
 Class             : DIT/FT/2A/03
 --%>
- 
+<script>
+function redirectRegister(){
+	window.location.href="Register.jsp";
+}
+</script>
  
 </head>
 <body>
@@ -26,16 +30,19 @@ String message=request.getParameter("errCode");
 
 if(message!=null && message.equals("invalidLogin")){
 out.print("Sorry, error in login.. <br><h2>Please try again!</h2>");
-}%>
+}
+
+%>
 <h1 align="center">Login</h1>
 <form action="VerifyUser.jsp" method="POST" >
 <input type="text" name="loginid" placeholder="Username"/> <br/>
 <input type="password" name="password" placeholder="Password"/> <br/>
 <br>
-<button class="blue-button">Register as Member</button>
-<button class="blue-button">Continue As Guest</button>
+
 
 </form>
+<button class="blue-button" onClick="redirectRegister()">Register as Member</button>
+<button class="blue-button">Continue As Guest</button>
 
 </div>
 
