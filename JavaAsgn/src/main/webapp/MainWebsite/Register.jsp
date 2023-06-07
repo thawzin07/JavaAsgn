@@ -14,36 +14,6 @@ Description         : JavaAsgn
 Admission no        : P2235077
 Class             : DIT/FT/2A/03
 --%>
-</head>
-<body>
-<div class="container">
-<div class="card">
-<%
-String message = request.getParameter("errCode");
-//String duplicate=request.getParameter("duplicateField");
-
-
-if (message != null && message.equals("duplicate")) {
-   out.print("User already exists. Please try again!");
-}
-
-
-%>
-<h1 align="center">Register</h1>
-<form action="VerifyRegisterUser.jsp" method="POST" id="registerForm">
-    <input type="text" name="loginid" id="loginid" placeholder="Username"/> <br/><br/>
-    <input type="text" name="email" id="email" placeholder="Email"/> <br/><br/>
-    <input type="text" name="phone" id="phone" placeholder="Phone"/> <br/><br/>
-    <input type="password" name="password1" id="password1" placeholder="Password"/> <br/><br/>
-    <input type="password" name="password2" id="password2" placeholder="Confirm Password"/> <br/>
-    <p id="passwordError" style="color: red; display: none;">Passwords do not match. Please re-enter.</p>
-    <p id="fieldError" style="color: red; display: none;">Please fill in all the fields.</p>
-    <br/>
-    <button class="blue-button" onclick="validateForm(event)">Submit</button>
-    <button class="blue-button">Cancel</button>
-</form>
-</div>
-</div>
 
 <script>
     function validateForm(event) {
@@ -77,6 +47,40 @@ if (message != null && message.equals("duplicate")) {
         }
     }
 </script>
+<script src="inputvalidation.js"></script>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<%
+String message = request.getParameter("errCode");
+//String duplicate=request.getParameter("duplicateField");
+
+
+if (message != null && message.equals("duplicate")) {
+   out.print("User already exists. Please try again!");
+}
+
+
+%>
+<h1 align="center">Register</h1>
+<form action="VerifyRegisterUser.jsp" method="POST" id="registerForm">
+    <input type="text" name="loginid" id="loginid" placeholder="Username" oninput="validateUsername()">
+    <span id="username-error"></span><br/><br/>
+    <input type="text" name="email" id="email" placeholder="Email" oninput="validateEmail()">
+    <span id="email-error"></span> <br/><br/>
+    <input type="text" name="phone" id="phone" placeholder="Phone"/> <br/><br/>
+    <input type="password" name="password1" id="password1" placeholder="Password"/> <br/><br/>
+    <input type="password" name="password2" id="password2" placeholder="Confirm Password"/> <br/>
+    <p id="passwordError" style="color: red; display: none;">Passwords do not match. Please re-enter.</p>
+    <p id="fieldError" style="color: red; display: none;">Please fill in all the fields.</p>
+    <br/>
+    <button class="blue-button" onclick="validateForm(event)">Submit</button>
+    <button class="blue-button">Cancel</button>
+</form>
+</div>
+</div>
+
 
 <style>
     .container {
