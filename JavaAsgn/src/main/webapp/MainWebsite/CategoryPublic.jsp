@@ -132,6 +132,7 @@
 		%>
 	</div>
 	<%
+	
 	// Step 7: Close connection
 	conn.close();
 	} catch (Exception e) {
