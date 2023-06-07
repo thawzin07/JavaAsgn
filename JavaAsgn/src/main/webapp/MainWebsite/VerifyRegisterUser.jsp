@@ -19,13 +19,22 @@ Class             : DIT/FT/2A/03
 --%>
 
 <%@page import ="java.sql.*"%>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 <%
-//Assuming you have obtained the username, phone, and email values from the form data
+Date currentDate = new Date();
+SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+String formattedDate = dateFormat.format(currentDate);
+
 String username = request.getParameter("loginid");
 String phone = request.getParameter("phone");
 String email = request.getParameter("email");
 String password=request.getParameter("password1");
+String role="user";
+String image="./Graphics/ShopIcon.jpg";
+String dateJoined=formattedDate;
 
 
 
@@ -63,10 +72,42 @@ if (count > 0) {
  response.sendRedirect("Register.jsp?errCode=duplicate"); // Redirect with an error code
 }
 else {
- // No duplicate records found, proceed with registration process
- // Perform the necessary actions to save the user data to the database
- // Redirect to a success page or perform any additional processing
- response.sendRedirect("login.jsp");
+ //no duplicate found
+ try {
+   
+    // Step 4: Create a PreparedStatement
+    String sql = "INSERT INTO user (username, email, phone, password,role,image,joinedDate) VALUES (?,?, ?, ?, ?,?,?)";
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+
+    // Step 5: Set parameter values
+    pstmt.setString(1, username);
+    pstmt.setString(2, email);
+    pstmt.setString(3, phone);
+    pstmt.setString(4, password);
+    pstmt.setString(5, role);
+    pstmt.setString(6, image);
+    pstmt.setString(7, dateJoined);
+
+    // Step 6: Execute the INSERT query
+    int rowsAffected = pstmt.executeUpdate();
+
+    // Step 7: Close resources
+    pstmt.close();
+    conn.close();
+
+    if (rowsAffected > 0) {
+        // Data inserted successfully
+        response.sendRedirect("Login2.jsp"); // Redirect to a success page
+    } else {
+        // Error occurred during insertion
+       response.sendRedirect("Register.jsp?msgCode=invalidRegister"); // Redirect to an error page
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+    response.sendRedirect("Register.jsp?msgCode=errorRegister"); // Redirect to an error page
+}
+ 
+
 }
 %>
 

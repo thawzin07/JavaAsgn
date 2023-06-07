@@ -68,7 +68,7 @@ String pwd=request.getParameter("password");
     		}
     		else{
     			out.print("Sorry, login fail!");
-    			response.sendRedirect("login.jsp?errCode=invalidLogin");
+    			response.sendRedirect("login.jsp?msgCode=invalidLogin");
     			
     		}
         

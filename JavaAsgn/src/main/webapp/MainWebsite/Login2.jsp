@@ -26,19 +26,22 @@ function redirectRegister(){
 <div class="container">
 <div class="card">
 <%
-String message=request.getParameter("errCode");
+String message=request.getParameter("msgCode");
 
 if(message!=null && message.equals("invalidLogin")){
 out.print("Sorry, error in login.. <br><h2>Please try again!</h2>");
 }
+else if(message!=null && message.equals("successRegister")){
+out.print("Please log in with the created account!");
+}
 //save
 %>
 <h1 align="center">Login</h1>
-<form action="VerifyUser.jsp" method="POST" >
+<form action="VerifyLoginUser.jsp" method="POST" >
 <input type="text" name="loginid" placeholder="Username"/> <br/>
 <input type="password" name="password" placeholder="Password"/> <br/>
 <br>
-
+<input type="submit" class="blue-button" value="Login" />
 
 
 </form>
