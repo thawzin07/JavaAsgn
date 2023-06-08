@@ -33,7 +33,7 @@ String phone = request.getParameter("phone");
 String email = request.getParameter("email");
 String password=request.getParameter("password1");
 String role="user";
-String image="./Graphics/ShopIcon.jpg";
+String image="./Graphics/DefaultProfile.jpg";
 String dateJoined=formattedDate;
 
 
@@ -97,7 +97,7 @@ else {
 
     if (rowsAffected > 0) {
         // Data inserted successfully
-        response.sendRedirect("Login2.jsp"); // Redirect to a success page
+        response.sendRedirect("Login2.jsp?msgCode=successRegister"); // Redirect to a success page
     } else {
         // Error occurred during insertion
        response.sendRedirect("Register.jsp?msgCode=invalidRegister"); // Redirect to an error page

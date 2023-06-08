@@ -19,6 +19,9 @@ Class             : DIT/FT/2A/03
 function redirectRegister(){
 	window.location.href="Register.jsp";
 }
+function redirectGuest(){
+	window.location.href="CategoryPublic.jsp";
+}
 </script>
  
 </head>
@@ -46,7 +49,7 @@ out.print("Please log in with the created account!");
 
 </form>
 <button class="blue-button" onClick="redirectRegister()">Register as Member</button>
-<button class="blue-button">Continue As Guest</button>
+<button class="blue-button" onClick="redirectGuest()">Continue As Guest</button>
 
 </div>
 
