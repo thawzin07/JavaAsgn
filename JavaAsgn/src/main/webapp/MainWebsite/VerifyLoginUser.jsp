@@ -16,10 +16,15 @@ Description: ST0510/JAD/Week 5 Submission
 <%@page import ="java.sql.*"%>
 
 <%
-String user=request.getParameter("loginid");
+String user=request.getParameter("username");
 String pwd=request.getParameter("password");
 	int id;
 	String name;
+	String passwd;
+	String email;
+	String phone;
+	String profilePhoto;
+	
 	
 	boolean found=false;
     try {
@@ -27,7 +32,7 @@ String pwd=request.getParameter("password");
            Class.forName("com.mysql.jdbc.Driver");  
 
           // Step 2: Define Connection URL
-          String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=thsSQL4302&serverTimezone=UTC";
+          String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
 
           // Step 3: Establish connection to URL
           Connection conn = DriverManager.getConnection(connURL); 
@@ -45,8 +50,20 @@ String pwd=request.getParameter("password");
         	found=true;
         	id=rs.getInt("id");
         	name=rs.getString("username");
+        	passwd=rs.getString("password");
+        	phone=rs.getString("phone");
+        	email=rs.getString("email");
+        	profilePhoto=rs.getString("image");
+        	session.setAttribute("sessUsername",name);
+        	session.setAttribute("sessPassword",passwd);
+        	session.setAttribute("sessPhone",phone);
+        	session.setAttribute("sessEmail",email);
+        	session.setAttribute("sessUserID",id);
+        	session.setAttribute("sessPhoto",profilePhoto);
         	
-        	out.println("ID:"+id+", Name:"+ name+"<br>");
+        	
+        	
+        	//out.println("ID:"+id+", Name:"+ name+"<br>");
         	
         }
         
@@ -55,14 +72,17 @@ String pwd=request.getParameter("password");
           
     //==================================================================================
     		if(found){
-    			session.setAttribute("sessUserID",user);
+    			session.setAttribute("sessLoginID",user);
+    		
+    		
+    			
     			
     			session.setAttribute("loginStatus", "success");
     			session.setMaxInactiveInterval(3*60); //3 seconds //3*60=3 minutes
     			//test
-    			out.print("Loginid:"+user+"<br>");
-    			out.print("Password:"+pwd);
-    			out.print("<h1>Welcome!"+user+"</h1>");
+    		//	out.print("Loginid:"+user+"<br>");
+    		//	out.print("Password:"+pwd);
+    		//	out.print("<h1>Welcome!"+user+"</h1>");
     			//response.sendRedirect("displayMember.jsp");
     			response.sendRedirect("CategoryMember.jsp?user="+user);
     		}

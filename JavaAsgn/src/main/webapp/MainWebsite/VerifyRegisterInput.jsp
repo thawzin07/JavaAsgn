@@ -3,14 +3,14 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Verify Register Form Input</title>
 </head>
 <body>
 <script>
 function validateForm(event) {
     event.preventDefault(); // Prevent default form submission
     
-    var loginid = document.getElementById("loginid").value;
+    var username = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var phone = document.getElementById("phone").value;
     var password1 = document.getElementById("password1").value;
@@ -20,7 +20,7 @@ function validateForm(event) {
    
     var isValid = true;
 
-    if (loginid === "" || email === "" || phone === "" || password1 === "" || password2 === "") {
+    if (username === "" || email === "" || phone === "" || password1 === "" || password2 === "") {
         fieldError.style.display = "block";
         isValid = false;
     } else {

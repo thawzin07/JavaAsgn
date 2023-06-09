@@ -28,12 +28,12 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 String formattedDate = dateFormat.format(currentDate);
 
-String username = request.getParameter("loginid");
+String username = request.getParameter("username");
 String phone = request.getParameter("phone");
 String email = request.getParameter("email");
 String password=request.getParameter("password1");
 String role="user";
-String image="./Graphics/DefaultProfile.jpg";
+String image="../Graphics/DefaultProfile.jpg";
 String dateJoined=formattedDate;
 
 
@@ -42,7 +42,7 @@ String dateJoined=formattedDate;
 Class.forName("com.mysql.jdbc.Driver");  
 
 // Step 2: Define Connection URL
-String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=thsSQL4302&serverTimezone=UTC";
+String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
 
 // Step 3: Establish connection to URL
 Connection conn = DriverManager.getConnection(connURL); 

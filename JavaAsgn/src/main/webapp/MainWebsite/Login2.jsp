@@ -41,7 +41,7 @@ out.print("Please log in with the created account!");
 %>
 <h1 align="center">Login</h1>
 <form action="VerifyLoginUser.jsp" method="POST" >
-<input type="text" name="loginid" placeholder="Username"/> <br/>
+<input type="text" name="username" placeholder="Username"/> <br/>
 <input type="password" name="password" placeholder="Password"/> <br/>
 <br>
 <input type="submit" class="blue-button" value="Login" />

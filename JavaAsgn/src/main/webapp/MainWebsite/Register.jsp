@@ -40,7 +40,7 @@ else if (message!=null && message.equals("errorRegister")){
 %>
 <h1 align="center">Register</h1>
 <form action="VerifyRegisterUser.jsp" method="POST" id="registerForm">
-    <input type="text" name="loginid" id="loginid" placeholder="Username" oninput="validateUsername()">
+    <input type="text" name="username" id="username" placeholder="Username" oninput="validateUsername()">
    <span id="username-error" class="error-message"></span> <br/><br/>
    
     <input type="text" name="email" id="email" placeholder="Email" oninput="validateEmail()">
