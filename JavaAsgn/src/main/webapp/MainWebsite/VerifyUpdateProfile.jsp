@@ -1,8 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*, java.io.*, javax.servlet.http.Part" %>
+
 <%
-// Assuming you have obtained the updated values from the form data
+// Helper method to get the filename from a Part object
+private String getFilename(Part part) {
+    String contentDisposition = part.getHeader("content-disposition");
+    String[] parts = contentDisposition.split(";");
+    for (String partItem : parts) {
+        if (partItem.trim().startsWith("filename")) {
+            return partItem.substring(partItem.indexOf('=') + 1).trim().replace("\"", "");
+        }
+    }
+    return null;
+}
+
 String username = request.getParameter("username");
 String phone = request.getParameter("phone");
 String email = request.getParameter("email");
@@ -12,6 +23,12 @@ String password = request.getParameter("password");
 int userId = (int) session.getAttribute("sessUserID");
 
 try {
+    Part filePart = request.getPart("photo"); // Assuming the file input element has name="photo"
+
+    // Get the filename and input stream of the photo
+    String photoFilename = getFilename(filePart);
+    InputStream photoInputStream = filePart.getInputStream();
+
     // Step 1: Load JDBC Driver
     Class.forName("com.mysql.jdbc.Driver");
 
@@ -21,33 +38,60 @@ try {
     // Step 3: Establish connection to URL
     Connection conn = DriverManager.getConnection(connURL);
 
-    // Step 4: Create a PreparedStatement
+    // Step 4: Create a PreparedStatement for updating the profile information
     String sql = "UPDATE user SET username=?, phone=?, email=?, password=? WHERE id=?";
     PreparedStatement pstmt = conn.prepareStatement(sql);
 
-    // Step 5: Set parameter values
+    // Step 5: Set parameter values for profile information
     pstmt.setString(1, username);
     pstmt.setString(2, phone);
     pstmt.setString(3, email);
     pstmt.setString(4, password);
     pstmt.setInt(5, userId);
 
-    // Step 6: Execute the UPDATE query
+    // Step 6: Execute the profile information UPDATE query
     int rowsAffected = pstmt.executeUpdate();
 
-    // Step 7: Close resources
+    // Step 7: Close the PreparedStatement
     pstmt.close();
-    conn.close();
 
+    // Step 8: Check if profile information update was successful
     if (rowsAffected > 0) {
-        // Data updated successfully
-        response.sendRedirect("Profile.jsp?msgCode=successUpdate"); // Redirect to the profile page
+        // Profile information updated successfully
+        // Proceed to update the profile photo if a file was uploaded
+        if (photoInputStream != null) {
+            // Create a new PreparedStatement for updating the profile photo
+            sql = "UPDATE user SET image=? WHERE id=?";
+            pstmt = conn.prepareStatement(sql);
+
+            // Set parameter values for the profile photo update
+            pstmt.setBinaryStream(1, photoInputStream);
+            pstmt.setInt(2, userId);
+
+            // Execute the profile photo UPDATE query
+            pstmt.executeUpdate();
+
+            // Close the PreparedStatement
+            pstmt.close();
+        }
+
+        // Close the database connection
+        conn.close();
+
+        // Redirect to the profile page with a success message
+        response.sendRedirect("Profile.jsp?msgCode=successUpdate");
     } else {
-        // Error occurred during update
-        response.sendRedirect("Profile.jsp?msgCode=updateError"); // Redirect to an error page
+        // Error occurred during profile information update
+        // Close the database connection
+        conn.close();
+
+        // Redirect to an error page
+        response.sendRedirect("Profile.jsp?msgCode=updateError");
     }
 } catch (Exception e) {
     e.printStackTrace();
-    response.sendRedirect("Profile.jsp?msgCode=updateError"); // Redirect to an error page
+
+    // Redirect to an error page
+    response.sendRedirect("Profile.jsp?msgCode=updateError");
 }
 %>

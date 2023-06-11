@@ -23,6 +23,21 @@
         field.classList.add("editable-field");
         field.focus();
     }
+
+  
+    function handleFileSelect(event) {
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileImg').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function goBack(){
+    	   window.history.back();
+    }
+
 </script>
 
 <style>
@@ -43,37 +58,26 @@
   width: 100%;
 }
 
-/* Added styles for pushing the form to the right */
-.container {
-  align-items: center;
-  justify-content: center;
+.hidden {
+  display: none;
 }
-
-.picture {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 </style>
 </head>
 <body>
- <% String message=request.getParameter("msgCode");
-
-if(message!=null && message.equals("successUpdate")){
-    out.print("Profile Updated Successfully!");
-}
-else if(message!=null && message.equals("updateError")){
-    out.print("Sorry..Profile update failed..");
-}
+<%
+String profilePhoto = (String) session.getAttribute("sessPhoto");
 %>
+    <button onclick="goBack()">Go Back</button>
 <div class="container">
   <div class="picture">
-    <img src="<%=session.getAttribute("sessPhoto") %>"
-        style="width: 100%; height: 100%;">
-  </div>
+    <img id="profileImg" src="<%= profilePhoto %>" style="width: 100%; height: 100%;">
+    <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
+    <button onclick="document.getElementById('fileInput').click()">Change Photo</button>
+  </div> 
+
+   <h1>Profile</h1>
   <div class="form">
-    <h1>Profile</h1>
+  
     
     <form action="VerifyUpdateProfile.jsp">
       <label for="username">Username:</label>
@@ -87,14 +91,15 @@ else if(message!=null && message.equals("updateError")){
 
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" value="<%= session.getAttribute("sessPassword") %>" readonly onclick="enableEdit('password')"><br>
-      
+        
       <label for="userID">User ID:</label>
       <input type="text" id="userID" name="userID" value="<%= session.getAttribute("sessUserID") %>" readonly><br>
-    
+      
       <input type="submit" value="Update Profile">
     </form>
   </div>
 </div>
+
 
 </body>
 </html>
