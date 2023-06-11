@@ -34,7 +34,6 @@ ArrayList<String> category = new ArrayList<>();
 
 		// Step 2: Define Connection URL
 		String connURL = "jdbc:mysql://localhost/db1?user=root&password=root1234&serverTimezone=UTC";
-
 		// Step 3: Establish connection to URL
 		Connection conn = DriverManager.getConnection(connURL);
 		// Step 4: Create Statement object

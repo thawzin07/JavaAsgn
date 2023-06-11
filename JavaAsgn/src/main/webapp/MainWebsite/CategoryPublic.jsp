@@ -100,6 +100,7 @@
 	//---------------START - initialisation of variables--------------------
 	Boolean found = false; //to indicate if found or not
 	ArrayList<String> category = new ArrayList<>();
+	int catId ;
 	//---------------ENd   - initialization of variables-------------------
 	try {
 		// Step1: Load JDBC Driver
@@ -114,7 +115,7 @@
 		Statement stmt = conn.createStatement();
 		// Step 5: Execute SQL Command
 
-		String sqlStr = "SELECT name FROM category ";
+		String sqlStr = "SELECT name, id FROM category ";
 		ResultSet rs = stmt.executeQuery(sqlStr);
 		
 		String sqlBook = "SELECT title , author , image from book where cat_id = ?";
@@ -126,8 +127,13 @@
 		while (rs.next()) {
 			System.out.print("record found!");
 			found = true;
+			catId = 0;
+			catId += Integer.parseInt(rs.getString("id"));
 		%>
-		<button class="tablinks"><%=rs.getString("name")%></button>
+		<button class="tablinks"><%=rs.getString("name")%> 
+		<a
+							href="BookTab.jsp?id=<%=rs.getString("id")%>"
+							class="button" style="text-decoration: none"></a> </button>
 		<%
 		}
 		%>
@@ -140,10 +146,14 @@
 	out.println("Error :" + e);
 	}
 	%>
-	
-	<div class="book">
-	
-	</div>
+
+	<ul class="book">
+	 <li>Tab 1</li>
+        <li>Tab 2</li>
+        <li>Tab 3</li>
+        <li>Tab 4</li>
+        <li>Tab 5</li>
+	</ul>
 
 
 
