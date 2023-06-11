@@ -13,12 +13,14 @@ Copyright Notice     : NA
 Description         : JavaAsgn
 Admission no        : P2235077
 Class             : DIT/FT/2A/03
+testing push 
 --%>
 <jsp:include page="VerifyRegisterInput.jsp" />
 
 <script src="inputvalidation.js"></script>
 </head>
 <body>
+
 <div class="container">
 <div class="card">
 <%
