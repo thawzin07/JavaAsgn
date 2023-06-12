@@ -37,6 +37,11 @@
     function goBack(){
     	   window.history.back();
     }
+    
+    function logout() {
+        window.location.href = "Logout.jsp";
+    }
+
 
 </script>
 
@@ -64,6 +69,12 @@
 </style>
 </head>
 <body>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+if (isLoggedIn == null || !isLoggedIn) {
+    response.sendRedirect("Login2.jsp");
+}
+%>
 <%
 String profilePhoto = (String) session.getAttribute("sessPhoto");
 %>
@@ -96,9 +107,12 @@ String profilePhoto = (String) session.getAttribute("sessPhoto");
       <input type="text" id="userID" name="userID" value="<%= session.getAttribute("sessUserID") %>" readonly><br>
       
       <input type="submit" value="Update Profile">
-    </form>
+    
+    </form>  
+    <button onclick="logout()">Logout</button>
   </div>
 </div>
+
 
 
 </body>

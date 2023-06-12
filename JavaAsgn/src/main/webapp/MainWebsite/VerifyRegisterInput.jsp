@@ -6,6 +6,7 @@
 <title>Verify Register Form Input</title>
 </head>
 <body>
+
 <script>
 function validateForm(event) {
     event.preventDefault(); // Prevent default form submission

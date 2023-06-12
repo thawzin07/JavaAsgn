@@ -39,6 +39,12 @@ out.print("Please log in with the created account!");
 }
 //save
 %>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+if (isLoggedIn != null && isLoggedIn) {
+    response.sendRedirect("CategoryMember.jsp");
+}
+%>
 <h1 align="center">Login</h1>
 <form action="VerifyLoginUser.jsp" method="POST" >
 <input type="text" name="username" placeholder="Username"/> <br/>

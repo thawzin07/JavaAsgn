@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+if (isLoggedIn == null || !isLoggedIn) {
+    response.sendRedirect("Login2.jsp");
+}
+%>
 </body>
 </html>

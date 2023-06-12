@@ -13,6 +13,7 @@ Date: 15/5/2023
 Description: ST0510/JAD/Week 5 Submission
  --%>
 
+
 <%@page import ="java.sql.*"%>
 
 <%
@@ -75,7 +76,7 @@ String pwd=request.getParameter("password");
     			session.setAttribute("sessLoginID",user);
     		
     		
-    			
+    			session.setAttribute("isLoggedIn", true);
     			
     			session.setAttribute("loginStatus", "success");
     			session.setMaxInactiveInterval(3*60); //3 seconds //3*60=3 minutes
@@ -88,7 +89,7 @@ String pwd=request.getParameter("password");
     		}
     		else{
     			out.print("Sorry, login fail!");
-    			response.sendRedirect("login.jsp?msgCode=invalidLogin");
+    			response.sendRedirect("Login2.jsp?msgCode=invalidLogin");
     			
     		}
         

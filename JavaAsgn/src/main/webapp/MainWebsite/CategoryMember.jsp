@@ -13,6 +13,12 @@ function redirectProfile(){
 </script>
 </head>
 <body>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+if (isLoggedIn == null || !isLoggedIn) {
+    response.sendRedirect("Login2.jsp");
+}
+%>
 <button onClick="redirectProfile()">Profile</button>
 
 </body>
