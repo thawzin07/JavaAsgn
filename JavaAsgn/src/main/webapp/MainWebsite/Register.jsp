@@ -18,6 +18,12 @@ testing push
 <jsp:include page="VerifyRegisterInput.jsp" />
 
 <script src="inputvalidation.js"></script>
+
+<script>
+function cancelButton(){
+	window.location.href="Login2.jsp";
+}
+</script>
 </head>
 <body>
 
@@ -60,8 +66,9 @@ else if (message!=null && message.equals("errorRegister")){
     <p id="fieldError" style="color: red; display: none;">Please fill in all the fields.</p>
     <br/>
     <button class="blue-button" onClick="validateForm(event)" >Submit</button>
-    <button class="blue-button">Cancel</button>
+  
 </form>
+  <button class="blue-button" onClick="cancelButton()">Cancel</button>
 </div>
 </div>
 

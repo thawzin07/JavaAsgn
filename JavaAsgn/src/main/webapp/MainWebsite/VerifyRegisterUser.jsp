@@ -23,7 +23,7 @@ Class             : DIT/FT/2A/03
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%
-if (request.getParameter("submit") != null) {
+
 Date currentDate = new Date();
 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -108,11 +108,7 @@ else {
     response.sendRedirect("Register.jsp?msgCode=errorRegister"); // Redirect to an error page
 }
 }
-else{
-	
-}
-	
-}
+
  
 
 
