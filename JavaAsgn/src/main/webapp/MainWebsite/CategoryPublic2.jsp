@@ -72,6 +72,28 @@
 		out.println("Error :" + e);
 	}
 	%>
+	<div
+		style="display: flex; flex-direction: row; justify-content: center; width: 90%; height: 30%; margin: 20px auto;">
+
+		<div
+			style="display: flex; flex-direction: row; justify-content: center; width: 30%; height: 100%;">
+			<img src="../Graphics/ShopIcon.jpg"
+				style="width: 100%; height: 100%;">
+		</div>
+
+		<div
+			style="display: flex; flex-direction: row; justify-content: center; width: 70%; height: 100%;">
+			<h1 style="margin-left: 10px;">Welcome!</h1>
+		</div>
+
+
+
+		<div
+			style="display: flex; flex-direction: column; justify-content: center; width: 30%; height: 100%;">
+			<button style="margin-bottom: 10%" onClick="window.location.href='Register.jsp'">Sign Up</button>
+			<button style="margin-bottom: 10%" onClick="window.location.href='Login2.jsp'">Log In</button>
+		</div>
+	</div>
 
 	<form action="add2Cart.jsp" method="post">
 		<!-- inline styling to div so that the whole form will appear at the center of user screen -->
