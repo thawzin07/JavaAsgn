@@ -37,7 +37,7 @@ function validateInput(input, regex, errorElement,invalidElement) {
     var phone = document.getElementById("phone");
     var phoneError = document.getElementById("phone-error");
     // Add your phone number validation regex or logic here
-    var regex=/^[6,7,8,9][0-9]{7}/;
+    var regex=/^[6,8,9][0-9]{7}$/;
     var invalidElement="Invalid phone number. Phone number must start with 6,7,8,9 and have 8 numbers."
     validateInput(phone,regex,phoneError,invalidElement);
   }

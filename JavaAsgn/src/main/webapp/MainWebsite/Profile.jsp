@@ -16,6 +16,7 @@
         border-bottom: 1px solid blue;
     }
 </style>
+<script src="inputvalidation.js"></script>
 <script>
     function enableEdit(fieldId) {
         var field = document.getElementById(fieldId);
@@ -66,6 +67,13 @@
 .hidden {
   display: none;
 }
+
+ .error-message {
+   position: absolute;
+  
+  color: red;
+  font-size: 12px;
+}
 </style>
 </head>
 <body>
@@ -80,29 +88,35 @@ String profilePhoto = (String) session.getAttribute("sessPhoto");
 %>
     <button onclick="goBack()">Go Back</button>
 <div class="container">
-  <div class="picture">
+
+
+   <h1>Profile</h1>
+   
+       <div class="picture">
     <img id="profileImg" src="<%= profilePhoto %>" style="width: 100%; height: 100%;">
     <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
     <button onclick="document.getElementById('fileInput').click()">Change Photo</button>
   </div> 
-
-   <h1>Profile</h1>
   <div class="form">
   
     
-    <form action="VerifyUpdateProfile.jsp">
+    <form action="VerifyUpdateProfile.jsp"  enctype="multipart/form-data">
+    
+  
+  
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username" value="<%= session.getAttribute("sessUsername") %>" readonly onclick="enableEdit('username')"><br>
+      <input type="text" id="username" name="username" value="<%= session.getAttribute("sessUsername") %>" readonly onclick="enableEdit('username')" oninput="validateUsername()"><br>
+      <span id="username-error" class="error-message"></span> <br/><br/>
 
       <label for="phone">Phone:</label>
-      <input type="text" id="phone" name="phone" value="<%= session.getAttribute("sessPhone") %>" readonly onclick="enableEdit('phone')"><br>
-
+      <input type="text" id="phone" name="phone" value="<%= session.getAttribute("sessPhone") %>" readonly onclick="enableEdit('phone')" oninput="validatePhone()"><br>
+<span id="phone-error" class="error-message"></span> <br/><br/>
       <label for="email">Email:</label>
-      <input type="text" id="email" name="email" value="<%= session.getAttribute("sessEmail") %>" readonly onclick="enableEdit('email')"><br>
-
+      <input type="text" id="email" name="email" value="<%= session.getAttribute("sessEmail") %>" readonly onclick="enableEdit('email')" oninput="validateEmail()"><br>
+<span id="email-error" class="error-message"></span> <br/><br/>
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" value="<%= session.getAttribute("sessPassword") %>" readonly onclick="enableEdit('password')"><br>
-        
+      <input type="password" id="password" name="password" value="<%= session.getAttribute("sessPassword") %>" readonly onclick="enableEdit('password')" oninput="validatePassword()"><br>
+        <span id="password-error" class="error-message"></span> <br/><br/>
       <label for="userID">User ID:</label>
       <input type="text" id="userID" name="userID" value="<%= session.getAttribute("sessUserID") %>" readonly><br>
       

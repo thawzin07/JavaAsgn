@@ -23,6 +23,8 @@ testing push
 function cancelButton(){
 	window.location.href="Login2.jsp";
 }
+
+
 </script>
 </head>
 <body>
@@ -31,19 +33,17 @@ function cancelButton(){
 <div class="card">
 <%
 String message = request.getParameter("msgCode");
-//String duplicate=request.getParameter("duplicateField");
-
+String errorMessage = request.getParameter("errMsg");
 
 if (message != null && message.equals("duplicate")) {
    out.print("User already exists. Please try again!");
+} else if (message != null && message.equals("invalidRegister")) {
+    out.print("Invalid Register. Please try again!");
+} else if (message != null && message.equals("errorRegister")) {
+    out.print("Error Register. Please try again!");
+} else if (errorMessage != null) {
+    out.print("Error: " + errorMessage);
 }
-else if (message!=null && message.equals("invalidRegister")){
-	out.print("Invalid Register. Please try again!");
-}
-else if (message!=null && message.equals("errorRegister")){
-	out.print("Error Register. Please try again!");
-}
-
 
 %>
 <h1 align="center">Register</h1>

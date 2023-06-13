@@ -1,12 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
+<%@ page import="java.io.InputStream, java.io.OutputStream, java.io.FileOutputStream" %>
+<%@ page import="javax.servlet.http.Part" %>
+<%@ page import="javax.servlet.annotation.MultipartConfig" %>
+
 <%@ page import="java.sql.*" %>
+
+<%@ page import="java.sql.*" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Verify Profile Update</title>
+
+</head>
+<body>
+<%--
+    
+Author             : Thet Htar San
+Date                 : 5/06/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+--%>
 <%
+//Retrieve the uploaded image file
+Part filePart = request.getPart("fileInput");
+
+//Generate a unique file name for the uploaded image
+String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+
+//Specify the path where the image will be saved
+String uploadPath = getServletContext().getRealPath("../UserProfiles/") + fileName;
+
+//Save the image file to the specified path
+try (InputStream inputStream = filePart.getInputStream();
+  OutputStream outputStream = new FileOutputStream(uploadPath)) {
+ byte[] buffer = new byte[4096];
+ int bytesRead;
+ while ((bytesRead = inputStream.read(buffer)) != -1) {
+     outputStream.write(buffer, 0, bytesRead);
+ }
+}
+
 // Assuming you have obtained the updated values from the form data
 String username = request.getParameter("username");
 String phone = request.getParameter("phone");
 String email = request.getParameter("email");
 String password = request.getParameter("password");
+String image= "../UserProfiles/"+fileName;
 // Get the current user ID from the session
 int userId = (int) session.getAttribute("sessUserID");
 try {
@@ -17,14 +62,16 @@ try {
     // Step 3: Establish connection to URL
     Connection conn = DriverManager.getConnection(connURL);
     // Step 4: Create a PreparedStatement
-    String sql = "UPDATE user SET username=?, phone=?, email=?, password=? WHERE id=?";
+    String sql = "UPDATE user SET username=?, phone=?, email=?, password=?, image=? WHERE id=?";
     PreparedStatement pstmt = conn.prepareStatement(sql);
     // Step 5: Set parameter values
     pstmt.setString(1, username);
     pstmt.setString(2, phone);
     pstmt.setString(3, email);
     pstmt.setString(4, password);
-    pstmt.setInt(5, userId);
+   
+    pstmt.setString(5,image); 
+    pstmt.setInt(6, userId);
     // Step 6: Execute the UPDATE query
     int rowsAffected = pstmt.executeUpdate();
     // Step 7: Close resources
@@ -32,13 +79,18 @@ try {
     conn.close();
     if (rowsAffected > 0) {
         // Data updated successfully
-        response.sendRedirect("Profile.jsp?msgCode=successUpdate"); // Redirect to the profile page
+       response.sendRedirect(response.encodeRedirectURL("Profile.jsp?msgCode=successUpdate"));
+ // Redirect to the profile page
     } else {
         // Error occurred during update
-        response.sendRedirect("Profile.jsp?msgCode=updateError"); // Redirect to an error page
+       response.sendRedirect(response.encodeRedirectURL("Profile.jsp?msgCode=updateError"));
+// Redirect to an error page
     }
 } catch (Exception e) {
     e.printStackTrace();
-    response.sendRedirect("Profile.jsp?msgCode=updateError"); // Redirect to an error page
+    response.sendRedirect(response.encodeRedirectURL("Profile.jsp?msgCode=updateError"));
+ // Redirect to an error page
 }
 %>
+</body>
+</html>

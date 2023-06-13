@@ -20,6 +20,7 @@ function validateForm(event) {
     var fieldError = document.getElementById("fieldError");
    
     var isValid = true;
+    
 
     if (username === "" || email === "" || phone === "" || password1 === "" || password2 === "") {
         fieldError.style.display = "block";
