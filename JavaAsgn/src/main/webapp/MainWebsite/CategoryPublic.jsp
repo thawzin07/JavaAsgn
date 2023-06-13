@@ -99,7 +99,7 @@
 	<%
 	//---------------START - initialisation of variables--------------------
 	Boolean found = false; //to indicate if found or not
-	ArrayList<String> category = new ArrayList<>();
+	ArrayList<String> catArray = new ArrayList<String>();
 	int catId ;
 	//---------------ENd   - initialization of variables-------------------
 	try {
@@ -120,24 +120,15 @@
 		
 		String sqlBook = "SELECT title , author , image from book where cat_id = ?";
 	%>
-
-	<div class="tab">
-		<%
+	<%
+		
 		// Step 6: Process Result
 		while (rs.next()) {
 			System.out.print("record found!");
-			found = true;
-			catId = 0;
-			catId += Integer.parseInt(rs.getString("id"));
-		%>
-		<button class="tablinks"><%=rs.getString("name")%> 
-		<a
-							href="BookTab.jsp?id=<%=rs.getString("id")%>"
-							class="button" style="text-decoration: none"></a> </button>
-		<%
+			catArray.add(rs.getString("name"));
 		}
 		%>
-	</div>
+
 	<%
 	
 	// Step 7: Close connection
@@ -147,12 +138,72 @@
 	}
 	%>
 
+
+	<div class="tab">
+		<%
+	for (int i = 0 ; i < catArray.size() ; i++) {
+		String cat_name = catArray.get(i);
+		%>
+		<button class="tablinks" name="<%= cat_name %> "><%= catArray.get(i) %></button>
+		<% 
+		
+	}
+		for (int i = 0 ; i < catArray.size() ; i++) {
+			if(request.getParameter( catArray.get(i)) != null ){
+				
+				try {
+					// Step1: Load JDBC Driver
+					Class.forName("com.mysql.jdbc.Driver");
+
+					// Step 2: Define Connection URL
+					String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
+
+					// Step 3: Establish connection to URL
+					Connection conn = DriverManager.getConnection(connURL);
+					// Step 4: Create Statement object
+					Statement stmt = conn.createStatement();
+					// Step 5: Execute SQL Command
+
+					
+					
+					String sqlBook = "SELECT title , author , image from book where cat_id = ?";
+					
+					PreparedStatement pstmt = conn.prepareStatement(sqlBook);
+					pstmt.setString(1, session.getAttribute("cat_id").toString() );	
+					ResultSet rs = pstmt.executeQuery();
+					
+					// Step 6: Process Result
+					while (rs.next()) {
+						out.print("It get into 2nd loop");
+						%>
+			<h1> <%= rs.getString("title") %></h1>
+			<h1> <%= rs.getString("author") %></h1>
+						
+						<%
+						}
+						%>
+					
+					<% 
+
+					// Step 7: Close connection
+					conn.close();
+					} catch (Exception e) {
+					out.println("Error :" + e);
+					}
+			}
+		}
+		
+		
+		
+	%>
+
+	</div>
 	<ul class="book">
-	 <li>Tab 1</li>
-        <li>Tab 2</li>
-        <li>Tab 3</li>
-        <li>Tab 4</li>
-        <li>Tab 5</li>
+		<li>Tab 1</li>
+		<li>Tab 2</li>
+		<li>Tab 3</li>
+		<li>Tab 4</li>
+		<li>Tab 5</li>
 	</ul>
 
 
