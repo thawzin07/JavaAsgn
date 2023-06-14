@@ -7,6 +7,143 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f5f5f5;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 20px auto;
+	max-width: 800px;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.header img {
+	width: 30%;
+	height: auto;
+	margin-right: 10px;
+}
+
+.header h1 {
+	font-size: 24px;
+	margin: 0;
+}
+
+.button-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+	margin-top: 20px;
+}
+
+.button-container button {
+	width: 150px;
+	padding: 10px 20px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: none;
+	background-color: #4285f4;
+	color: #fff;
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+.button-container button:hover {
+	background-color: #3367d6;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+table th,
+table td {
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+
+table th {
+	background-color: #f5f5f5;
+}
+
+table img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 5px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table h5 {
+	margin: 5px 0;
+}
+
+table td:first-child {
+	width: 30%;
+}
+
+table td:last-child {
+	width: 70%;
+}
+
+table button {
+	padding: 5px 10px;
+	font-size: 14px;
+	border-radius: 3px;
+	border: none;
+	background-color: #4285f4;
+	color: #fff;
+	cursor: pointer;
+}
+
+table button:hover {
+	background-color: #3367d6;
+}
+
+table td button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 5px auto;
+	width: 80%;
+}
+
+table td button:first-child {
+	background-color: #4285f4;
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+table td button:last-child {
+	background-color: #ff0000;
+	color: #fff;
+}
+
+</style>
+
+
+
+
+
 </head>
 <body>
 	<%
@@ -72,89 +209,63 @@
 		out.println("Error :" + e);
 	}
 	%>
-	<div
-		style="display: flex; flex-direction: row; justify-content: center; width: 90%; height: 30%; margin: 20px auto;">
-
-		<div
-			style="display: flex; flex-direction: row; justify-content: center; width: 30%; height: 100%;">
-			<img src="../Graphics/ShopIcon.jpg"
-				style="width: 100%; height: 100%;">
+	<div class="container">
+		<div class="header">
+			<img src="../Graphics/ShopIcon.jpg" alt="Shop Icon">
+			<h1>Welcome!</h1>
+			
+			<div class="button-container">
+			<button onClick="window.location.href='Register.jsp'">Sign
+				Up</button>
+			<button onClick="window.location.href='Login2.jsp'">Log In</button>
+		</div>
 		</div>
 
-		<div
-			style="display: flex; flex-direction: row; justify-content: center; width: 70%; height: 100%;">
-			<h1 style="margin-left: 10px;">Welcome!</h1>
-		</div>
+		
 
+		<form method="post">
+			<div class="table-container">
+				<table>
+					<tr>
+						<th>Category</th>
+						<th>Books under Category</th>
+					</tr>
 
+					<% for (int i = 0; i < catArray.size(); i++) { %>
+					<tr>
+						<td><%=catArray.get(i)[1]%></td>
 
-		<div
-			style="display: flex; flex-direction: column; justify-content: center; width: 30%; height: 100%;">
-			<button style="margin-bottom: 10%" onClick="window.location.href='Register.jsp'">Sign Up</button>
-			<button style="margin-bottom: 10%" onClick="window.location.href='Login2.jsp'">Log In</button>
-		</div>
+						<td>
+							<table>
+								<% for (int j = 0; j < bookArray.size(); j++) {
+                                    if (catArray.get(i)[0].equals(bookArray.get(j)[0])) { %>
+								<tr
+									style="display: flex; flex-direction: row; justify-content: center;">
+									<td style="width: 30%;"><img
+										src="<%= bookArray.get(j)[3] %>" alt="Book Cover"></td>
+									<td style="width: 50%;">
+										<h5>
+											Title:
+											<%=bookArray.get(j)[1]%></h5>
+										<h5>
+											Author:
+											<%=bookArray.get(j)[2]%></h5>
+									</td>
+									<td style="width: 20%;">
+										<button type="submit">Add To Cart</button>
+										<button type="submit">View Details of <%=bookArray.get(j)[1]%> </button>
+									</td>
+								</tr>
+								<% }
+                                    } %>
+							</table>
+						</td>
+					</tr>
+					<% } %>
+				</table>
+			</div>
+		</form>
 	</div>
-
-	<form action="add2Cart.jsp" method="post">
-		<!-- inline styling to div so that the whole form will appear at the center of user screen -->
-		<div
-			style="display: flex; flex-direction: row; justify-content: center;">
-			<table border=1>
-				<tr>
-					<td>Category</td>
-					<td>Books under Category</td>
-				</tr>
-
-
-				<%
-				for (int i = 0; i < catArray.size(); i++) {
-				%>
-				<tr>
-					<td><%=catArray.get(i)[1]%></td>
-
-					<td>
-
-						<table border=1 style="display: flex; width: 100%;">
-							<%
-							for (int j = 0; j < bookArray.size(); j++) {
-								if (catArray.get(i)[0].equals(bookArray.get(j)[0])) {
-							%>
-							<tr style="display: flex; width: 100%;">
-								<td
-									style="flex: 30%; height: 150px; border: 1px solid black; box-sizing: border-box;">
-									<img style="width: 100%; height: 100%; object-fit: contain;"
-									alt="" src=<%= bookArray.get(j)[3] %>>
-								</td>
-								<td
-									style="flex: 50%; height: 150px; border: 1px solid black; box-sizing: border-box;">
-									<h5>
-										Title:
-										<%=bookArray.get(j)[1]%></h5>
-									<h5>
-										Author:
-										<%=bookArray.get(j)[2]%></h5>
-								</td>
-								<td
-									style="flex: 20%; height: 150px; border: 1px solid black; box-sizing: border-box;">
-									<button type="submit">Add To Cart</button>
-								</td>
-							</tr>
-
-							<%
-							}
-							}
-							%>
-
-						</table>
-
-
-					</td>
-				</tr>
-				<%
-				}
-				%>
-			</table>
-		</div>
-	</form>
 </body>
+
 </html>
