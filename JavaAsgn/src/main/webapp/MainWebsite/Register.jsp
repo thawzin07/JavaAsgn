@@ -47,16 +47,17 @@ function checkErrors() {
 <div class="card">
 <%
 String message = request.getParameter("msgCode");
-String errorMessage = request.getParameter("errMsg");
+
 
 if (message != null && message.equals("duplicate")) {
-   out.print("User already exists. Please try again!");
-} else if (message != null && message.equals("invalidRegister")) {
+   out.print("Username/Email/Phone already exists. Please try again!");
+}
+
+else if (message != null && message.equals("invalidRegister")) {
     out.print("Invalid Register. Please try again!");
-} else if (message != null && message.equals("errorRegister")) {
+}
+else if (message != null && message.equals("errorRegister")) {
     out.print("Error Register. Please try again!");
-} else if (errorMessage != null) {
-    out.print("Error: " + errorMessage);
 }
 
 %>
