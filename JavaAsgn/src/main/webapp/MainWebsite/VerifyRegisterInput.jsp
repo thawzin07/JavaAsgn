@@ -18,6 +18,7 @@ function validateForm(event) {
     var password2 = document.getElementById("password2").value;
     var passwordError = document.getElementById("passwordError");
     var fieldError = document.getElementById("fieldError");
+  
    
     var isValid = true;
     
@@ -36,11 +37,14 @@ function validateForm(event) {
     } else {
         passwordError.style.display = "none";
     }
-
+    
     if (isValid) {
-       document.getElementById("registerForm").submit(); 
-       // Submit the form
+        document.getElementById("registerForm").submit(); 
+        // Submit the form
     }
+  
+
+  
 }
 </script>
 </body>
