@@ -164,12 +164,12 @@ table td button:last-child {
 		Statement stmt = conn.createStatement();
 		// Step 5: Execute SQL Command
 
-		String sqlBook = "SELECT title , author , image , cat_id from book";
+		String sqlBook = "SELECT title , author , image , cat_id, id from book";
 		ResultSet rsB = stmt.executeQuery(sqlBook);
 
 		while (rsB.next()) {
 			String[] randomBook = new String[] { rsB.getString("cat_id"), rsB.getString("title"), rsB.getString("author"),
-			rsB.getString("image") };
+			rsB.getString("image"), rsB.getString("id") };
 			bookArray.add(randomBook);
 		}
 
@@ -294,8 +294,8 @@ table td button:last-child {
 									if (loginStatus != null) {
 									%>
 									<form action="BookDetails.jsp" method="post">
-										<button type="submit" onClick="<%=details%>" name="title"
-											value="<%=bookArray.get(j)[1]%>">
+										<button type="submit" onClick="<%=details%>" name="id"
+											value="<%=bookArray.get(j)[4]%>">
 											View Details of
 											<%=bookArray.get(j)[1]%>
 										</button>
