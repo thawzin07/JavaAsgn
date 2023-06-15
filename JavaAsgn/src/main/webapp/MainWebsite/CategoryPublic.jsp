@@ -73,8 +73,7 @@ table {
 	margin-top: 20px;
 }
 
-table th,
-table td {
+table th, table td {
 	padding: 10px;
 	border: 1px solid #ccc;
 }
@@ -137,7 +136,6 @@ table td button:last-child {
 	background-color: #ff0000;
 	color: #fff;
 }
-
 </style>
 
 
@@ -208,20 +206,53 @@ table td button:last-child {
 	} catch (Exception e) {
 		out.println("Error :" + e);
 	}
+
+	String loginStatus = (String) session.getAttribute("loginStatus");
+	String cart, details;
+	String user = "";
+	if (request.getParameter("user") != null) {
+		user = request.getParameter("user");
+	}
+
+	if (loginStatus != null) {
+		cart = "alert('successfully added the book to cart!')";
+		details = "window.location.href('BookDetails.jsp')";
+	} else {
+		cart = "alert('you need to log in to add the book to cart')";
+		details = "alert('you need to log in to view book details')";
+	}
 	%>
 	<div class="container">
 		<div class="header">
 			<img src="../Graphics/ShopIcon.jpg" alt="Shop Icon">
-			<h1>Welcome!</h1>
-			
+			<h1>
+				Welcome!
+				<%=user%></h1>
+
 			<div class="button-container">
-			<button onClick="window.location.href='Register.jsp'">Sign
-				Up</button>
-			<button onClick="window.location.href='Login2.jsp'">Log In</button>
-		</div>
+
+				<%
+				if (loginStatus != null) {
+				%>
+
+
+				<button onClick="window.location.href='Profile.jsp'">Profile
+				</button>
+				<button onClick="window.location.href='ViewCart.jsp'">View
+					Cart</button>
+				<%
+				} else {
+				%>
+				<button onClick="window.location.href='Register.jsp'">Sign
+					Up</button>
+				<button onClick="window.location.href='Login2.jsp'">Log In</button>
+				<%
+				}
+				%>
+			</div>
 		</div>
 
-		
+
 
 		<form method="post">
 			<div class="table-container">
@@ -231,18 +262,22 @@ table td button:last-child {
 						<th>Books under Category</th>
 					</tr>
 
-					<% for (int i = 0; i < catArray.size(); i++) { %>
+					<%
+					for (int i = 0; i < catArray.size(); i++) {
+					%>
 					<tr>
 						<td><%=catArray.get(i)[1]%></td>
 
 						<td>
 							<table>
-								<% for (int j = 0; j < bookArray.size(); j++) {
-                                    if (catArray.get(i)[0].equals(bookArray.get(j)[0])) { %>
+								<%
+								for (int j = 0; j < bookArray.size(); j++) {
+									if (catArray.get(i)[0].equals(bookArray.get(j)[0])) {
+								%>
 								<tr
 									style="display: flex; flex-direction: row; justify-content: center;">
 									<td style="width: 30%;"><img
-										src="<%= bookArray.get(j)[3] %>" alt="Book Cover"></td>
+										src="<%=bookArray.get(j)[3]%>" alt="Book Cover"></td>
 									<td style="width: 50%;">
 										<h5>
 											Title:
@@ -252,16 +287,26 @@ table td button:last-child {
 											<%=bookArray.get(j)[2]%></h5>
 									</td>
 									<td style="width: 20%;">
-										<button type="submit">Add To Cart</button>
-										<button type="submit">View Details of <%=bookArray.get(j)[1]%> </button>
+
+
+										<button type="submit" onClick="<%=cart%>">Add To
+											Cart</button>
+										<button type="submit" onClick="<%=details%>">
+											View Details of
+											<%=bookArray.get(j)[1]%>
+										</button>
 									</td>
 								</tr>
-								<% }
-                                    } %>
+								<%
+								}
+								}
+								%>
 							</table>
 						</td>
 					</tr>
-					<% } %>
+					<%
+					}
+					%>
 				</table>
 			</div>
 		</form>

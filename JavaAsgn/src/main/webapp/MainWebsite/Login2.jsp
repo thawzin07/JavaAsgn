@@ -40,7 +40,7 @@ out.print("Please log in with the created account!");
 <%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn != null && isLoggedIn) {
-    response.sendRedirect("CategoryMember.jsp");
+    response.sendRedirect("CategoryPublic.jsp");
 }
 %>
 <h1 align="center">Login</h1>
