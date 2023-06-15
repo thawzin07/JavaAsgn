@@ -216,7 +216,7 @@ table td button:last-child {
 
 	if (loginStatus != null) {
 		cart = "alert('successfully added the book to cart!')";
-		details = "window.location.href('BookDetails.jsp')";
+		details = "window.location.href='BookDetails.jsp'";
 	} else {
 		cart = "alert('you need to log in to add the book to cart')";
 		details = "alert('you need to log in to view book details')";
@@ -254,62 +254,76 @@ table td button:last-child {
 
 
 
-		<form method="post">
-			<div class="table-container">
-				<table>
-					<tr>
-						<th>Category</th>
-						<th>Books under Category</th>
-					</tr>
 
-					<%
-					for (int i = 0; i < catArray.size(); i++) {
-					%>
-					<tr>
-						<td><%=catArray.get(i)[1]%></td>
+		<div class="table-container">
+			<table>
+				<tr>
+					<th>Category</th>
+					<th>Books under Category</th>
+				</tr>
 
-						<td>
-							<table>
-								<%
-								for (int j = 0; j < bookArray.size(); j++) {
-									if (catArray.get(i)[0].equals(bookArray.get(j)[0])) {
-								%>
-								<tr
-									style="display: flex; flex-direction: row; justify-content: center;">
-									<td style="width: 30%;"><img
-										src="<%=bookArray.get(j)[3]%>" alt="Book Cover"></td>
-									<td style="width: 50%;">
-										<h5>
-											Title:
-											<%=bookArray.get(j)[1]%></h5>
-										<h5>
-											Author:
-											<%=bookArray.get(j)[2]%></h5>
-									</td>
-									<td style="width: 20%;">
+				<%
+				for (int i = 0; i < catArray.size(); i++) {
+				%>
+				<tr>
+					<td><%=catArray.get(i)[1]%></td>
+
+					<td>
+						<table>
+							<%
+							for (int j = 0; j < bookArray.size(); j++) {
+								if (catArray.get(i)[0].equals(bookArray.get(j)[0])) {
+							%>
+							<tr
+								style="display: flex; flex-direction: row; justify-content: center;">
+								<td style="width: 30%;"><img src="<%=bookArray.get(j)[3]%>"
+									alt="Book Cover"></td>
+								<td style="width: 50%;">
+									<h5>
+										Title:
+										<%=bookArray.get(j)[1]%></h5>
+									<h5>
+										Author:
+										<%=bookArray.get(j)[2]%></h5>
+								</td>
+								<td style="width: 20%;">
 
 
-										<button type="submit" onClick="<%=cart%>">Add To
-											Cart</button>
-										<button type="submit" onClick="<%=details%>">
+									<button type="submit" onClick="<%=cart%>">Add To Cart</button>
+									<%
+									if (loginStatus != null) {
+									%>
+									<form action="BookDetails.jsp" method="post">
+										<button type="submit" onClick="<%=details%>" name="title"
+											value="<%=bookArray.get(j)[1]%>">
 											View Details of
 											<%=bookArray.get(j)[1]%>
 										</button>
-									</td>
-								</tr>
-								<%
-								}
-								}
-								%>
-							</table>
-						</td>
-					</tr>
-					<%
-					}
-					%>
-				</table>
-			</div>
-		</form>
+									</form> <%
+ } else {
+ %>
+									<button type="submit" onClick="<%=details%>" name="title"
+										value="<%=bookArray.get(j)[1]%>">
+										View Details of
+										<%=bookArray.get(j)[1]%>
+									</button> <%
+ }
+ %>
+								</td>
+							</tr>
+							<%
+							}
+							}
+							%>
+						</table>
+					</td>
+				</tr>
+				<%
+				}
+				%>
+			</table>
+		</div>
+
 	</div>
 </body>
 

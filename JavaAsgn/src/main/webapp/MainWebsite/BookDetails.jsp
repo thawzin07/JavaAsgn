@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<% String title = request.getParameter("title");
+out.print(title);
+%>
 </body>
 </html>
