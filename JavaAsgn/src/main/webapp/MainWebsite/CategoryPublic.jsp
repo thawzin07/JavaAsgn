@@ -252,9 +252,6 @@ table td button:last-child {
 			</div>
 		</div>
 
-
-
-
 		<div class="table-container">
 			<table>
 				<tr>

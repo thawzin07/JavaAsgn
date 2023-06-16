@@ -273,7 +273,7 @@ table td button:last-child {
 								</td>
 								<td style="width: 20%;">
 
-									<form action="BookDetails.jsp" method="post">
+									<form action="BookDetailsAdmin.jsp" method="post">
 										<button type="submit" onClick="" name="id"
 											value="<%=bookArray.get(j)[4]%>">
 											Update details of
