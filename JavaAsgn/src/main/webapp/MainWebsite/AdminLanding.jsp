@@ -233,7 +233,7 @@ table td button:last-child {
 
 				<button onClick="window.location.href='Profile.jsp'">Profile
 				</button>
-				<button onClick="window.location.href='ViewMembers.jsp'">View
+				<button onClick="window.location.href='AdminViewMembers.jsp'">View
 					Members</button>
 
 			</div>
