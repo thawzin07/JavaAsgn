@@ -290,7 +290,7 @@ table td button:last-child {
 									<form action="DeleteBook.jsp" method="post">
 										<button type="submit" onClick="return confirmDelete();"
 											name="id" value="<%=bookArray.get(j)[4]%>">Delete
-											Book</button>
+											Book</button> 
 									</form>
 
 
