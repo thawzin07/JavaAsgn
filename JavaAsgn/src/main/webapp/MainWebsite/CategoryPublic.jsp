@@ -180,6 +180,7 @@ table td button:last-child {
 	}
 
 	try {
+		//TEST
 		// Step1: Load JDBC Driver
 		Class.forName("com.mysql.jdbc.Driver");
 

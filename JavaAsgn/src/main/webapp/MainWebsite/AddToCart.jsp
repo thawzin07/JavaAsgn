@@ -19,6 +19,7 @@ t
 cartItems.add(bookId);
 
 
+
 session.setAttribute("cartItems", cartItems);
 
 response.sendRedirect("ViewCart.jsp");
