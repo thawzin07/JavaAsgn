@@ -25,7 +25,7 @@ publisher = request.getParameter("publisher");
 quantity= request.getParameter("quantity");
 publication_date = request.getParameter("publication_date");
 
-session.setAttribute("id", id);
+session.setAttribute("book_id", id);
 
 
 //Create a prepared statement to check for existing records
@@ -86,12 +86,15 @@ session.setAttribute("id", id);
 	    pstmt.close();
 	    conn.close();
 
-	    response.sendRedirect("BookDetailsAdmin.jsp");
+	    if(rowsAffected > 0){
+	    	session.setAttribute("book_id", id);
+	    }
+	    response.sendRedirect("AdminBookDetails.jsp");
 	} 
 	catch (Exception e) {
 	    e.printStackTrace();
 	    response.reset();
-	    response.sendRedirect("BookDetailsAdmin.jsp");
+	    response.sendRedirect("AdminBookDetails.jsp");
 	}
 	
 

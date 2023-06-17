@@ -128,14 +128,7 @@ input[type="text"] {
 	}
 	
 	%>
-	<script type="text/javascript">
-	i=0
-	while (i > 1){
-		reloadPage();
-		i++;
-	}
 	
-	</script>
 	<% 
 	
 
@@ -169,7 +162,7 @@ input[type="text"] {
 				The book is under category "<%=rs.getString("name").toUpperCase()%>"
 			</h4>
 			<br>
-			<form action="AdminUpdateMember.jsp" method="post" id="updateForm">
+			<form action="AdminUpdateBook.jsp" method="post" id="updateForm">
 
 				<label for="ISBN">ISBN :</label> 
 				<input type="text" id="isbn" name="isbn"

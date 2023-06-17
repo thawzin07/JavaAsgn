@@ -136,6 +136,8 @@ table td button:last-child {
 	background-color: #ff0000;
 	color: #fff;
 }
+
+
 </style>
 <script>
 	function confirmDelete() {
@@ -231,7 +233,7 @@ table td button:last-child {
 
 				<button onClick="window.location.href='Profile.jsp'">Profile
 				</button>
-				<button onClick="window.location.href='ViewCart.jsp'">View
+				<button onClick="window.location.href='ViewMembers.jsp'">View
 					Members</button>
 
 			</div>
@@ -251,7 +253,11 @@ table td button:last-child {
 				for (int i = 0; i < catArray.size(); i++) {
 				%>
 				<tr>
-					<td><%=catArray.get(i)[1]%></td>
+					<td style="position: relative;">
+  <h4><%=catArray.get(i)[1]%></h4>
+  <button type="button" style="position: absolute; background-color:#90EE90;  bottom: 0; left: 50%; margin-bottom: 30px; transform: translateX(-50%);">Add book in this category</button>
+</td>
+
 
 					<td>
 						<table>
@@ -273,9 +279,9 @@ table td button:last-child {
 								</td>
 								<td style="width: 20%;">
 
-									<form action="BookDetailsAdmin.jsp" method="post">
+									<form action="AdminBookDetails.jsp" method="post">
 										<button type="submit" onClick="" name="id"
-											value="<%=bookArray.get(j)[4]%>">
+											value="<%=bookArray.get(j)[4]%>" style="background-color: #00FFFF">
 											Update details of
 											<%=bookArray.get(j)[1]%>
 										</button>
