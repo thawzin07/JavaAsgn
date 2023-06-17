@@ -283,30 +283,24 @@ table td button:last-child {
 										Author:
 										<%=bookArray.get(j)[2]%></h5>
 								</td>
-								<td style="width: 20%;">
+								   <td style="width: 20%;">
+                                <form action="<%= loginStatus != null ? "AddToCart.jsp" : "Login2.jsp" %>" method="post"> <%--if user is not logged in, it will redirect to the login page. --%>
+                                    <% if (loginStatus != null) { %>
+                                    <button type="submit" onClick="alert('Successfully added the book to cart!')">Add To Cart</button>
+                                    <% 
+                                    } else { %>
+                                    <button type="submit">Add To Cart</button>
+                                    <% } %>
+                                    <input type="hidden" name="bookId" value="<%= bookArray.get(j)[4] %>">
+                                </form>
 
-
-									<button type="submit" onClick="<%=cart%>">Add To Cart</button>
-									<%
-									if (loginStatus != null) {
-									%>
-									<form action="BookDetails.jsp" method="post">
-										<button type="submit" onClick="<%=details%>" name="id"
-											value="<%=bookArray.get(j)[4]%>">
-											View Details of
-											<%=bookArray.get(j)[1]%>
-										</button>
-									</form> <%
- } else {
- %>
-									<button type="submit" onClick="<%=details%>" name="title"
-										value="<%=bookArray.get(j)[1]%>">
-										View Details of
-										<%=bookArray.get(j)[1]%>
-									</button> <%
- }
- %>
-								</td>
+                                
+                                <form action="BookDetails.jsp" method="post">
+                                    <button type="submit" onClick="window.location.href='BookDetails.jsp'" name="id" value="<%= bookArray.get(j)[4] %>">View Details of <%= bookArray.get(j)[1] %></button>
+                                </form>
+                               
+                            
+                            </td>
 							</tr>
 							<%
 							}

@@ -77,8 +77,8 @@ else {
  try {
    
     // Step 4: Create a PreparedStatement
-    String sql = "INSERT INTO user (username, email, phone, password,role,image,joinedDate) VALUES (?,?, ?, ?, ?,?,?)";
-    PreparedStatement pstmt = conn.prepareStatement(sql);
+    String sqlStr = "INSERT INTO user (username, email, phone, password,role,image,joinedDate) VALUES (?,?, ?, ?, ?,?,?)";
+    PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 
     // Step 5: Set parameter values
     pstmt.setString(1, username);
