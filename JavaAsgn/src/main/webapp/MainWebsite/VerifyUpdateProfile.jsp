@@ -27,31 +27,14 @@ Admission no        : P2235077
 Class             : DIT/FT/2A/03
 --%>
 <%
-//Retrieve the uploaded image file
-Part filePart = request.getPart("fileInput");
 
-//Generate a unique file name for the uploaded image
-String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
-
-//Specify the path where the image will be saved
-String uploadPath = getServletContext().getRealPath("../UserProfiles/") + fileName;
-
-//Save the image file to the specified path
-try (InputStream inputStream = filePart.getInputStream();
-  OutputStream outputStream = new FileOutputStream(uploadPath)) {
- byte[] buffer = new byte[4096];
- int bytesRead;
- while ((bytesRead = inputStream.read(buffer)) != -1) {
-     outputStream.write(buffer, 0, bytesRead);
- }
-}
 
 // Assuming you have obtained the updated values from the form data
 String username = request.getParameter("username");
 String phone = request.getParameter("phone");
 String email = request.getParameter("email");
 String password = request.getParameter("password");
-String image= "../UserProfiles/"+fileName;
+String image= request.getParameter("fileInput");
 // Get the current user ID from the session
 int userId = (int) session.getAttribute("sessUserID");
 try {

@@ -103,6 +103,11 @@ else if (message != null && message.equals("errorRegister")) {
     z-index: 1;
 }
 
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
 input {
     width: 400px;
     height: 30px;
@@ -137,8 +142,10 @@ form {
     position: absolute;
     color: red;
     font-size: 12px;
+    bottom: -20px;
 }
 </style>
+
 
 </body>
 </html>

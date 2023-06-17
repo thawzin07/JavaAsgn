@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 function redirectProfile(){
-	window.location.href="Profile.jsp";
+	window.location.href="ProfileTest.jsp";
 }
 
 </script>

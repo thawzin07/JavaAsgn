@@ -92,17 +92,18 @@ String profilePhoto = (String) session.getAttribute("sessPhoto");
 
    <h1>Profile</h1>
    
-       <div class="picture">
-    <img id="profileImg" src="<%= profilePhoto %>" style="width: 100%; height: 100%;">
-    <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
-    <button onclick="document.getElementById('fileInput').click()">Change Photo</button>
-  </div> 
+    
   <div class="form">
   
     
-    <form action="VerifyUpdateProfile.jsp"  enctype="multipart/form-data">
+    <form action="VerifyUpdateProfile.jsp"  >
     
-  
+    <div class="picture">
+    <img id="profileImg" src="<%= profilePhoto %>" style="width: 100%; height: 100%;">
+    <input type="file" id="fileInput" name="fileInput" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
+    <button onclick="document.getElementById('fileInput').click()">Change Photo</button>
+    
+  </div>
   
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" value="<%= session.getAttribute("sessUsername") %>" readonly onclick="enableEdit('username')" oninput="validateUsername()"><br>
