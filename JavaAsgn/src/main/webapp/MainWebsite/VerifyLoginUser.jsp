@@ -61,6 +61,7 @@ String pwd=request.getParameter("password");
         	session.setAttribute("sessEmail",email);
         	session.setAttribute("sessUserID",id);
         	session.setAttribute("sessPhoto",profilePhoto);
+        	session.setAttribute("role", rs.getString("role"));
         	
         	
         	
@@ -85,7 +86,12 @@ String pwd=request.getParameter("password");
     		//	out.print("Password:"+pwd);
     		//	out.print("<h1>Welcome!"+user+"</h1>");
     			//response.sendRedirect("displayMember.jsp");
-    			response.sendRedirect("CategoryMember.jsp?user="+user);
+    			if (session.getAttribute("role").equals("admin")){
+    				response.sendRedirect("AdminLanding.jsp");
+    			} else {
+    				response.sendRedirect("CategoryPublic.jsp?user="+user);
+    			}
+    			
     		}
     		else{
     			out.print("Sorry, login fail!");

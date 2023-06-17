@@ -24,7 +24,7 @@ body {
 
 .container img {
 	width: 45%;
-	height: auto;
+	height: 45%;
 }
 
 .bookDetails_container {
@@ -37,8 +37,6 @@ body {
 	justify-content: flex-start;
 	align-items: flex-start;
 }
-
-
 
 .bookDetails_container .confirm_button {
 	background-color: lightgreen;
@@ -80,6 +78,45 @@ input[type="text"] {
 	function reloadPage() {
 		location.reload();
 	}
+	
+	function showAlert() {
+	      var message = "You have updated successfully!";
+	      alert(message);
+	    } 
+	
+	function validateUpdate() {
+	    event.preventDefault(); // Prevent default form submission
+	    
+	    var isbn = document.getElementById("isbn").value;
+	    var title = document.getElementById("title").value;
+	    var author = document.getElementById("author").value;
+	    var price = document.getElementById("price").value;
+	    var quantity = document.getElementById("quantity").value;
+	    var publisher = document.getElementById("publisher").value;
+	    var publication_date = document.getElementById("publication_date").value;
+	    var cat_id = document.getElementById("cat_id").value;
+	  
+	   
+	    var isValid = true;
+	    
+
+	    if (isbn === "" || title === "" || author ==="" || price ==="" || quantity ==="" || 
+	    		publisher ==="" || publication_date ==="" || cat_id ==="") {
+	        var message = "Fields cannot be empty"
+	        isValid = false;
+	    } else if (/[a-zA-Z]/.test(isbn) || /[a-zA-Z]/.test(price) || /[a-zA-Z]/.test(quantity) || /[a-zA-Z]/.test(cat_id)) {
+	    	var message = "ISBN, price, quantity or category ID can only be numbers "
+		        isValid = false;
+	    }
+	    
+	    if (isValid) {
+	        document.getElementById("updateForm").submit(); 
+	        // Submit the form
+	    } else {
+	    	alert(message);
+	    }
+	  
+	}
 </script>
 
 </head>
@@ -89,8 +126,21 @@ input[type="text"] {
 	if (isLoggedIn == null || !isLoggedIn) {
 		response.sendRedirect("Login2.jsp");
 	}
+	
+	%>
+	<script type="text/javascript">
+	i=0
+	while (i > 1){
+		reloadPage();
+		i++;
+	}
+	
+	</script>
+	<% 
+	
 
-	String id = request.getParameter("id");
+	String id = request.getParameter("id") != null ? request.getParameter("id") : (String) session.getAttribute("book_id");
+
 	try {
 		// Step1: Load JDBC Driver
 		Class.forName("com.mysql.jdbc.Driver");
@@ -104,7 +154,7 @@ input[type="text"] {
 		Statement stmt = conn.createStatement();
 		// Step 5: Execute SQL Command
 
-		String sqlStr = "SELECT ISBN , title , author , price , publisher , publication_date , image , b.cat_id,  name from book b , category c where b.id = ? and b.cat_id = c.id";
+		String sqlStr = "SELECT ISBN , title , author , price , publisher , publication_date , image , b.cat_id, quantity ,  name from book b , category c where b.id = ? and b.cat_id = c.id";
 		PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 		pstmt.setString(1, id);
 		ResultSet rs = pstmt.executeQuery();
@@ -119,22 +169,40 @@ input[type="text"] {
 				The book is under category "<%=rs.getString("name").toUpperCase()%>"
 			</h4>
 			<br>
-			<form action="AdminUpdateMember.jsp" method="post">
+			<form action="AdminUpdateMember.jsp" method="post" id="updateForm">
 
-				<label for="ISBN">ISBN :</label> <input type="text" id="ISBN"
-					value="<%=rs.getString("ISBN")%>" readonly><br> <label
-					for="title">Title :</label> <input type="text" id="title"
-					value="<%=rs.getString("title")%>" readonly><br> <label
-					for="author">Author :</label> <input type="text" id="author"
-					value="<%=rs.getString("author")%>" readonly><br> <label
-					for="price">Price :</label> <input type="text" id="price"
-					value="<%=rs.getString("price")%>" readonly><br> <label
-					for="publisher">Publisher :</label> <input type="text"
+				<label for="ISBN">ISBN :</label> 
+				<input type="text" id="isbn" name="isbn"
+					value="<%=rs.getString("ISBN")%>" readonly><br> 
+					<label
+					for="title">Title :</label> 
+					<input type="text" id="title" name="title"
+					value="<%=rs.getString("title")%>" readonly><br> 
+					<label
+					for="author">Author :</label> 
+					<input type="text" id="author" name="author"
+					value="<%=rs.getString("author")%>" readonly><br> 
+					<label
+					for="price">Price :</label> 
+					<input type="text" id="price" name="price"
+					value="<%=rs.getString("price")%>" readonly><br> 
+					<label
+					for="publisher">Publisher :</label> 
+					<input type="text" name="publisher"
 					id="publisher" value="<%=rs.getString("publisher")%>" readonly><br>
 
+				<label for="category">Category ID :</label> <input type="text" name="cat_id"
+					id="cat_id" value="<%=rs.getString("cat_id")%>" readonly><br>
+
+				<label for="quantity">Quantity :</label> <input type="text" name="quantity"
+					id="quantity" value="<%=rs.getString("quantity")%>" readonly><br>
+
 				<label for="publication_date">Publication Date :</label> <input
-					type="text" id="publication_date"
+					type="text" id="publication_date" name="publication_date"
 					value="<%=rs.getString("publication_date")%>" readonly><br>
+					
+					<input type="hidden" id="id" name="id" value="<%=id%>">
+					
 
 				<%
 				if (session.getAttribute("role") != null && session.getAttribute("role").equals("admin")) {
@@ -153,12 +221,10 @@ input[type="text"] {
 									});
 				</script>
 
+				<button class="confirm_button" name="confirm" onClick="validateUpdate()"
+					>Confirm Update</button>
 
-
-				<button type="submit" class="confirm_button" name="id"
-					value="<%
-String[] data = {id, rs.getString("cat_id")};
-%>">Confirm Update</button>
+				
 			</form>
 			<div class="button_container">
 				<button type="submit" class="cancel_button" name="id"
@@ -168,7 +234,7 @@ String[] data = {id, rs.getString("cat_id")};
 			<%
 			}
 			%>
-			
+
 
 		</div>
 	</div>
