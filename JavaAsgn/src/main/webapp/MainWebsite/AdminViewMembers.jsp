@@ -38,6 +38,11 @@ td:first-child img {
 
 
 </style>
+<script>
+	function confirmDelete() {
+		return confirm("Are you sure you want to delete the member?");
+	}
+</script>
 </head>
 <body>
 <%
@@ -75,6 +80,8 @@ try {
 } catch (Exception e) {
 	out.println("Error :" + e);
 }
+
+session.setAttribute("userArray", userArray);
 %>
 <div class="container">
 <table border=1>
@@ -120,8 +127,11 @@ try {
 											Update <%= userStr %>
 										</button>
 									</form>
+ 		<form action="DeleteMember.jsp" method="post">
+										<button type="submit" onClick="return confirmDelete();"
+											name="id" value="<%=userArray.get(i)[0]%>">Delete <%= userStr %></button> 
+									</form>
  		
- 		<button>Delete <%= userStr %></button>
  		</td>
  		
  			<%
@@ -129,6 +139,7 @@ try {
  			%>
  			<td>
  			<button>Delete <%= userStr %></button>
+ 			
  			</td>
  			<%
  		}
