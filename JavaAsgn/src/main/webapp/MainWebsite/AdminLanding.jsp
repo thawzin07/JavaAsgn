@@ -151,6 +151,12 @@ table td button:last-child {
 </head>
 <body>
 	<%
+	if (session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")) {
+		response.sendRedirect("CategoryPublic.jsp?");
+	}
+	String role = (String) session.getAttribute("role");
+	String user = (String) session.getAttribute("sessUsername");
+	
 	//---------------START - initialisation of variables--------------------
 	Boolean found = false; //to indicate if found or not
 	ArrayList<String[]> catArray = new ArrayList<String[]>();
@@ -212,12 +218,6 @@ table td button:last-child {
 	} catch (Exception e) {
 		out.println("Error :" + e);
 	}
-
-	if (session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")) {
-		response.sendRedirect("CategoryPublic.jsp?");
-	}
-	String role = (String) session.getAttribute("role");
-	String user = (String) session.getAttribute("sessUsername");
 
 	
 	%>
