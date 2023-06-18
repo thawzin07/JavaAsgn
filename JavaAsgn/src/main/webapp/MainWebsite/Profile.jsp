@@ -83,6 +83,10 @@ Class             : DIT/FT/2A/03
     display: flex;
    
   }
+  img{
+  width:50px;
+  height:50px;
+  }
 
   .form {
     flex: 1;
