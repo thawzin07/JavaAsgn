@@ -8,7 +8,6 @@
 <meta charset="ISO-8859-1">
 <title>AdminBookDetails</title>
 <%--
-    
 Author             : Thaw Zin Htun
 Date                 : 14/05/2023
 Copyright Notice     : NA

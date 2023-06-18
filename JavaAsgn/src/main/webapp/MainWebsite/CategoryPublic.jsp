@@ -181,10 +181,7 @@ table td button:last-child {
 <body>
 
 	<%
-	Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-	if (isLoggedIn == null || !isLoggedIn) {
-	    response.sendRedirect("Login2.jsp");
-	}
+	
 	//---------------START - initialisation of variables--------------------
 	Boolean found = false; //to indicate if found or not
 	ArrayList<String[]> catArray = new ArrayList<String[]>();
