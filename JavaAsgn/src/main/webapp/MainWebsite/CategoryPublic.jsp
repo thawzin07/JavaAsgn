@@ -6,21 +6,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>CategoryPublic&MemberMainPage</title>
-<%--
-    
-Author             : Thaw Zin Htun
-Date                 : 14/05/2023
-Copyright Notice     : NA
-@(#)
-Description         : JavaAsgn
-Admission no        : P2234894
-Class             : DIT/FT/2A/03
---%>
+<title>Insert title here</title>
 <script>
 function addToCart(bookId){
 	
-	 <%if (session.getAttribute("loginStatus") != null) {%>
+	 <%
+	
+	 if (session.getAttribute("loginStatus") != null) { %>
     // User is logged in, add the book to cart
     var form = document.createElement('form');
     form.method = 'post';
@@ -35,18 +27,13 @@ function addToCart(bookId){
     
     document.body.appendChild(form);
     form.submit();
-<<<<<<< HEAD
 
     
    
   <% } else { %>
-=======
-    alert('Successfully added the book to cart!');
-  <%} else {%>
->>>>>>> branch 'main' of https://github.com/thawzin07/JavaAsgn
     // User is not logged in, display alert to log in
     alert('You need to log in to add the book to cart.');
-  <%}%>
+  <% } %>
 }
 </script>
 <style>
@@ -262,7 +249,7 @@ table td button:last-child {
 	} else {
 		cart = "alert('you need to log in to add the book to cart')";
 		details = "alert('you need to log in to view book details')";
-
+		
 	}
 	%>
 	<div class="container">
@@ -329,11 +316,10 @@ table td button:last-child {
 								<td style="width: 20%;">
 
 
-									<button type="submit"
-										onclick="addToCart('<%=bookArray.get(j)[4]%>')">Add
-										To Cart</button> <%
- if (loginStatus != null) {
- %>
+									<button type="submit" onclick="addToCart('<%= bookArray.get(j)[4] %>')">Add To Cart</button>
+									<%
+									if (loginStatus != null) {
+									%>
 									<form action="BookDetails.jsp" method="post">
 										<button type="submit" onClick="<%=details%>" name="id"
 											value="<%=bookArray.get(j)[4]%>">
