@@ -80,22 +80,18 @@ String pwd=request.getParameter("password");
           
     //==================================================================================
     		if(found){
-    			session.setAttribute("sessLoginID",user);
-    		
-    		
-    			session.setAttribute("isLoggedIn", true);
+    			 session.setAttribute("sessLoginID", user);
+    		        session.setAttribute("isLoggedIn", true);
+    		        session.setAttribute("loginStatus", "success");
+    		        session.setAttribute("msgCode", ""); 
     			
-    			session.setAttribute("loginStatus", "success");
-    			session.setMaxInactiveInterval(3*60); //3 seconds //3*60=3 minutes
-    			//test
-    		//	out.print("Loginid:"+user+"<br>");
-    		//	out.print("Password:"+pwd);
-    		//	out.print("<h1>Welcome!"+user+"</h1>");
-    			//response.sendRedirect("displayMember.jsp");
+    		
+    			session.setMaxInactiveInterval(30*60); //30*60=30 minutes
+    			
     			if (session.getAttribute("role").equals("admin")){
     				response.sendRedirect("AdminLanding.jsp");
     			} else {
-    				 response.sendRedirect(response.encodeRedirectURL("CategoryPublic.jsp?user="+user));
+    				 response.sendRedirect(response.encodeRedirectURL("CategoryPublic.jsp"));
     			}
     			
     		}
