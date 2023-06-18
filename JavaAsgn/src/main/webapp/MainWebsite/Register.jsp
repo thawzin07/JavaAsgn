@@ -141,7 +141,7 @@ form {
 }
 
 .error-message {
-    position: absolute;
+    position: relative;
     color: red;
     font-size: 12px;
     bottom: -20px;

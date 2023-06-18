@@ -21,6 +21,7 @@ function redirectRegister(){
 }
 function redirectGuest(){
     window.location.href="CategoryPublic.jsp";
+    session.setAttribute("guestSession",true);
 }
 </script>
  
