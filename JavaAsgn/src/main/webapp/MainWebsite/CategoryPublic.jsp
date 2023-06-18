@@ -7,6 +7,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<%--
+    
+Author             : Thaw Zin Htun
+Date                 : 14/05/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2234894
+Class             : DIT/FT/2A/03
+--%>
 <script>
 function addToCart(bookId){
 	
@@ -167,14 +177,14 @@ table td button:last-child {
 }
 </style>
 
-
-
-
-
 </head>
 <body>
 
 	<%
+	Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+	if (isLoggedIn == null || !isLoggedIn) {
+	    response.sendRedirect("Login2.jsp");
+	}
 	//---------------START - initialisation of variables--------------------
 	Boolean found = false; //to indicate if found or not
 	ArrayList<String[]> catArray = new ArrayList<String[]>();
