@@ -21,7 +21,9 @@ testing push
 
 <script>
 function cancelButton() {
-    window.location.href="Login2.jsp";
+	
+   	   window.history.back();
+
 }
 
 function checkErrors() {
@@ -81,9 +83,9 @@ else if (message != null && message.equals("errorRegister")) {
     <p id="fieldError" style="color: red; display: none;">Please fill in all the fields.</p>
     <br/>
     <button class="blue-button" id="submitButton" onClick="validateForm(event)" disabled>Submit</button>
-  
+ 
 </form>
-<button class="blue-button" onClick="cancelButton()">Cancel</button>
+ <button class="blue-button" onClick="cancelButton()">Cancel</button>
 </div>
 </div>
 
