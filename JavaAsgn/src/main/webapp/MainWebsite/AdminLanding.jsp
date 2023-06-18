@@ -255,7 +255,13 @@ table td button:last-child {
 				<tr>
 					<td style="position: relative;">
   <h4><%=catArray.get(i)[1]%></h4>
-  <button type="button" style="position: absolute; background-color:#90EE90;  bottom: 0; left: 50%; margin-bottom: 30px; transform: translateX(-50%);">Add book in this category</button>
+  <form action="AdminCreateBookForm.jsp" method="post">
+										<button type="submit" onClick="" name="cat_id"
+											value="<%= catArray.get(i)[0] %>" style="position: absolute; background-color:#90EE90;  bottom: 0; left: 50%; margin-bottom: 30px; transform: translateX(-50%);">
+											Add book in this category
+										</button>
+									</form>
+  
 </td>
 
 

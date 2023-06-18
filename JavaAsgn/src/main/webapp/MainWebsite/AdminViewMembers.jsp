@@ -138,7 +138,7 @@ session.setAttribute("userArray", userArray);
  		} else {
  			%>
  			<td>
- 			<button>Delete <%= userStr %></button>
+ 			
  			
  			</td>
  			<%
