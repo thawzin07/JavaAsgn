@@ -22,10 +22,14 @@ function addToCart(bookId){
     input.name = 'bookId';
     input.value = bookId;
     form.appendChild(input);
-
+    
+   
+    
     document.body.appendChild(form);
     form.submit();
-    alert('Successfully added the book to cart!');
+
+    
+   
   <% } else { %>
     // User is not logged in, display alert to log in
     alert('You need to log in to add the book to cart.');

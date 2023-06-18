@@ -33,7 +33,7 @@ String username = request.getParameter("username");
 String phone = request.getParameter("phone");
 String email = request.getParameter("email");
 String password = request.getParameter("password");
-String image= request.getParameter("fileInput");
+String image= (String) session.getAttribute("sessPhoto");
 
 int userId = (int) session.getAttribute("sessUserID");
 
@@ -47,11 +47,13 @@ Connection conn = DriverManager.getConnection(connURL);
 // Step 4: Create Statement object
 Statement stmt = conn.createStatement();
 //Create a prepared statement to check for existing records
-tring query = "SELECT COUNT(*) FROM user WHERE username = ? OR phone = ? OR email = ? AND id <> ?";
+String query = "SELECT COUNT(*) FROM user WHERE (username = ? OR phone = ? OR email = ?) AND id <> ?";
+
 PreparedStatement statement = conn.prepareStatement(query);
 statement.setString(1, username);
 statement.setString(2, phone);
 statement.setString(3, email);
+statement.setInt(4,userId);
 
 //Execute the query
 ResultSet resultSet = statement.executeQuery();
@@ -63,18 +65,17 @@ if (resultSet.next()) {
 count = resultSet.getInt(1);
 }
 
-//Check the count and take appropriate action
+
 if (count > 0) {
- // A record with the same username, phone, or email already exists
- // Perform any necessary error handling or redirection
- response.sendRedirect("Profile.jsp?errCode=duplicate"); // Redirect with an error code
+ //a duplicate record already exists
+ response.sendRedirect("Profile.jsp?msgCode=duplicate"); // Redirect with an error code
 }
 else {
 try {
    
     String sql = "UPDATE user SET username=?, phone=?, email=?, password=?, image=? WHERE id=?";
     PreparedStatement pstmt = conn.prepareStatement(sql);
-    // Step 5: Set parameter values
+    
     pstmt.setString(1, username);
     pstmt.setString(2, phone);
     pstmt.setString(3, email);
@@ -82,13 +83,19 @@ try {
    
     pstmt.setString(5,image); 
     pstmt.setInt(6, userId);
-    // Step 6: Execute the UPDATE query
+    
     int rowsAffected = pstmt.executeUpdate();
-    // Step 7: Close resources
+   
     pstmt.close();
     conn.close();
     if (rowsAffected > 0) {
         // Data updated successfully
+       
+       session.setAttribute("sessUsername", username);
+       session.setAttribute("sessPhone", phone);
+       session.setAttribute("sessEmail", email);
+       session.setAttribute("sessPhoto",image);
+       session.setAttribute("sessPassword",password);
        response.sendRedirect(response.encodeRedirectURL("Profile.jsp?msgCode=successUpdate"));
  // Redirect to the profile page
     } else {

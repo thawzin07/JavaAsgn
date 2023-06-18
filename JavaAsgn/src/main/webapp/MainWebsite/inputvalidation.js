@@ -1,6 +1,16 @@
 /**
  * 
  * 
+    
+Author             : Thet Htar San
+Date                 : 5/06/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+
+
  */
 function validateInput(input, regex, errorElement,invalidElement) {
     if (regex.test(input.value)) {

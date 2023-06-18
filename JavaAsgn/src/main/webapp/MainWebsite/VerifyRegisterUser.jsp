@@ -98,14 +98,14 @@ else {
 
     if (rowsAffected > 0) {
         // Data inserted successfully
-        response.sendRedirect("Login2.jsp?msgCode=successRegister"); // Redirect to a success page
+         response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=successRegister")); // Redirect to a success page
     } else {
         // Error occurred during insertion
-       response.sendRedirect("Register.jsp?msgCode=invalidRegister"); // Redirect to an error page
+       response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=invalidRegister")); // Redirect to an error page
     }
 } catch (Exception e) {
     e.printStackTrace();
-    response.sendRedirect("Register.jsp?msgCode=errorRegister"); // Redirect to an error page
+    response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=errorRegister")); // Redirect to an error page
 }
 }
 

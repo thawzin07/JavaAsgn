@@ -8,10 +8,16 @@
 </head>
 <body>
 <%--
-Author: Thet Htar San
-Date: 15/5/2023
-Description: ST0510/JAD/Week 5 Submission
- --%>
+    
+Author             : Thet Htar San
+Date                 : 5/06/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+
+--%>
 
 
 <%@page import ="java.sql.*"%>
@@ -89,13 +95,13 @@ String pwd=request.getParameter("password");
     			if (session.getAttribute("role").equals("admin")){
     				response.sendRedirect("AdminLanding.jsp");
     			} else {
-    				response.sendRedirect("CategoryPublic.jsp?user="+user);
+    				 response.sendRedirect(response.encodeRedirectURL("CategoryPublic.jsp?user="+user));
     			}
     			
     		}
     		else{
     			out.print("Sorry, login fail!");
-    			response.sendRedirect("Login2.jsp?msgCode=invalidLogin");
+    			 response.sendRedirect(response.encodeRedirectURL("Login2.jsp?msgCode=invalidLogin"));
     			
     		}
         

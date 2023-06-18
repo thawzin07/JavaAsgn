@@ -5,6 +5,17 @@
 <meta charset="ISO-8859-1">
 <title>Verify Register Form Input</title>
 </head>
+<%--
+    
+Author             : Thet Htar San
+Date                 : 5/06/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+
+--%>
 <body>
 
 <script>

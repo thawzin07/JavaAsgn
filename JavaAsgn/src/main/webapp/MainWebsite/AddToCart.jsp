@@ -2,19 +2,33 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import ="java.sql.*"%>
      <%@ page import="java.util.*" %>
-      <%@ page import="servlets.*" %>
+      <%@ page import="mybooks.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>AddToCart</title>
+<%--
+    
+Author             : Thet Htar San
+Date                 : 5/06/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+
+--%>
 </head>
 <body>
 <%
 	String bookId= request.getParameter("bookId");
-String title;
-String image;
-Float price;
+String title="";
+String image="";
+float price=0.0f;
+int qty=0;
+int id=0;
+
 
 try {
     // Step1: Load JDBC Driver
@@ -28,7 +42,7 @@ try {
     // Step 4: Create Statement object
     Statement stmt = conn.createStatement();
     // Step 5: Execute SQL Command
-    String sqlStr = "SELECT title,price,image FROM book WHERE id=?";  
+    String sqlStr = "SELECT title,price,quantity,image FROM book WHERE id=?";  
  
   System.out.println(sqlStr);
   PreparedStatement pstmt=conn.prepareStatement(sqlStr);
@@ -37,12 +51,13 @@ try {
     ResultSet rs = pstmt.executeQuery();
   while(rs.next()){
   	
+  	qty=rs.getInt("quantity");
   	
   	title=rs.getString("title");
   	price=rs.getFloat("price");
   	image=rs.getString("image");
   	
-  	out.println(title+price+image);
+  	
   
   
   	
@@ -62,14 +77,14 @@ try {
  
 
 	
-	Book b=new Book(title,price,image);
+	cartBooks b=new cartBooks(title,price,qty,image);
 	
 	@SuppressWarnings("unchecked")
 	
-	ArrayList<Book> bookList=(ArrayList<Book>)session.getAttribute("bookCart");
+	ArrayList<cartBooks> bookList=(ArrayList<cartBooks>)session.getAttribute("bookCart");
 	
 	if(bookList==null){
-		bookList=new ArrayList<Book>();
+		bookList=new ArrayList<cartBooks>();
 	}
 	bookList.add(b);
 	session.setAttribute("bookCart",bookList);
