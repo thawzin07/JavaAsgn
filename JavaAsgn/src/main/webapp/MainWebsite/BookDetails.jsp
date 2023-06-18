@@ -6,7 +6,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>BookDetails</title>
+<%--
+    
+Author             : Thaw Zin Htun
+Date                 : 14/05/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2234894
+Class             : DIT/FT/2A/03
+--%>
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -37,8 +47,6 @@ body {
 	justify-content: flex-start;
 	align-items: flex-start;
 }
-
-
 
 .bookDetails_container .confirm_button {
 	background-color: lightgreen;
@@ -156,9 +164,8 @@ input[type="text"] {
 
 
 				<button type="submit" class="confirm_button" name="id"
-					value="<%
-String[] data = {id, rs.getString("cat_id")};
-%>">Confirm Update</button>
+					value="<%String[] data = { id, rs.getString("cat_id") };%>">Confirm
+					Update</button>
 			</form>
 			<div class="button_container">
 				<button type="submit" class="cancel_button" name="id"
@@ -168,7 +175,7 @@ String[] data = {id, rs.getString("cat_id")};
 			<%
 			}
 			%>
-			
+
 
 		</div>
 	</div>

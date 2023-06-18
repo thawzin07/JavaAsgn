@@ -5,7 +5,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>AdminCreateBookLogic</title>
+<%--
+    
+Author             : Thaw Zin Htun
+Date                 : 14/05/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2234894
+Class             : DIT/FT/2A/03
+--%>
 </head>
 <body>
 <%
