@@ -6,7 +6,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>AdminBookDetails</title>
+<%--
+    
+Author             : Thaw Zin Htun
+Date                 : 14/05/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2234894
+Class             : DIT/FT/2A/03
+--%>
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -78,44 +88,44 @@ input[type="text"] {
 	function reloadPage() {
 		location.reload();
 	}
-	
-	function showAlert() {
-	      var message = "You have updated successfully!";
-	      alert(message);
-	    } 
-	
-	function validateUpdate() {
-	    event.preventDefault(); // Prevent default form submission
-	    
-	    var isbn = document.getElementById("isbn").value;
-	    var title = document.getElementById("title").value;
-	    var author = document.getElementById("author").value;
-	    var price = document.getElementById("price").value;
-	    var quantity = document.getElementById("quantity").value;
-	    var publisher = document.getElementById("publisher").value;
-	    var publication_date = document.getElementById("publication_date").value;
-	    var cat_id = document.getElementById("cat_id").value;
-	  
-	   
-	    var isValid = true;
-	    
 
-	    if (isbn === "" || title === "" || author ==="" || price ==="" || quantity ==="" || 
-	    		publisher ==="" || publication_date ==="" || cat_id ==="") {
-	        var message = "Fields cannot be empty"
-	        isValid = false;
-	    } else if (/[a-zA-Z]/.test(isbn) || /[a-zA-Z]/.test(price) || /[a-zA-Z]/.test(quantity) || /[a-zA-Z]/.test(cat_id)) {
-	    	var message = "ISBN, price, quantity or category ID can only be numbers "
-		        isValid = false;
-	    }
-	    
-	    if (isValid) {
-	        document.getElementById("updateForm").submit(); 
-	        // Submit the form
-	    } else {
-	    	alert(message);
-	    }
-	  
+	function showAlert() {
+		var message = "You have updated successfully!";
+		alert(message);
+	}
+
+	function validateUpdate() {
+		event.preventDefault(); // Prevent default form submission
+
+		var isbn = document.getElementById("isbn").value;
+		var title = document.getElementById("title").value;
+		var author = document.getElementById("author").value;
+		var price = document.getElementById("price").value;
+		var quantity = document.getElementById("quantity").value;
+		var publisher = document.getElementById("publisher").value;
+		var publication_date = document.getElementById("publication_date").value;
+		var cat_id = document.getElementById("cat_id").value;
+
+		var isValid = true;
+
+		if (isbn === "" || title === "" || author === "" || price === ""
+				|| quantity === "" || publisher === ""
+				|| publication_date === "" || cat_id === "") {
+			var message = "Fields cannot be empty"
+			isValid = false;
+		} else if (/[a-zA-Z]/.test(isbn) || /[a-zA-Z]/.test(price)
+				|| /[a-zA-Z]/.test(quantity) || /[a-zA-Z]/.test(cat_id)) {
+			var message = "ISBN, price, quantity or category ID can only be numbers "
+			isValid = false;
+		}
+
+		if (isValid) {
+			document.getElementById("updateForm").submit();
+			// Submit the form
+		} else {
+			alert(message);
+		}
+
 	}
 </script>
 
@@ -126,12 +136,9 @@ input[type="text"] {
 	if (isLoggedIn == null || !isLoggedIn) {
 		response.sendRedirect("Login2.jsp");
 	}
-	
 	%>
-	
-	<% 
-	
 
+	<%
 	String id = request.getParameter("id") != null ? request.getParameter("id") : (String) session.getAttribute("book_id");
 
 	try {
@@ -164,38 +171,28 @@ input[type="text"] {
 			<br>
 			<form action="AdminUpdateBook.jsp" method="post" id="updateForm">
 
-				<label for="ISBN">ISBN :</label> 
-				<input type="text" id="isbn" name="isbn"
-					value="<%=rs.getString("ISBN")%>" readonly><br> 
-					<label
-					for="title">Title :</label> 
-					<input type="text" id="title" name="title"
-					value="<%=rs.getString("title")%>" readonly><br> 
-					<label
-					for="author">Author :</label> 
-					<input type="text" id="author" name="author"
-					value="<%=rs.getString("author")%>" readonly><br> 
-					<label
-					for="price">Price :</label> 
-					<input type="text" id="price" name="price"
-					value="<%=rs.getString("price")%>" readonly><br> 
-					<label
-					for="publisher">Publisher :</label> 
-					<input type="text" name="publisher"
-					id="publisher" value="<%=rs.getString("publisher")%>" readonly><br>
-
-				<label for="category">Category ID :</label> <input type="text" name="cat_id"
-					id="cat_id" value="<%=rs.getString("cat_id")%>" readonly><br>
-
-				<label for="quantity">Quantity :</label> <input type="text" name="quantity"
-					id="quantity" value="<%=rs.getString("quantity")%>" readonly><br>
-
-				<label for="publication_date">Publication Date :</label> <input
+				<label for="ISBN">ISBN :</label> <input type="text" id="isbn"
+					name="isbn" value="<%=rs.getString("ISBN")%>" readonly><br>
+				<label for="title">Title :</label> <input type="text" id="title"
+					name="title" value="<%=rs.getString("title")%>" readonly><br>
+				<label for="author">Author :</label> <input type="text" id="author"
+					name="author" value="<%=rs.getString("author")%>" readonly><br>
+				<label for="price">Price :</label> <input type="text" id="price"
+					name="price" value="<%=rs.getString("price")%>" readonly><br>
+				<label for="publisher">Publisher :</label> <input type="text"
+					name="publisher" id="publisher"
+					value="<%=rs.getString("publisher")%>" readonly><br> <label
+					for="category">Category ID :</label> <input type="text"
+					name="cat_id" id="cat_id" value="<%=rs.getString("cat_id")%>"
+					readonly><br> <label for="quantity">Quantity :</label>
+				<input type="text" name="quantity" id="quantity"
+					value="<%=rs.getString("quantity")%>" readonly><br> <label
+					for="publication_date">Publication Date :</label> <input
 					type="text" id="publication_date" name="publication_date"
 					value="<%=rs.getString("publication_date")%>" readonly><br>
-					
-					<input type="hidden" id="id" name="id" value="<%=id%>">
-					
+
+				<input type="hidden" id="id" name="id" value="<%=id%>">
+
 
 				<%
 				if (session.getAttribute("role") != null && session.getAttribute("role").equals("admin")) {
@@ -214,10 +211,10 @@ input[type="text"] {
 									});
 				</script>
 
-				<button class="confirm_button" name="confirm" onClick="validateUpdate()"
-					>Confirm Update</button>
+				<button class="confirm_button" name="confirm"
+					onClick="validateUpdate()">Confirm Update</button>
 
-				
+
 			</form>
 			<div class="button_container">
 				<button type="submit" class="cancel_button" name="id"
