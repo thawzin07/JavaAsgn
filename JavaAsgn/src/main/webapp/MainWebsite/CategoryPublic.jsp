@@ -169,6 +169,7 @@ table td button:last-child {
 
 </head>
 <body>
+
 	<%
 	Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 	if (isLoggedIn == null || !isLoggedIn) {

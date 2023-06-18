@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="mybooks.*" %>
+      <%@ page import="java.util.ArrayList" %>
+        <%@ page import="java.util.List" %>
+       
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,10 +68,7 @@ if (isLoggedIn == null || !isLoggedIn) {
             <th>Qty</th>
           
         </tr>
-        <%@ page import="java.util.ArrayList" %>
-        <%@ page import="java.util.List" %>
-        <%@ page import="java.math.BigDecimal" %>
-        <%@ page import="java.text.NumberFormat" %>
+     
         <%
             // Retrieve the book list from session
             List<cartBooks> bookList = (List<cartBooks>) session.getAttribute("bookCart");
