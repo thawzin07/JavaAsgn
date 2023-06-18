@@ -7,6 +7,31 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<script>
+function addToCart(bookId){
+	
+	 <%
+	
+	 if (session.getAttribute("loginStatus") != null) { %>
+    // User is logged in, add the book to cart
+    var form = document.createElement('form');
+    form.method = 'post';
+    form.action = 'AddToCart.jsp';
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'bookId';
+    input.value = bookId;
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+    alert('Successfully added the book to cart!');
+  <% } else { %>
+    // User is not logged in, display alert to log in
+    alert('You need to log in to add the book to cart.');
+  <% } %>
+}
+</script>
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -180,7 +205,6 @@ table td button:last-child {
 	}
 
 	try {
-		//TEST
 		// Step1: Load JDBC Driver
 		Class.forName("com.mysql.jdbc.Driver");
 
@@ -221,6 +245,7 @@ table td button:last-child {
 	} else {
 		cart = "alert('you need to log in to add the book to cart')";
 		details = "alert('you need to log in to view book details')";
+		
 	}
 	%>
 	<div class="container">
@@ -284,24 +309,30 @@ table td button:last-child {
 										Author:
 										<%=bookArray.get(j)[2]%></h5>
 								</td>
-								   <td style="width: 20%;">
-                                <form action="<%= loginStatus != null ? "AddToCart.jsp" : "Login2.jsp" %>" method="post"> <%--if user is not logged in, it will redirect to the login page. --%>
-                                    <% if (loginStatus != null) { %>
-                                    <button type="submit" onClick="alert('Successfully added the book to cart!')">Add To Cart</button>
-                                    <% 
-                                    } else { %>
-                                    <button type="submit">Add To Cart</button>
-                                    <% } %>
-                                    <input type="hidden" name="bookId" value="<%= bookArray.get(j)[4] %>">
-                                </form>
+								<td style="width: 20%;">
 
-                                
-                                <form action="BookDetails.jsp" method="post">
-                                    <button type="submit" onClick="window.location.href='BookDetails.jsp'" name="id" value="<%= bookArray.get(j)[4] %>">View Details of <%= bookArray.get(j)[1] %></button>
-                                </form>
-                               
-                            
-                            </td>
+
+									<button type="submit" onclick="addToCart('<%= bookArray.get(j)[4] %>')">Add To Cart</button>
+									<%
+									if (loginStatus != null) {
+									%>
+									<form action="BookDetails.jsp" method="post">
+										<button type="submit" onClick="<%=details%>" name="id"
+											value="<%=bookArray.get(j)[4]%>">
+											View Details of
+											<%=bookArray.get(j)[1]%>
+										</button>
+									</form> <%
+ } else {
+ %>
+									<button type="submit" onClick="<%=details%>" name="title"
+										value="<%=bookArray.get(j)[1]%>">
+										View Details of
+										<%=bookArray.get(j)[1]%>
+									</button> <%
+ }
+ %>
+								</td>
 							</tr>
 							<%
 							}
