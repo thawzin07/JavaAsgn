@@ -47,6 +47,10 @@ Class             : DIT/FT/2A/03
     cursor: pointer;
     align-items: center;
 }
+img{
+width:150px;
+height:auto;
+}
  
  </style>
 </head>

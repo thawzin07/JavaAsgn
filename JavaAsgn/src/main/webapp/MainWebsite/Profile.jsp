@@ -60,6 +60,11 @@ Class             : DIT/FT/2A/03
         submitButton.disabled = false;
         submitButton.classList.remove("disabled");
     }
+    
+    function confirmDelete() {
+		return confirm("Are you sure you want to delete your profile?");
+	}
+    
 
 </script>
 
@@ -85,8 +90,8 @@ Class             : DIT/FT/2A/03
   }
  
   img{
-  width:50px;
-  height:50px;
+  width:150px;
+height:auto;
   }
 
   .form {
@@ -148,7 +153,19 @@ Class             : DIT/FT/2A/03
     align-items: right;
     margin-left: auto; 
   }
-  
+  .deleteButton{
+  background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: right;
+    margin-left: auto; 
+  }
 </style>
 </head>
 <body>
@@ -197,6 +214,13 @@ else if (message != null && message.equals("duplicate")){
       <button class="blue-button" id="submitButton" onClick="validateForm(event)" disabled>Update Profile</button>
     </form>
     <button class="logoutButton" onclick="logout()">Logout</button>
+   <form action="DeleteProfile.jsp" method="post">
+						<button type="submit" onClick="return confirmDelete();" name="id"
+							value="<%= session.getAttribute("sessUserID") %>">
+							Delete Profile
+							</button>
+					</form>
+  
   </div>
 </div>
 </body>
