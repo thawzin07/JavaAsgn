@@ -43,7 +43,7 @@ Class             : DIT/FT/2A/03
 		 pstmt.executeUpdate();
 
 		// Step 6: Process Results
-
+	//TEST
 		// Step 7: Close connection
 		conn.close();
 	} catch (Exception e) {

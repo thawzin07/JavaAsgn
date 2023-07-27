@@ -176,7 +176,7 @@ if (isLoggedIn == null || !isLoggedIn) {
 }
 String message = request.getParameter("msgCode");
 
-
+//TEST
 if (message != null && message.equals("duplicate")) {
    out.print("Username/Email/Phone already exists. Please try again!");
 }
