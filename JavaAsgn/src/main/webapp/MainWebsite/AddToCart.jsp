@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
-<%@ page import="mybooks.cartBooks" %>
+<%@page import="mybooks.CartItems" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +27,8 @@ Class             : DIT/FT/2A/03
     String image = "";
     float price = 0.0f;
     int qty = 0;
-  	String isbn="";
+  	
+  	int id=0;
 
     try {
         // Step1: Load JDBC Driver
@@ -41,7 +42,7 @@ Class             : DIT/FT/2A/03
         // Step 4: Create Statement object
         Statement stmt = conn.createStatement();
         // Step 5: Execute SQL Command
-        String sqlStr = "SELECT title, price, quantity, image, ISBN FROM book WHERE id=?";  
+        String sqlStr = "SELECT title, price, quantity, image, id FROM book WHERE id=?";  
         PreparedStatement pstmt = conn.prepareStatement(sqlStr);
         pstmt.setString(1, bookId);
 
@@ -51,7 +52,7 @@ Class             : DIT/FT/2A/03
             title = rs.getString("title");
             price = rs.getFloat("price");
             image = rs.getString("image");
-            isbn=rs.getString("ISBN");
+            id=rs.getInt("id");
         }
 
         // Step 7: Close connection
@@ -60,16 +61,17 @@ Class             : DIT/FT/2A/03
         out.println("Error: " + e);
     }
 
-    //cartBooks b = new cartBooks(title, price, qty, image, isbn);
-
-    //@SuppressWarnings("unchecked")
-   // ArrayList<cartBooks> bookList = (ArrayList<cartBooks>) session.getAttribute("bookCart");
-
-    //if (bookList == null) {
-   //     bookList = new ArrayList<cartBooks>();
-   // }
-  //  bookList.add(b);
-   // session.setAttribute("bookCart", bookList);
+ 
+   
+   CartItems item=new CartItems(title,qty,price,id, image);
+   @SuppressWarnings("unchecked")
+   ArrayList<CartItems> cartItems= (ArrayList<CartItems>) session.getAttribute("cartBooks");
+   if(cartItems==null){
+	   cartItems=new ArrayList<CartItems>();
+	   
+   }
+   cartItems.add(item);
+   session.setAttribute("cartBooks",cartItems);
     response.sendRedirect("ViewCart.jsp");
 %>
 </body>

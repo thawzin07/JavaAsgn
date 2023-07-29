@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="mybooks.*" %>
+
       <%@ page import="java.util.ArrayList" %>
         <%@ page import="java.util.List" %>
+        
+<%@page import="mybooks.CartItems" %>
        
 <!DOCTYPE html>
 <html>
@@ -25,7 +27,7 @@ Class             : DIT/FT/2A/03
     }
     function removeBookFromCart(isbn) {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "RemoveFromCart.jsp?isbn=" + isbn, true);
+        xhr.open("GET", "RemoveFromCart.jsp?id=" + id, true);
         xhr.send();
         // You can also handle the response here if needed
         xhr.onreadystatechange = function () {
@@ -104,15 +106,15 @@ if (isLoggedIn == null || !isLoggedIn) {
      
         <%
             // Retrieve the book list from session
-            List<cartBooks> bookList = (List<cartBooks>) session.getAttribute("bookCart");
-            if (bookList != null && !bookList.isEmpty()) {
+            List<CartItems> cartItems = (List<CartItems>) session.getAttribute("cartBooks");
+            if (cartItems != null && !cartItems.isEmpty()) {
                 
-                for (cartBooks book : bookList) {
+                for (CartItems book : cartItems) {
                     String title = book.getTitle();
                     float price = book.getPrice();
                     String image = book.getImage();
                     int qty=book.getQty();
-                   String isbn=book.getISBN();
+                  int id=book.getBookid();
 
                    
         %>
@@ -120,7 +122,8 @@ if (isLoggedIn == null || !isLoggedIn) {
         <tr>
             <td><%= title %></td>
             <td>$<%= price %></td>
-            <td><%=isbn %></td>
+            <td><%= id %></td>
+           
             <td><img src="<%= image %>" alt="Book Cover"></td>
             <td> 
             <%--drop down box to change the qty, the maximum will be the qty in the database --%>
@@ -132,7 +135,7 @@ if (isLoggedIn == null || !isLoggedIn) {
             </select>
             </td>
               <td>
-        <button class="red-button" onclick="removeBookFromCart(<%= isbn %>)">Remove</button>
+        
     </td>
             
            

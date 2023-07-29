@@ -19,23 +19,67 @@ public class cartBooks {
 	}
 	
 		
+	
+
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+
+	public void setTitle(String title) {
+		Title = title;
+	}
+
+
+	public void setPrice(float price) {
+		Price = price;
+	}
+
+
+	public void setImage(String image) {
+		Image = image;
+	}
+
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+
+
+
+
 	public String getTitle() {
 		return Title;
 	}
-	
-	
+
+
+
+
+
 	public float getPrice() {
 		return Price;
 	}
 
+
+
+
+
 	public String getImage() {
 		return Image;
 	}
-	
+
+
+
+
+
 	public int getQty() {
 		return qty;
-	}
-	public String getISBN() {
-		return isbn;
 	}
 }
