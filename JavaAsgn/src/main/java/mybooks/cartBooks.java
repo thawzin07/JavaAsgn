@@ -1,16 +1,11 @@
 package mybooks;
 
 public class cartBooks {
-<<<<<<< HEAD
+
     private String Title;
     private float Price;
     private String Image;
     private int qty;
-=======
-	private String Title;
-	private float Price;
-	private String Image;
-	private int qty;
 	private String isbn;
 	
 	public  cartBooks(String title,float price,int quantity, String image, String ISBN) {
