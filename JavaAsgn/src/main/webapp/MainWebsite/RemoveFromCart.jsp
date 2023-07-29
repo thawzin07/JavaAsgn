@@ -11,7 +11,7 @@
         // Find the book with the specified bookId and remove it from the list
         for (int i = 0; i < bookList.size(); i++) {
             cartBooks book = bookList.get(i);
-            if (book.getISBN() == isbn) {
+            if (book.getIsbn() == isbn) {
                 bookList.remove(i);
                 break;
             }
