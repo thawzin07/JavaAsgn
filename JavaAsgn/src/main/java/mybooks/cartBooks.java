@@ -5,12 +5,14 @@ public class cartBooks {
 	private float Price;
 	private String Image;
 	private int qty;
+	private String isbn;
 	
-	public  cartBooks(String title,float price,int quantity, String image) {
+	public  cartBooks(String title,float price,int quantity, String image, String ISBN) {
 		Title=title;
 		Price=price;
 		Image=image;
 		qty=quantity;
+		isbn=ISBN;
 		
 		
 				
@@ -32,5 +34,8 @@ public class cartBooks {
 	
 	public int getQty() {
 		return qty;
+	}
+	public String getISBN() {
+		return isbn;
 	}
 }

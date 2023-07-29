@@ -23,6 +23,23 @@ Class             : DIT/FT/2A/03
     function goBack(){
     	  window.history.back();
     }
+    function removeBookFromCart(isbn) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "RemoveFromCart.jsp?isbn=" + isbn, true);
+        xhr.send();
+        // You can also handle the response here if needed
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                // If the request is successful, reload the page to update the cart view
+                if (xhr.status === 200) {
+                    location.reload();
+                } else {
+                    // Handle any errors if needed
+                }
+            }
+        };
+    }	
+    
     </script>
  <style>
  .container{
@@ -37,6 +54,18 @@ Class             : DIT/FT/2A/03
   }
   .blue-button {
     background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+}
+  .red-button {
+    background-color: red;
     color: white;
     padding: 5px 10px;
     border: none;
@@ -83,6 +112,7 @@ if (isLoggedIn == null || !isLoggedIn) {
                     float price = book.getPrice();
                     String image = book.getImage();
                     int qty=book.getQty();
+                   String isbn=book.getISBN();
 
                    
         %>
@@ -90,6 +120,7 @@ if (isLoggedIn == null || !isLoggedIn) {
         <tr>
             <td><%= title %></td>
             <td>$<%= price %></td>
+            <td><%=isbn %></td>
             <td><img src="<%= image %>" alt="Book Cover"></td>
             <td> 
             <%--drop down box to change the qty, the maximum will be the qty in the database --%>
@@ -100,6 +131,10 @@ if (isLoggedIn == null || !isLoggedIn) {
                     } %>
             </select>
             </td>
+              <td>
+        <button class="red-button" onclick="removeBookFromCart(<%= isbn %>)">Remove</button>
+    </td>
+            
            
             
         </tr>
