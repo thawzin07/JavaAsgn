@@ -98,7 +98,7 @@ else {
 
     if (rowsAffected > 0) {
         // Data inserted successfully
-         response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=successRegister")); // Redirect to a success page
+         response.sendRedirect(response.encodeRedirectURL("Login2.jsp?msgCode=successRegister")); // Redirect to a success page
     } else {
         // Error occurred during insertion
        response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=invalidRegister")); // Redirect to an error page
