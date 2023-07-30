@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import mybooks.Book;
+
+import dbaccess.Book;
 
 public class BookDB {
 	public ArrayList<Book> listBookSales () throws SQLException {
@@ -21,8 +22,9 @@ public class BookDB {
 			
 			ResultSet rs = pstmt.executeQuery();
 			
-			if (rs.next()) {
+		     while (rs.next()) {
 				uBean = new Book();
+				uBean.setId(Integer.parseInt(rs.getString("id")));
 				uBean.setISBN(rs.getString("ISBN"));
 				uBean.setTitle(rs.getString("title"));
 				uBean.setAuthor(rs.getString("author"));

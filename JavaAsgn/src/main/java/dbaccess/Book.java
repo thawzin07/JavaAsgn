@@ -11,9 +11,16 @@ public class Book {
 	private int cat_id ;
 	private String image ;
 	private int sold_count ;
+	private int id ;
 	
     
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getPublication_date() {
 		return publication_date;
 	}
