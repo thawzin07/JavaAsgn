@@ -21,6 +21,7 @@ Class             : DIT/FT/2A/03
 <%@page import ="java.sql.*"%>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@page import="dbaccess.UserDAO" %>
 
 <%
 
@@ -39,74 +40,26 @@ String dateJoined=formattedDate;
 
 
 
-
-Class.forName("com.mysql.jdbc.Driver");  
-
-// Step 2: Define Connection URL
-String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
-
-// Step 3: Establish connection to URL
-Connection conn = DriverManager.getConnection(connURL); 
-// Step 4: Create Statement object
-Statement stmt = conn.createStatement();
-//Create a prepared statement to check for existing records
-String query = "SELECT COUNT(*) FROM user WHERE username = ? OR phone = ? OR email = ?";
-PreparedStatement statement = conn.prepareStatement(query);
-statement.setString(1, username);
-statement.setString(2, phone);
-statement.setString(3, email);
-
-//Execute the query
-ResultSet resultSet = statement.executeQuery();
-
-
-//Retrieve the count of matching records
-int count = 0;
-if (resultSet.next()) {
-count = resultSet.getInt(1);
-}
-
-//Check the count and take appropriate action
-if (count > 0) {
- // A record with the same username, phone, or email already exists
- // Perform any necessary error handling or redirection
- response.sendRedirect("Register.jsp?errCode=duplicate"); // Redirect with an error code
-}
-else {
- //no duplicate found
- try {
-   
-    // Step 4: Create a PreparedStatement
-    String sqlStr = "INSERT INTO user (username, email, phone, password,role,image,joinedDate) VALUES (?,?, ?, ?, ?,?,?)";
-    PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-
-    // Step 5: Set parameter values
-    pstmt.setString(1, username);
-    pstmt.setString(2, email);
-    pstmt.setString(3, phone);
-    pstmt.setString(4, password);
-    pstmt.setString(5, role);
-    pstmt.setString(6, image);
-    pstmt.setString(7, dateJoined);
-
-    // Step 6: Execute the INSERT query
-    int rowsAffected = pstmt.executeUpdate();
-
-    // Step 7: Close resources
-    pstmt.close();
-    conn.close();
-
-    if (rowsAffected > 0) {
-        // Data inserted successfully
-         response.sendRedirect(response.encodeRedirectURL("Login2.jsp?msgCode=successRegister")); // Redirect to a success page
+UserDAO userDAO = new UserDAO();
+try {
+    boolean isDuplicate = userDAO.checkDuplicateUser(username, phone, email);
+    if (isDuplicate) {
+        // A record with the same username, phone, or email already exists
+        response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=duplicate")); // Redirect with an error code
     } else {
-        // Error occurred during insertion
-       response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=invalidRegister")); // Redirect to an error page
+        // No duplicate found, insert the new user record
+        int rowsAffected = userDAO.insertUser(username, email, phone,password, role, image, dateJoined);
+        if (rowsAffected > 0) {
+            // Data inserted successfully
+            response.sendRedirect(response.encodeRedirectURL("Login2.jsp?msgCode=successRegister"));
+        } else {
+            // Error occurred during insertion
+            response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=invalidRegister"));
+        }
     }
-} catch (Exception e) {
+} catch (ClassNotFoundException | SQLException e) {
     e.printStackTrace();
-    response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=errorRegister")); // Redirect to an error page
-}
+    response.sendRedirect(response.encodeRedirectURL("Register.jsp?msgCode=errorRegister"));
 }
 
  

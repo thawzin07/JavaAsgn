@@ -2,6 +2,17 @@ package dbaccess;
 import java.sql.*;
 import java.util.ArrayList;
 
+
+/**Author             : Thet Htar San
+Date                 : 30/07/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+**/
+
+
 public class UserDAO {
 	public User getUserDetails(int userid) throws SQLException{
 		User uBean=null;
@@ -65,40 +76,79 @@ public class UserDAO {
 		return userList;
 	}
 	
+	public boolean checkDuplicateUser(String username, String phone, String email)
+            throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+
+            // Create a prepared statement to check for existing records
+            String query = "SELECT COUNT(*) FROM user WHERE username = ? OR phone = ? OR email = ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, username);
+            stmt.setString(2, phone);
+            stmt.setString(3, email);
+
+            // Execute the query
+            rs = stmt.executeQuery();
+
+            // Retrieve the count of matching records
+            int count = 0;
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+            return count > 0;
+        } finally {
+            // Close resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 	
-	public int insertUser( String username, String email, String phone, String password, String role, String image, String dateJoined) throws SQLException, ClassNotFoundException{
-		Connection conn=null;
-		
-		int nrow=0;
-		//int generatedId=0;
-		try {
-			conn= DBConnection.getConnection();
-			 String sqlStr = "INSERT INTO user (username, email, phone, password,role,image,joinedDate) VALUES (?,?, ?, ?, ?,?,?)";
-			    PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+	  public int insertUser(String username, String email, String phone, String password, String role, String image, String dateJoined) throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        int nrow = 0;
 
-			    // Step 5: Set parameter values
-			    pstmt.setString(1, username);
-			    pstmt.setString(2, email);
-			    pstmt.setString(3, phone);
-			    pstmt.setString(4, password);
-			    pstmt.setString(5, role);
-			    pstmt.setString(6, image);
-			    pstmt.setString(7, dateJoined);
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlStr = "INSERT INTO user (username, email, phone, password, role, image, joinedDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 
-			    // Step 6: Execute the INSERT query
-			    int rowsAffected = pstmt.executeUpdate();
+	            // Set parameter values
+	            pstmt.setString(1, username);
+	            pstmt.setString(2, email);
+	            pstmt.setString(3, phone);
+	            pstmt.setString(4, password);
+	            pstmt.setString(5, role);
+	            pstmt.setString(6, image);
+	            pstmt.setString(7, dateJoined);
 
-			    // Step 7: Close resources
-			    pstmt.close();
-			    conn.close();
+	            // Execute the INSERT query
+	            nrow = pstmt.executeUpdate();
 
-			 
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return nrow;
-	}
+	            // Close resources
+	            pstmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            // Close the connection in the finally block to ensure proper cleanup
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+
+	        return nrow;
+	    }
 	
 	public int updateUser( int userid, User user) throws SQLException,ClassNotFoundException{
 		Connection conn=null;
