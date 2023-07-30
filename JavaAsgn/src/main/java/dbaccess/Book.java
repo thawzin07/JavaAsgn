@@ -1,15 +1,6 @@
-//	- Author 			: Thaw Zin Htun
-//	- Date 				: 17/05/2023
-//	- Copyright Notice 	: NA
-//	- @(#)
-//	- Description 		: ST0501/JAD/Week 5, Practical 5 part2
-//	- Admission no		: P2234894
-//	- Class 			: DIT/FT/2A/03
-
-package mybooks;
+package dbaccess;
 
 public class Book {
-	
 	private String ISBN;
 	private String Title;
 	private String Author;
@@ -83,7 +74,4 @@ public class Book {
 	public void setPrice(double price) {
 		Price = price;
 	}
-	
-	
-	
 }

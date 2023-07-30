@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@page import="java.sql.*"%>
+<%@ page import="mybooks.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -231,6 +232,7 @@ table td button:last-child {
 
 	
 	%>
+	
 
 	<div class="container">
 		<div class="header">
@@ -245,6 +247,11 @@ table td button:last-child {
 				</button>
 				<button onClick="window.location.href='AdminViewMembers.jsp'">View
 					Members</button>
+					<form action="<%=request.getContextPath()%>/ListBookSales">
+		<input type="submit" value="List Book Sales">
+	</form>
+
+					
 
 			</div>
 		</div>
