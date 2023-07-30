@@ -13,7 +13,20 @@ public class Book {
 	private int sold_count ;
 	private int id ;
 	
-    
+	public Book(String isbn, String title, String author, String publisher,int quantity,double price, String pubdate ,int catid, String img,int sold) {
+		ISBN=isbn;
+		Title=title;
+		Author=author;
+		Publisher=publisher;
+		Quantity=quantity;
+		Price=price;
+		publication_date=pubdate;
+		cat_id=catid;
+		image=img;
+		sold_count=sold;
+		
+	}
+     
 	
 	public int getId() {
 		return id;
