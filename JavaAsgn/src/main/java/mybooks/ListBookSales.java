@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dbaccess.BookDB;
+import dbaccess.Book;
 import dbaccess.DBConnection;
-import dbaccess.*;
 import java.sql.Connection;
 
 /**
