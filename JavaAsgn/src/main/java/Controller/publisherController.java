@@ -3,7 +3,14 @@ import java.sql.SQLException;
 
 import dbaccess.Book;
 import dbaccess.BookDB;
-
+/**Author             : Thet Htar San
+Date                 : 30/07/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+**/
 public class publisherController {
 	private BookDB bookdb; // You should initialize this with the appropriate instance of BookDAO
 

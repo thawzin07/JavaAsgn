@@ -4,6 +4,14 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**Author             : Thet Htar San
+Date                 : 30/07/2023
+Copyright Notice     : NA
+@(#)
+Description         : JavaAsgn
+Admission no        : P2235077
+Class             : DIT/FT/2A/03
+**/
 public class AddToCart {
 	public int addToCart(int userid, int bookid, int count)throws SQLException, ClassNotFoundException {
 		Connection conn = null;

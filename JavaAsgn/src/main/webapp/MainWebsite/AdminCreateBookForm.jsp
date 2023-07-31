@@ -19,47 +19,47 @@ Class             : DIT/FT/2A/03
 --%>
 <style>
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
+
 form {
-  margin: 20px;
+	margin: 20px;
 }
 
 label {
-  display: inline-block;
-  width: 100px;
-  margin-right: 10px;
+	display: inline-block;
+	width: 100px;
+	margin-right: 10px;
 }
 
 input[type="text"] {
-  width: 200px;
-  padding: 5px;
-  margin-bottom: 10px;
+	width: 200px;
+	padding: 5px;
+	margin-bottom: 10px;
 }
 
 .button_container {
-  margin-top: 10px;
+	margin-top: 10px;
 }
 
 .confirm_button, .cancel_button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
+	padding: 10px 20px;
+	border: none;
+	background-color: #007bff;
+	color: #fff;
+	cursor: pointer;
 }
 
 .cancel_button {
-  background-color: #dc3545;
+	background-color: #dc3545;
 }
 
 .button_container button:not(:last-child) {
-  margin-right: 10px;
+	margin-right: 10px;
 }
-
 </style>
 <script>
 function goBack() {
@@ -110,60 +110,46 @@ function goBack() {
 </script>
 </head>
 <body>
-<button type="button" class="goBack" onclick="goBack()">Go Back</button>
+	<button type="button" class="goBack" onclick="goBack()">Go
+		Back</button>
 
-  <div class="container">
-    <%
+	<div class="container">
+		<%
     if (session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")) {
       response.sendRedirect("CategoryPublic.jsp?");
     }
 
     String cat_id = request.getParameter("cat_id");
     %>
-    <form action="AdminCreateBookLogic.jsp" method="post" id="updateForm">
+		<form action="AdminCreateBookLogic.jsp" method="post" id="updateForm">
 
-				<label for="ISBN">ISBN :</label> 
-				<input type="text" id="isbn" name="isbn"
-					 ><br> 
-					<label
-					for="title">Title :</label> 
-					<input type="text" id="title" name="title"
-					 ><br> 
-					<label
-					for="author">Author :</label> 
-					<input type="text" id="author" name="author"
-					 ><br> 
-					<label
-					for="price">Price :</label> 
-					<input type="text" id="price" name="price"
-					 ><br> 
-					<label
-					for="publisher">Publisher :</label> 
-					<input type="text" name="publisher"
-					id="publisher" ><br>
+			<label for="ISBN">ISBN :</label> <input type="text" id="isbn"
+				name="isbn"><br> <label for="title">Title
+				:</label> <input type="text" id="title" name="title"><br>
+			<label for="author">Author :</label> <input type="text" id="author"
+				name="author"><br> <label for="price">Price
+				:</label> <input type="text" id="price" name="price"><br>
+			<label for="publisher">Publisher :</label> <input type="text"
+				name="publisher" id="publisher"><br> <label
+				for="category">Category ID :</label> <input type="text"
+				name="cat_id" id="cat_id" value="<%= cat_id %>"><br> <label
+				for="quantity">Quantity :</label> <input type="text" name="quantity"
+				id="quantity"><br> <label for="publication_date">Publication
+				Date :</label> <input type="text" id="publication_date"
+				name="publication_date"><br>
 
-				<label for="category">Category ID :</label> <input type="text" name="cat_id"
-					id="cat_id" value="<%= cat_id %>"><br>
 
-				<label for="quantity">Quantity :</label> <input type="text" name="quantity"
-					id="quantity"><br>
-
-				<label for="publication_date">Publication Date :</label> <input
-					type="text" id="publication_date" name="publication_date"
-					><br>
-					
-
-				<button class="confirm_button" name="confirm" onClick="validateUpdate()"
-					>Confirm </button>
-	<div class="button_container">
+			<button class="confirm_button" name="confirm"
+				onClick="validateUpdate()">Confirm</button>
+			<div class="button_container">
 				<button type="submit" class="cancel_button" name="id"
 					onclick="reloadPage()">Cancel</button>
 
 			</div>
-				
-			</form>
-			
-  </div>
+
+		</form>
+
+	</div>
 </body>
 
 

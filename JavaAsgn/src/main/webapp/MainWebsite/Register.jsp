@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,9 +46,9 @@ function checkErrors() {
 </head>
 <body>
 
-<div class="container">
-<div class="card">
-<%
+	<div class="container">
+		<div class="card">
+			<%
 String message = request.getParameter("msgCode");
 
 
@@ -63,88 +64,92 @@ else if (message != null && message.equals("errorRegister")) {
 }
 
 %>
-<h1 align="center">Register</h1>
-<form action="VerifyRegisterUser.jsp" method="POST" id="registerForm">
-    <input type="text" name="username" id="username" placeholder="Username" oninput="validateUsername(); checkErrors()">
-   <span id="username-error" class="error-message"></span> <br/><br/>
-   
-    <input type="text" name="email" id="email" placeholder="Email" oninput="validateEmail(); checkErrors()">
-    <span id="email-error" class="error-message"></span> <br/><br/>
-    
-    <input type="text" name="phone" id="phone" placeholder="Phone" oninput="validatePhone(); checkErrors()"/> 
-    <span id="phone-error" class="error-message"></span> <br/><br/>
-    
-    <input type="password" name="password1" id="password1" placeholder="Password" oninput="validatePassword(); checkErrors()"/> 
-    <span id="password-error" class="error-message"></span><br/><br/>
-    
-    <input type="password" name="password2" id="password2" placeholder="Confirm Password"/> <br/>
-   
-    <p id="passwordError" style="color: red; display: none;">Passwords do not match. Please re-enter.</p>
-    <p id="fieldError" style="color: red; display: none;">Please fill in all the fields.</p>
-    <br/>
-    <button class="blue-button" id="submitButton" onClick="validateForm(event)" disabled>Submit</button>
- 
-</form>
- <button class="blue-button" onClick="cancelButton()">Cancel</button>
-</div>
-</div>
+			<h1 align="center">Register</h1>
+			<form action="VerifyRegisterUser.jsp" method="POST" id="registerForm">
+				<input type="text" name="username" id="username"
+					placeholder="Username" oninput="validateUsername(); checkErrors()">
+				<span id="username-error" class="error-message"></span> <br />
+				<br /> <input type="text" name="email" id="email"
+					placeholder="Email" oninput="validateEmail(); checkErrors()">
+				<span id="email-error" class="error-message"></span> <br />
+				<br /> <input type="text" name="phone" id="phone"
+					placeholder="Phone" oninput="validatePhone(); checkErrors()" /> <span
+					id="phone-error" class="error-message"></span> <br />
+				<br /> <input type="password" name="password1" id="password1"
+					placeholder="Password" oninput="validatePassword(); checkErrors()" />
+				<span id="password-error" class="error-message"></span><br />
+				<br /> <input type="password" name="password2" id="password2"
+					placeholder="Confirm Password" /> <br />
+
+				<p id="passwordError" style="color: red; display: none;">Passwords
+					do not match. Please re-enter.</p>
+				<p id="fieldError" style="color: red; display: none;">Please
+					fill in all the fields.</p>
+				<br />
+				<button class="blue-button" id="submitButton"
+					onClick="validateForm(event)" disabled>Submit</button>
+
+			</form>
+			<button class="blue-button" onClick="cancelButton()">Cancel</button>
+		</div>
+	</div>
 
 
-<style>
+	<style>
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100;
 }
 
 .card {
-    background-color: #E8DFDF;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+	background-color: #E8DFDF;
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	z-index: 1;
 }
 
 .input-container {
-    position: relative;
-    margin-bottom: 20px;
+	position: relative;
+	margin-bottom: 20px;
 }
 
 input {
-    width: 400px;
-    height: 30px;
+	width: 400px;
+	height: 30px;
 }
 
 form {
-    position: relative;
-    background-color: transparent;
-    padding: 20px;
-    z-index: 2;
+	position: relative;
+	background-color: transparent;
+	padding: 20px;
+	z-index: 2;
 }
 
 .blue-button {
-    background-color: blue;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-    align-items: center;
+	background-color: blue;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	cursor: pointer;
+	align-items: center;
 }
 
 .blue-button.disabled {
-    background-color: gray;
-    cursor: not-allowed;
+	background-color: gray;
+	cursor: not-allowed;
 }
 
 .error-message {
-    position: relative;
-    color: red;
-    font-size: 12px;
-    bottom: -20px;
+	position: relative;
+	color: red;
+	font-size: 12px;
+	bottom: -20px;
 }
 </style>
 

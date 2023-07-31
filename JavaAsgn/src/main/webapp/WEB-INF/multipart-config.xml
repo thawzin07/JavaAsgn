@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-    <multipart-config>
-        <max-file-size>10485760</max-file-size> <!-- 10MB in bytes -->
-        <max-request-size>52428800</max-request-size> <!-- 50MB in bytes -->
-        <file-size-threshold>2097152</file-size-threshold> <!-- 2MB in bytes -->
-    </multipart-config>
+	<multipart-config>
+		<max-file-size>10485760</max-file-size> <!-- 10MB in bytes -->
+		<max-request-size>52428800</max-request-size> <!-- 50MB in bytes -->
+		<file-size-threshold>2097152</file-size-threshold> <!-- 2MB in bytes -->
+	</multipart-config>
 </web-app>
