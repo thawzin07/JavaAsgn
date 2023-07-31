@@ -76,6 +76,7 @@ if (isLoggedIn == null || !isLoggedIn) {
 				<th>Qty</th>
 
 			</tr>
+			
 
 			<%
            

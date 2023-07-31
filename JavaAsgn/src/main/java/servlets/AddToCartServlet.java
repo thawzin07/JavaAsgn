@@ -8,14 +8,20 @@ Admission no        : P2235077
 Class             : DIT/FT/2A/03
 **/
 import java.io.IOException;
+
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import dbaccess.AddToCart;
+import dbaccess.DBConnection;
+import mybooks.CartItems;
 
 /**
  * Servlet implementation class AddToCartServlet
@@ -55,8 +61,12 @@ public class AddToCartServlet extends HttpServlet {
 		    try {
 		        int rowsAffected = addToCart.addToCart(userId, bookId, count);
 		        
-		        // Handle the success case or any additional processing if needed
-		        // For example, you can set a success message and redirect the user to a different page.
+		        List<CartItems> cartItems = AddToCart.getCartItems(userId);
+
+	            // Store the cart items in the session attribute
+	            HttpSession session = request.getSession();
+	            session.setAttribute("cartItems", cartItems);
+
 		        response.sendRedirect("MainWebsite/ViewCart.jsp");
 		    } catch (SQLException e) {
 		        e.printStackTrace();

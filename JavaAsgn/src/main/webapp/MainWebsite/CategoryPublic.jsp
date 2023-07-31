@@ -322,7 +322,7 @@ table td button:last-child {
 										<%=bookArray.get(j)[2]%></h5>
 								</td>
 								<td style="width: 20%;">
-									<!-- I edited this part cuz I wanna use servlet. ths-->
+									
 									<form action="<%=request.getContextPath() %>/AddToCartServlet"
 										method="POST">
 
@@ -330,9 +330,9 @@ table td button:last-child {
 											value="<%=session.getAttribute("sessUserID")%>"> <input
 											type="hidden" name="bookid"
 											value="<%= bookArray.get(j)[4] %>">
-										<!-- Replace "456" with the actual book ID -->
+										
 										<input type="hidden" name="count" value="1">
-										<!-- The user can enter the count here -->
+										
 										<button type="submit">Add To Cart</button>
 									</form> <%
 									if (loginStatus != null) {
