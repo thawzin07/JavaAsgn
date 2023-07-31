@@ -22,16 +22,16 @@ import dbaccess.Book;
 import dbaccess.User;
 
 /**
- * Servlet implementation class ListBookSales2
+ * Servlet implementation class ListBookSales
  */
-@WebServlet("/ListBookSales2")
-public class ListBookSales2 extends HttpServlet {
+@WebServlet("/ListBookSales")
+public class ListBookSales extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListBookSales2() {
+    public ListBookSales() {
         super();
         // TODO Auto-generated constructor stub
     }

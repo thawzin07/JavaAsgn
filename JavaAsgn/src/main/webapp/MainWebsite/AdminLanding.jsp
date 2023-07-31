@@ -247,7 +247,7 @@ table td button:last-child {
 				</button>
 				<button onClick="window.location.href='AdminViewMembers.jsp'">View
 					Members</button>
-					<form action="<%=request.getContextPath()%>/ListBookSales2">
+					<form action="<%=request.getContextPath()%>/ListBookSales">
 		<input type="submit" value="List Book Sales">
 	</form>
 
