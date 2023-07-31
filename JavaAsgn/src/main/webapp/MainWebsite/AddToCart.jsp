@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.*"%>
-<%@ page import="java.util.*" %>
-<%@page import="mybooks.CartItems" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@page import ="java.sql.*"%>
+     <%@ page import="java.util.*" %>
+      <%@ page import="mybooks.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,58 +22,65 @@ Class             : DIT/FT/2A/03
 </head>
 <body>
 <%
-    String bookId = request.getParameter("bookId");
-    int bookid = Integer.parseInt(bookId);
-    String title = "";
-    String image = "";
-    float price = 0.0f;
-    int qty = 0;
-  	
-  	int id=0;
+	String bookId= request.getParameter("bookId");
+int bookid= Integer.parseInt(bookId);
+String userIdStr = session.getAttribute("sessUserID").toString();
+int userid= Integer.parseInt(userIdStr);
+String title="";
+String image="";
+int count=1;
+float price=0.0f;
+int qty=0;
+int id=0;
 
-    try {
-        // Step1: Load JDBC Driver
-        Class.forName("com.mysql.jdbc.Driver");  
 
-        // Step 2: Define Connection URL
-        String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
+try {
+    // Step1: Load JDBC Driver
+     Class.forName("com.mysql.jdbc.Driver");  
 
-        // Step 3: Establish connection to URL
-        Connection conn = DriverManager.getConnection(connURL); 
-        // Step 4: Create Statement object
-        Statement stmt = conn.createStatement();
-        // Step 5: Execute SQL Command
-        String sqlStr = "SELECT title, price, quantity, image, id FROM book WHERE id=?";  
-        PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-        pstmt.setString(1, bookId);
+    // Step 2: Define Connection URL
+    String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
 
-        ResultSet rs = pstmt.executeQuery();
-        while(rs.next()) {
-            qty = rs.getInt("quantity");
-            title = rs.getString("title");
-            price = rs.getFloat("price");
-            image = rs.getString("image");
-            id=rs.getInt("id");
-        }
+    // Step 3: Establish connection to URL
+    Connection conn = DriverManager.getConnection(connURL); 
+    // Step 4: Create Statement object
+    Statement stmt = conn.createStatement();
+    // Step 5: Execute SQL Command
+    String sqlStr = "INSERT INTO cart (user_id, book_id, count) VALUES (?, ?, ?)";  
+   PreparedStatement pstmt=conn.prepareStatement(sqlStr);
+    pstmt.setInt(1,userid);
+    pstmt.setInt(2,bookid);
+    pstmt.setInt(3, count);
 
-        // Step 7: Close connection
-        conn.close();
-    } catch (Exception e) {
-        out.println("Error: " + e);
-    }
+    pstmt.executeUpdate();
+
+
+    
+ 
+  
+    // Step 7: Close connection
+    conn.close();
+    
+} catch (Exception e) {
+    out.println("Error :" + e);
+ }
 
  
-   
-   CartItems item=new CartItems(title,qty,price,id, image);
-   @SuppressWarnings("unchecked")
-   ArrayList<CartItems> cartItems= (ArrayList<CartItems>) session.getAttribute("cartBooks");
-   if(cartItems==null){
-	   cartItems=new ArrayList<CartItems>();
-	   
-   }
-   cartItems.add(item);
-   session.setAttribute("cartBooks",cartItems);
-    response.sendRedirect("ViewCart.jsp");
+
+	
+	//cartBooks b=new cartBooks(title,price,qty,image);
+	
+	//@SuppressWarnings("unchecked")
+	
+	//ArrayList<cartBooks> bookList=(ArrayList<cartBooks>)session.getAttribute("bookCart");
+	
+	//if(bookList==null){
+	//	bookList=new ArrayList<cartBooks>();
+	//}
+	//bookList.add(b);
+	//session.setAttribute("bookCart",bookList);
+	//session.setAttribute("userid",userid);
+	response.sendRedirect("ViewCart.jsp");
 %>
 </body>
 </html>

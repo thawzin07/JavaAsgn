@@ -6,19 +6,28 @@ public class cartBooks {
     private String Image;
     private int qty;
     private String isbn;
+    private int id;
     
-    public  cartBooks(String title,float price,int quantity, String image, String ISBN) {
+    public  cartBooks(int bookid, String title,float price,int quantity, String image, String ISBN) {
         Title=title;
         Price=price;
         Image=image;
         qty=quantity;
         isbn=ISBN;
+        id=bookid;
         
         
                 
     }
     
-        
+        public int getBookId() {
+        	return id;
+   
+        }
+        public void setid(int bookid) {
+            this.id = bookid;
+        }
+    
     
 
 
