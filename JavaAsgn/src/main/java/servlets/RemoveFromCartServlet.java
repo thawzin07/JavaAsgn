@@ -1,14 +1,6 @@
 package servlets;
-/**Author             : Thet Htar San
-Date                 : 30/07/2023
-Copyright Notice     : NA
-@(#)
-Description         : JavaAsgn
-Admission no        : P2235077
-Class             : DIT/FT/2A/03
-**/
-import java.io.IOException;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,20 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dbaccess.AddToCart;
-import dbaccess.DBConnection;
 import mybooks.CartItems;
 
 /**
- * Servlet implementation class AddToCartServlet
+ * Servlet implementation class RemoveFromCartServlet
  */
-@WebServlet("/AddToCartServlet")
-public class AddToCartServlet extends HttpServlet {
+@WebServlet("/RemoveFromCartServlet")
+public class RemoveFromCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddToCartServlet() {
+    public RemoveFromCartServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,8 +34,7 @@ public class AddToCartServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		 
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -52,20 +42,14 @@ public class AddToCartServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		 int userId = Integer.parseInt(request.getParameter("userid"));
-		    int bookId = Integer.parseInt(request.getParameter("bookid"));
-		    int count = Integer.parseInt(request.getParameter("count"));
-
-		    // Call the addToCart method from the AddToCart class to add the book to the cart
-		    AddToCart addToCart = new AddToCart();
+		 int book_id = Integer.parseInt(request.getParameter("bookid"));
+		 AddToCart addToCart = new AddToCart();
 		    try {
-		        int rowsAffected = addToCart.addToCart(userId, bookId, count);
+		        int rowsAffected = addToCart.removeFromCart(book_id);
 		        
-		        List<CartItems> cartItems = AddToCart.getCartItems(userId);
+		        
 
-	            // Store the cart items in the session attribute
-	            HttpSession session = request.getSession();
-	            session.setAttribute("cartItems", cartItems);
+	
 
 		        response.sendRedirect("MainWebsite/ViewCart.jsp");
 		    } catch (SQLException e) {
@@ -75,7 +59,8 @@ public class AddToCartServlet extends HttpServlet {
 		    } catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}
+		 
 	}
 
 }

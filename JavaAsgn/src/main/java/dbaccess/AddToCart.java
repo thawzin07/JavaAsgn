@@ -69,6 +69,30 @@ public class AddToCart {
 	    return nrow;
 	}
 	
+	
+	 public int removeFromCart(int bookId) throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        int rowsAffected = 0;
+
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlStr = "DELETE FROM cart WHERE book_id = ?";
+	            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+	            pstmt.setInt(1, bookId);
+
+	            rowsAffected = pstmt.executeUpdate();
+	            pstmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+
+	        return rowsAffected;
+	    }
+	
 	public static List<CartItems> getCartItems(int userId) throws SQLException, ClassNotFoundException {
 		 DBConnection dbConnection = new DBConnection();
 		    Connection conn = null;

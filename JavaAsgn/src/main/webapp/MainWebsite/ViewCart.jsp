@@ -26,26 +26,7 @@ Class             : DIT/FT/2A/03
             window.history.back();
         }
        
-        	 function updateQuantity(bookId, newQuantity) {
-        	        // Use AJAX to send the updated quantity to the server
-        	        const xhr = new XMLHttpRequest();
-        	        const url = "<%=request.getContextPath() %>/UpdateCartServlet";
-        	        const params = `bookId=${bookId}&newQuantity=${newQuantity}`;
-        	        xhr.open("POST", url, true);
-        	        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        	        xhr.onreadystatechange = function () {
-        	            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        	                // Handle the response if needed
-        	                console.log(xhr.responseText);
-        	            }
-        	        };
-        	        xhr.send(params);
-        	    }
-
-        	  function updateQuantities() {
-        	        // Submit the form to update all quantities at once
-        	        document.getElementById("updateForm").submit();
-        	    }
+        	
         
        
     </script>
@@ -153,17 +134,22 @@ if (isLoggedIn == null || !isLoggedIn) {
         %>
 
 			<tr>
+			<td>
+                <input type="checkbox" name="selectedItems" value="<%= bookid %>">
+            </td>
 				<td><%= title %></td>
 				<td>$<%= price %></td>
 				<td><img src="<%= image %>" alt="Book Cover"></td>
 				<td>
 					
-    <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" min="1" max="<%= qty %>" 
-     onchange="updateQuantity(<%= bookid %>, this.value)" >
+    <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" min="1" max="<%= qty %>" >
 </td>
-				<td>
-                <input type="checkbox" name="selectedItems" value="<%= bookid %>">
-            </td>
+<form action="<%=request.getContextPath() %>/RemoveFromCartServlet" method="post">
+            <input type="hidden" name="bookid" value="<%= bookid %>">
+            <button type="submit">Remove</button>
+        </form>
+		
+            
 
 			</tr>
 
@@ -175,7 +161,7 @@ if (isLoggedIn == null || !isLoggedIn) {
         %>
 		</table>
 		<button class="blue-button">Checkout</button>
-		 <button type="button" onclick="updateQuantities()">Update Quantities</button>
+		
 		</form>
 	</div>
 	<p>
