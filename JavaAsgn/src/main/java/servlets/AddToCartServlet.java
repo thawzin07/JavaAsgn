@@ -38,7 +38,15 @@ public class AddToCartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		  int userId = Integer.parseInt(request.getParameter("userid"));
+		 
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		 int userId = Integer.parseInt(request.getParameter("userid"));
 		    int bookId = Integer.parseInt(request.getParameter("bookid"));
 		    int count = Integer.parseInt(request.getParameter("count"));
 
@@ -46,9 +54,10 @@ public class AddToCartServlet extends HttpServlet {
 		    AddToCart addToCart = new AddToCart();
 		    try {
 		        int rowsAffected = addToCart.addToCart(userId, bookId, count);
+		        
 		        // Handle the success case or any additional processing if needed
 		        // For example, you can set a success message and redirect the user to a different page.
-		        response.sendRedirect("testing.jsp");
+		        response.sendRedirect("MainWebsite/ViewCart.jsp");
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		        // Handle the error case or show an error message to the user.
@@ -58,14 +67,6 @@ public class AddToCartServlet extends HttpServlet {
 		        // Handle the error case or show an error message to the user.
 		        response.sendRedirect("error.jsp");
 		    }
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		
 	}
 
