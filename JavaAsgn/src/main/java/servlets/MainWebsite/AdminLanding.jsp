@@ -2,11 +2,12 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@page import="java.sql.*"%>
+<%@ page import="mybooks.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>AdminLanding</title>
 <%--
     
 Author             : Thaw Zin Htun
@@ -17,35 +18,6 @@ Description         : JavaAsgn
 Admission no        : P2234894
 Class             : DIT/FT/2A/03
 --%>
-<script>
-function addToCart(bookId){
-	
-	 <%
-	
-	 if (session.getAttribute("loginStatus") != null) { %>
-    // User is logged in, add the book to cart
-    var form = document.createElement('form');
-    form.method = 'post';
-    form.action = 'AddToCart.jsp';
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'bookId';
-    input.value = bookId;
-    form.appendChild(input);
-    
-   
-    
-    document.body.appendChild(form);
-    form.submit();
-
-    
-   
-  <% } else { %>
-    // User is not logged in, display alert to log in
-    alert('You need to log in to add the book to cart.');
-  <% } %>
-}
-</script>
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -176,11 +148,23 @@ table td button:last-child {
 	color: #fff;
 }
 </style>
+<script>
+	function confirmDelete() {
+		return confirm("Are you sure you want to delete the book?");
+	}
+</script>
+
+
+
 
 </head>
 <body>
-
 	<%
+	if (session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")) {
+		response.sendRedirect("CategoryPublic.jsp?");
+	}
+	String role = (String) session.getAttribute("role");
+	String user = (String) session.getAttribute("sessUsername");
 	
 	//---------------START - initialisation of variables--------------------
 	Boolean found = false; //to indicate if found or not
@@ -205,8 +189,8 @@ table td button:last-child {
 		ResultSet rsB = stmt.executeQuery(sqlBook);
 
 		while (rsB.next()) {
-			String[] randomBook = new String[] { rsB.getString("cat_id"), rsB.getString("title"), rsB.getString("author"),
-			rsB.getString("image"), rsB.getString("id") };
+			String[] randomBook = new String[]{rsB.getString("cat_id"), rsB.getString("title"), rsB.getString("author"),
+			rsB.getString("image"), rsB.getString("id")};
 			bookArray.add(randomBook);
 		}
 
@@ -234,7 +218,7 @@ table td button:last-child {
 
 		// Step 6: Process Result
 		while (rs.next()) {
-			String[] randomCat = new String[] { rs.getString("id"), rs.getString("name") };
+			String[] randomCat = new String[]{rs.getString("id"), rs.getString("name")};
 			catArray.add(randomCat);
 		}
 
@@ -244,51 +228,34 @@ table td button:last-child {
 		out.println("Error :" + e);
 	}
 
-	String loginStatus = (String) session.getAttribute("loginStatus");
-	String cart, details;
-	String user = "";
-	if (request.getParameter("user") != null) {
-		user = request.getParameter("user");
-	}
-
-	if (loginStatus != null) {
-		cart = "alert('successfully added the book to cart!')";
-		details = "window.location.href='BookDetails.jsp'";
-	} else {
-		cart = "alert('you need to log in to add the book to cart')";
-		details = "alert('you need to log in to view book details')";
-		
-	}
+	
 	%>
+
+
 	<div class="container">
 		<div class="header">
 			<img src="../Graphics/ShopIcon.jpg" alt="Shop Icon">
 			<h1>
 				Welcome!
-				<%=user%></h1>
+				<%=role + " " + user%></h1>
 
 			<div class="button-container">
 
-				<%
-				if (loginStatus != null) {
-				%>
-
-
 				<button onClick="window.location.href='Profile.jsp'">Profile
 				</button>
-				<button onClick="window.location.href='ViewCart.jsp'">View
-					Cart</button>
-				<%
-				} else {
-				%>
-				<button onClick="window.location.href='Register.jsp'">Sign
-					Up</button>
-				<button onClick="window.location.href='Login2.jsp'">Log In</button>
-				<%
-				}
-				%>
+				<button onClick="window.location.href='AdminViewMembers.jsp'">View
+					Members</button>
+				<form action="<%=request.getContextPath()%>/ListBookSales">
+					<input type="submit" value="List Book Sales">
+				</form>
+
+
+
 			</div>
 		</div>
+
+
+
 
 		<div class="table-container">
 			<table>
@@ -301,7 +268,17 @@ table td button:last-child {
 				for (int i = 0; i < catArray.size(); i++) {
 				%>
 				<tr>
-					<td><%=catArray.get(i)[1]%></td>
+					<td style="position: relative;">
+						<h4><%=catArray.get(i)[1]%></h4>
+						<form action="AdminCreateBookForm.jsp" method="post">
+							<button type="submit" onClick="" name="cat_id"
+								value="<%= catArray.get(i)[0] %>"
+								style="position: absolute; background-color: #90EE90; bottom: 0; left: 50%; margin-bottom: 30px; transform: translateX(-50%);">
+								Add book in this category</button>
+						</form>
+
+					</td>
+
 
 					<td>
 						<table>
@@ -322,37 +299,25 @@ table td button:last-child {
 										<%=bookArray.get(j)[2]%></h5>
 								</td>
 								<td style="width: 20%;">
-									<!-- I edited this part cuz I wanna use servlet. ths-->
-									<form action="<%=request.getContextPath() %>/AddToCartServlet"
-										method="POST">
 
-										<input type="hidden" name="userid"
-											value="<%=session.getAttribute("sessUserID")%>"> <input
-											type="hidden" name="bookid"
-											value="<%= bookArray.get(j)[4] %>">
-										<!-- Replace "456" with the actual book ID -->
-										<input type="hidden" name="count" value="1">
-										<!-- The user can enter the count here -->
-										<button type="submit">Add To Cart</button>
-									</form> <%
-									if (loginStatus != null) {
-									%>
-									<form action="BookDetails.jsp" method="post">
-										<button type="submit" onClick="<%=details%>" name="id"
-											value="<%=bookArray.get(j)[4]%>">
-											View Details of
+									<form action="AdminBookDetails.jsp" method="post">
+										<button type="submit" onClick="" name="id"
+											value="<%=bookArray.get(j)[4]%>"
+											style="background-color: #00FFFF">
+											Update details of
 											<%=bookArray.get(j)[1]%>
 										</button>
-									</form> <%
- } else {
- %>
-									<button type="submit" onClick="<%=details%>" name="title"
-										value="<%=bookArray.get(j)[1]%>">
-										View Details of
-										<%=bookArray.get(j)[1]%>
-									</button> <%
- }
- %>
+									</form>
+
+									<form action="DeleteBook.jsp" method="post">
+										<button type="submit" onClick="return confirmDelete();"
+											name="id" value="<%=bookArray.get(j)[4]%>">Delete
+											Book</button>
+									</form>
+
+
+
+
 								</td>
 							</tr>
 							<%

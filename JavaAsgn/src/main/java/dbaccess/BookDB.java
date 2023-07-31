@@ -49,6 +49,16 @@ public class BookDB {
 
 		return books;
 	}
+	
+	
+	/**Author             : Thet Htar San
+	Date                 : 30/07/2023
+	Copyright Notice     : NA
+	@(#)
+	Description         : JavaAsgn
+	Admission no        : P2235077
+	Class             : DIT/FT/2A/03
+	**/
 	 public int insertBook(Book book) throws SQLException, ClassNotFoundException {
 	        Connection conn = null;
 	        int nrow = 0;

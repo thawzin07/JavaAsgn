@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DBConnection {
 	public static Connection getConnection() {
-		String dbUrl="jdbc:mysql://localhost/java_pract6";
+		String dbUrl="jdbc:mysql://localhost/javaassignment";
 		String dbUser="root";
 		String dbPassword="root1234";
 		String dbClass="com.mysql.jdbc.Driver";
