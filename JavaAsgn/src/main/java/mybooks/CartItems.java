@@ -6,18 +6,26 @@ public class CartItems {
 	private float price;
 	private int bookid;
 	private String image;
+	private int count;
 	public CartItems(String Title,int quantity,float Price, int bookID, String Img) {
 		title=Title;
 		qty=quantity;
 		price=Price;
 		bookid=bookID;
 		image=Img;
+		//count=Count;
 	}
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int Count) {
+		this.count = Count;
 	}
 	public int getQty() {
 		return qty;

@@ -25,6 +25,29 @@ Class             : DIT/FT/2A/03
         function goBack() {
             window.history.back();
         }
+       
+        	 function updateQuantity(bookId, newQuantity) {
+        	        // Use AJAX to send the updated quantity to the server
+        	        const xhr = new XMLHttpRequest();
+        	        const url = "<%=request.getContextPath() %>/UpdateCartServlet";
+        	        const params = `bookId=${bookId}&newQuantity=${newQuantity}`;
+        	        xhr.open("POST", url, true);
+        	        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        	        xhr.onreadystatechange = function () {
+        	            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        	                // Handle the response if needed
+        	                console.log(xhr.responseText);
+        	            }
+        	        };
+        	        xhr.send(params);
+        	    }
+
+        	  function updateQuantities() {
+        	        // Submit the form to update all quantities at once
+        	        document.getElementById("updateForm").submit();
+        	    }
+        
+       
     </script>
 <style>
 .container {
@@ -67,15 +90,19 @@ if (isLoggedIn == null || !isLoggedIn) {
 %>
 	<button onClick="goBack()">Go Back</button>
 	<h1>View Cart</h1>
-	<div class="container">
-		<table border=1>
-			<tr>
-				<th>Title</th>
-				<th>Price</th>
-				<th>Image</th>
-				<th>Qty</th>
+	<form action="/checkout" method="post">
+    <!--  <input type="checkbox" id="selectAll" name="selectAll" onchange="toggleSelectAll(this)">
+    <label for="selectAll">Select All</label> -->
 
-			</tr>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Qty</th>
+            <th>Select</th>
+        </tr>
+
 			
 
 			<%
@@ -96,7 +123,7 @@ if (isLoggedIn == null || !isLoggedIn) {
             Connection conn = DriverManager.getConnection(connURL);
 
             // Step 4: Create PreparedStatement object
-            String sqlStr = "SELECT b.title, b.price, b.image,b.quantity, c.count " +
+            String sqlStr = "SELECT b.title,b.id, b.price,b.quantity, b.image,b.quantity, c.count " +
                     "FROM cart c " +
                     "JOIN book b ON c.book_id = b.id " +
                     "WHERE c.user_id = ?";
@@ -118,7 +145,9 @@ if (isLoggedIn == null || !isLoggedIn) {
                 String title = rs.getString("title");
                 float price = rs.getFloat("price");
                 String image = rs.getString("image");
-                int qty = rs.getInt("count");
+                int count = rs.getInt("count");
+                int bookid=rs.getInt("id");
+                int qty=rs.getInt("quantity");
               
                 
         %>
@@ -128,15 +157,13 @@ if (isLoggedIn == null || !isLoggedIn) {
 				<td>$<%= price %></td>
 				<td><img src="<%= image %>" alt="Book Cover"></td>
 				<td>
-					<%--drop down box to change the qty, the maximum will be the qty in the database --%>
-					<select id="quantityDropdown" name="quantity">
-						<% for (int i = 1; i <= qty; i++) { %>
-						<option value="<%= i %>" <%= i == qty ? "selected" : "" %>><%= i %></option>
-						<%
-                    } %>
-				</select>
-				</td>
-
+					
+    <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" min="1" max="<%= qty %>" 
+     onchange="updateQuantity(<%= bookid %>, this.value)" >
+</td>
+				<td>
+                <input type="checkbox" name="selectedItems" value="<%= bookid %>">
+            </td>
 
 			</tr>
 
@@ -147,9 +174,12 @@ if (isLoggedIn == null || !isLoggedIn) {
             conn.close();
         %>
 		</table>
+		<button class="blue-button">Checkout</button>
+		 <button type="button" onclick="updateQuantities()">Update Quantities</button>
+		</form>
 	</div>
 	<p>
 		Final prices will be calculated at checkout.
-		<button class="blue-button">Checkout</button>
+		
 </body>
 </html>

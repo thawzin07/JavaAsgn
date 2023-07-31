@@ -22,10 +22,7 @@ function redirectRegister(){
 }
 function redirectGuest(){
     window.location.href="CategoryPublic.jsp";
-<<<<<<< HEAD
-=======
-    
->>>>>>> branch 'main' of https://github.com/thawzin07/JavaAsgn
+
 }
 </script>
 
