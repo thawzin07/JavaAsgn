@@ -28,6 +28,11 @@ public class Book {
 	}
      
 	
+	public Book() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public int getId() {
 		return id;
 	}
