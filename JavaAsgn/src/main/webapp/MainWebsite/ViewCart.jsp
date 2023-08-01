@@ -26,7 +26,21 @@ Class             : DIT/FT/2A/03
             window.history.back();
         }
        
-        	
+       
+        function removeFromCart(bookid){
+        	 var form = document.createElement("form");
+             form.setAttribute("method", "post");
+             form.setAttribute("action", "<%= request.getContextPath() %>/RemoveFromCartServlet");
+
+             var hiddenField = document.createElement("input");
+             hiddenField.setAttribute("type", "hidden");
+             hiddenField.setAttribute("name", "bookid");
+             hiddenField.setAttribute("value", bookid);
+             form.appendChild(hiddenField);
+
+             document.body.appendChild(form);
+             form.submit();
+        }
         
        
     </script>
@@ -56,6 +70,19 @@ body {
 	align-items: center;
 }
 
+.red-button {
+	background-color: red;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	cursor: pointer;
+	align-items: center;
+}
+
 img {
 	width: 150px;
 	height: auto;
@@ -71,17 +98,18 @@ if (isLoggedIn == null || !isLoggedIn) {
 %>
 	<button onClick="goBack()">Go Back</button>
 	<h1>View Cart</h1>
-	<form action="/checkout" method="post">
+	<form action="MakePayment.jsp" method="post">
     <!--  <input type="checkbox" id="selectAll" name="selectAll" onchange="toggleSelectAll(this)">
     <label for="selectAll">Select All</label> -->
 
     <table border="1">
-        <tr>
+        <tr> 
+        <th>Select</th>
             <th>Title</th>
             <th>Price</th>
             <th>Image</th>
             <th>Qty</th>
-            <th>Select</th>
+           
         </tr>
 
 			
@@ -144,11 +172,11 @@ if (isLoggedIn == null || !isLoggedIn) {
 					
     <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" min="1" max="<%= qty %>" >
 </td>
-<form action="<%=request.getContextPath() %>/RemoveFromCartServlet" method="post">
-            <input type="hidden" name="bookid" value="<%= bookid %>">
-            <button type="submit">Remove</button>
-        </form>
-		
+<td>
+
+            
+            <button class="red-button" onClick="removeFromCart(<%= bookid %>)">Remove</button>
+        		</td>
             
 
 			</tr>
@@ -160,7 +188,8 @@ if (isLoggedIn == null || !isLoggedIn) {
             conn.close();
         %>
 		</table>
-		<button class="blue-button">Checkout</button>
+		<button class="blue-button" type="submit">Update Quantity</button>
+		<button class="blue-button" type="submit">Checkout</button>
 		
 		</form>
 	</div>
