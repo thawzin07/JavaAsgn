@@ -59,6 +59,7 @@ public class RemoveFromCartServlet extends HttpServlet {
 		    } catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				response.sendRedirect("error.jsp");
 			}
 		 
 	}

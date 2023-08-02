@@ -92,7 +92,30 @@ public class AddToCart {
 
 	        return rowsAffected;
 	    }
-	
+	 public int updateQuantity(int bookId, int updateqty, int user_id) throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        int rowsAffected = 0;
+
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlStr = "UPDATE cart SET count = ? WHERE book_id = ? AND user_id = ?";
+	            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+	            pstmt.setInt(1, updateqty);
+	            pstmt.setInt(2,bookId);
+	            pstmt.setInt(3,user_id);
+
+	            rowsAffected = pstmt.executeUpdate();
+	            pstmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+
+	        return rowsAffected;
+	    }
 	public static List<CartItems> getCartItems(int userId) throws SQLException, ClassNotFoundException {
 		 DBConnection dbConnection = new DBConnection();
 		    Connection conn = null;

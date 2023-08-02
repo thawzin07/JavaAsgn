@@ -22,10 +22,8 @@ Class             : DIT/FT/2A/03
 <meta charset="ISO-8859-1">
 <title>View Cart</title>
 <script>
-        function goBack() {
-            window.history.back();
-        }
-       
+        
+   
        
         function removeFromCart(bookid){
         	 var form = document.createElement("form");
@@ -41,6 +39,12 @@ Class             : DIT/FT/2A/03
              document.body.appendChild(form);
              form.submit();
         }
+        function goBack() {
+            window.location.href="CategoryPublic.jsp";
+        }
+
+       
+
         
        
     </script>
@@ -98,10 +102,10 @@ if (isLoggedIn == null || !isLoggedIn) {
 %>
 	<button onClick="goBack()">Go Back</button>
 	<h1>View Cart</h1>
-	<form action="MakePayment.jsp" method="post">
+	
     <!--  <input type="checkbox" id="selectAll" name="selectAll" onchange="toggleSelectAll(this)">
     <label for="selectAll">Select All</label> -->
-
+<form action="<%= request.getContextPath() %>/ChangeQuantityServlet" method="post">
     <table border="1">
         <tr> 
         <th>Select</th>
@@ -169,13 +173,12 @@ if (isLoggedIn == null || !isLoggedIn) {
 				<td>$<%= price %></td>
 				<td><img src="<%= image %>" alt="Book Cover"></td>
 				<td>
+				  <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" min="1" max="<%= qty %>" >
 					
-    <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" min="1" max="<%= qty %>" >
 </td>
 <td>
 
-            
-            <button class="red-button" onClick="removeFromCart(<%= bookid %>)">Remove</button>
+            <button type="button" class="red-button" onClick="removeFromCart(<%= bookid %>)">Remove</button>
         		</td>
             
 
@@ -188,11 +191,20 @@ if (isLoggedIn == null || !isLoggedIn) {
             conn.close();
         %>
 		</table>
-		<button class="blue-button" type="submit">Update Quantity</button>
-		<button class="blue-button" type="submit">Checkout</button>
+		
+
+   
+    	<button class="blue-button" type="submit">Update Quantity</button>
+    	
+
+		
+		
+		<!-- <button formaction="MakePayment.jsp" class="blue-button" type="submit">Checkout</button> -->
 		
 		</form>
-	</div>
+	<form action="<%= request.getContextPath() %>/MakePaymentServlet" method="post">
+    <button class="blue-button" type="submit">Checkout</button>
+</form>
 	<p>
 		Final prices will be calculated at checkout.
 		
