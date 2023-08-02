@@ -10,10 +10,10 @@ public class Book {
 	private String publication_date ;
 	private int cat_id ;
 	private String image ;
-	private int sold_count ;
+	private int sold_count;
 	private int id ;
 	
-	public Book(String isbn, String title, String author, String publisher,int quantity,double price, String pubdate ,int catid, String img,int sold) {
+	public Book(String isbn, String title, String author, String publisher,int quantity,double price, String pubdate ,int catid, String img) {
 		ISBN=isbn;
 		Title=title;
 		Author=author;
@@ -23,7 +23,8 @@ public class Book {
 		publication_date=pubdate;
 		cat_id=catid;
 		image=img;
-		sold_count=sold;
+
+		
 		
 	}
      

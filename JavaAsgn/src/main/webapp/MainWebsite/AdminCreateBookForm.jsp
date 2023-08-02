@@ -108,6 +108,7 @@ function goBack() {
 	  
 	}
 </script>
+
 </head>
 <body>
 	<button type="button" class="goBack" onclick="goBack()">Go
@@ -121,7 +122,7 @@ function goBack() {
 
     String cat_id = request.getParameter("cat_id");
     %>
-		<form action="AdminCreateBookLogic.jsp" method="post" id="updateForm">
+		<form action="<%= request.getContextPath()%>/CreateBookServlet" method="post" id="updateForm" enctype="multipart/form-data">
 
 			<label for="ISBN">ISBN :</label> <input type="text" id="isbn"
 				name="isbn"><br> <label for="title">Title
@@ -137,6 +138,9 @@ function goBack() {
 				id="quantity"><br> <label for="publication_date">Publication
 				Date :</label> <input type="text" id="publication_date"
 				name="publication_date"><br>
+				
+				<label for="image">Book Cover Image :</label>
+			 <input type="file" name="image" id="image" accept="image/*" />
 
 
 			<button class="confirm_button" name="confirm"
