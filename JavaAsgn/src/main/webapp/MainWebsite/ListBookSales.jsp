@@ -14,7 +14,7 @@
 <body>
 	<%
 ArrayList<Book> books = (ArrayList<Book>) request.getAttribute("bookdata");
-	System.out.print(books.size());
+	//System.out.print(books.size());
 %>
 	<h2>Top 5 Selling Books</h2>
 	<%

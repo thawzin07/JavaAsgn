@@ -159,6 +159,45 @@ public class BookDB {
 		return isUpdated;
 	}
 	
+	public boolean deleteBook(String id) {
+
+		Connection conn = null;
+		boolean isDeleted = false;
+
+		try {
+			conn = DBConnection.getConnection();
+
+			String sqlStr = "DELETE FROM javaassignment.book WHERE id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			//set parameter value
+			pstmt.setString(1, id);
+
+			
+				// Execute the INSERT query
+				int rowsAffected = pstmt.executeUpdate();
+				// Close resources
+				pstmt.close();
+				if (rowsAffected > 0) {
+					// Book inserted successfully
+					isDeleted = true;
+				}
+			
+		} catch (Exception e) {
+			System.out.print("..........UserDetailsDB:" + e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return isDeleted;
+	}
+	
+	
 
 	/**
 	 * Author : Thet Htar San Date : 30/07/2023 Copyright Notice : NA

@@ -247,6 +247,7 @@ table td button:last-child {
 				</button>
 				<button onClick="window.location.href='AdminViewMembers.jsp'">View
 					Members</button>
+					
 					<form action="<%=request.getContextPath()%>/ListTopFiveSales">
 		<input type="submit" value="List Book Sales">
 	</form>
@@ -310,7 +311,7 @@ table td button:last-child {
 										</button>
 									</form>
 
-									<form action="DeleteBook.jsp" method="post">
+									<form action="<%= request.getContextPath()%>/DeleteBookServlet" method="post">
 										<button type="submit" onClick="return confirmDelete();"
 											name="id" value="<%=bookArray.get(j)[4]%>">Delete
 											Book</button> 
