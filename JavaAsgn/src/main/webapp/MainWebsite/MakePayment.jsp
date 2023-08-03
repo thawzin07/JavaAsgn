@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import="java.util.Arrays" %>
     <%@ page import="java.sql.*"%>
+    <%@page import="dbaccess.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,19 @@ Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn == null || !isLoggedIn) {
     response.sendRedirect("Login2.jsp");
 }
+
+// Replace these variables with your sandbox merchant account credentials
+String merchantEmail = "sb-nolzg26673505@business.example.com";
+String currencyCode = "SGD"; // Change this to the appropriate currency code
+String returnURL = "http://localhost:8080/JavaAsgn/MainWebsite/PaymentSuccess.jsp"; // Replace with your success page URL
+String cancelURL = "http://localhost:8080/JavaAsgn/MainWebsite/viewcart.jsp"; // Replace with your cancel page URL
+
+// Total amount to be paid (you can fetch this from your backend)
+double totalAmount = 100.0; // Replace with the total amount to be paid
+
+// PayPal sandbox endpoint
+String paypalEndpoint = "https://sandbox.paypal.com";
+
 %>
 <h1>Make Payment</h1>
     
@@ -107,10 +121,25 @@ if (isLoggedIn == null || !isLoggedIn) {
         %>
     </table>  
 
-<input="text" name="address"  disabled />
+<input="text" name="address" value="${address}"  disabled />
 <Label for="address">Address: </Label>
-<input="text" name="postal" disabled />
+<input="text" name="postal" value="${postal}"disabled />
 <Label for="postal">Postal: </Label>
+
+ <form action="<%= paypalEndpoint %>" method="post">
+        <!-- Required PayPal parameters for Buy Now button -->
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="<%= merchantEmail %>">
+        <input type="hidden" name="item_name" value="Your Item Name">
+        <input type="hidden" name="amount" value="<%= totalAmount %>">
+        <input type="hidden" name="currency_code" value="<%= currencyCode %>">
+        <input type="hidden" name="return" value="<%= returnURL %>">
+        <input type="hidden" name="cancel_return" value="<%= cancelURL %>">
+
+        <!-- Customize the appearance of the PayPal button -->
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
+    </form>
+
 
 
 

@@ -244,8 +244,29 @@ public class UserDAO {
 	    return nrow;
 	}
 	
-	public int getAddress(int userid)throws SQLException,ClassNotFoundException{
-	int nrow=0;
-	return nrow;
+	public static void getAddress(int userid)throws SQLException,ClassNotFoundException{
+	
+	
+    Connection conn = null;
+    try {
+        conn = DBConnection.getConnection();
+        String sqlStr = "SELECT a.* FROM user u " +
+                        "JOIN address a ON u.address_id = a.id " +
+                        "WHERE u.id = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+        pstmt.setInt(1, userid);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+           
+            String address=rs.getString("address");
+            String postal=rs.getString("postal");
+        }
+    } catch (Exception e) {
+        System.out.print("..........AddressDetailsDB:" + e);
+    } finally {
+        conn.close();
+    }
+   
+	
 	}
 }
