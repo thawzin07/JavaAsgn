@@ -6,17 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import dbaccess.Book;
 
 public class BookDB {
-	public ArrayList<Book> listBookSales() throws SQLException {
+	public ArrayList<Book> listTopSales() throws SQLException {
 		Book uBean = null;
 		Connection conn = null;
 		ArrayList<Book> books = new ArrayList<Book>();
 
 		try {
 			conn = DBConnection.getConnection();
-			String sqlStr = "SELECT * FROM javaassignment.book ORDER BY sold_count DESC LIMIT 5";
+			String sqlStr = "SELECT * FROM javaassignment.book ORDER BY sold_count DESC LIMIT 3";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -47,6 +49,94 @@ public class BookDB {
 		}
 
 		return books;
+	}
+
+	public ArrayList<Book> listLeastSales() throws SQLException {
+		Book uBean = null;
+		Connection conn = null;
+		ArrayList<Book> books2 = new ArrayList<Book>();
+
+		try {
+			conn = DBConnection.getConnection();
+			String sqlStr = "SELECT * FROM javaassignment.book ORDER BY sold_count ASC LIMIT 3";
+
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				uBean = new Book();
+				uBean.setId(Integer.parseInt(rs.getString("id")));
+				uBean.setISBN(rs.getString("ISBN"));
+				uBean.setTitle(rs.getString("title"));
+				uBean.setAuthor(rs.getString("author"));
+				uBean.setPrice(Double.parseDouble(rs.getString("price")));
+				uBean.setQuantity(Integer.parseInt(rs.getString("quantity")));
+				uBean.setPublisher(rs.getString("publisher"));
+				uBean.setPublication_date(rs.getString("publication_date"));
+
+				uBean.setCat_id(Integer.parseInt(rs.getString("cat_id")));
+				uBean.setImage(rs.getString("image"));
+				uBean.setSold_count(Integer.parseInt(rs.getString("sold_count")));
+
+				books2.add(uBean);
+				System.out.print("....done writing to bean!....");
+
+			}
+		} catch (Exception e) {
+			System.out.print("..........UserDetailsDB:" + e);
+		} finally {
+			conn.close();
+		}
+
+		return books2;
+	}
+
+	public Book bookSearchBar(String title) {
+
+		Connection conn = null;
+
+		Book uBean = null;
+		try {
+
+			conn = DBConnection.getConnection();
+
+			String query = "SELECT * FROM javaassignment.book where title = ?";
+			PreparedStatement statement = conn.prepareStatement(query);
+			statement.setString(1, title);
+
+			// Execute the query
+			ResultSet rs = statement.executeQuery();
+			// Retrieve the count of matching records
+			while (rs.next()) {
+				uBean = new Book();
+				uBean.setId(Integer.parseInt(rs.getString("id")));
+				uBean.setISBN(rs.getString("ISBN"));
+				uBean.setTitle(rs.getString("title"));
+				uBean.setAuthor(rs.getString("author"));
+				uBean.setPrice(Double.parseDouble(rs.getString("price")));
+				uBean.setQuantity(Integer.parseInt(rs.getString("quantity")));
+				uBean.setPublisher(rs.getString("publisher"));
+				uBean.setPublication_date(rs.getString("publication_date"));
+
+				uBean.setCat_id(Integer.parseInt(rs.getString("cat_id")));
+				uBean.setImage(rs.getString("image"));
+				uBean.setSold_count(Integer.parseInt(rs.getString("sold_count")));
+			}
+
+		} catch (Exception e) {
+			System.out.print("..........UserDetailsDB:" + e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return uBean;
 	}
 
 	public boolean createBook(Book book) {
@@ -112,7 +202,7 @@ public class BookDB {
 
 		return isSuccess;
 	}
-	
+
 	public boolean updateBook(Book book) {
 
 		Connection conn = null;
@@ -124,7 +214,7 @@ public class BookDB {
 			String sql = "UPDATE javaassignment.book SET ISBN=?, title=?, author=?, price=?, quantity=?, publisher=?, publication_date=?, cat_id=?, image=? WHERE id=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
-				// Set parameter values
+			// Set parameter values
 			pstmt.setString(1, book.getISBN());
 			pstmt.setString(2, book.getTitle());
 			pstmt.setString(3, book.getAuthor());
@@ -135,15 +225,15 @@ public class BookDB {
 			pstmt.setInt(8, book.getCat_id());
 			pstmt.setString(9, book.getImage());
 			pstmt.setInt(10, book.getId());
-				// Execute the INSERT query
-				int rowsAffected = pstmt.executeUpdate();
-				// Close resources
-				pstmt.close();
-				if (rowsAffected > 0) {
-					// Book inserted successfully
-					isUpdated = true;
-				}
-			
+			// Execute the INSERT query
+			int rowsAffected = pstmt.executeUpdate();
+			// Close resources
+			pstmt.close();
+			if (rowsAffected > 0) {
+				// Book inserted successfully
+				isUpdated = true;
+			}
+
 		} catch (Exception e) {
 			System.out.print("..........UserDetailsDB:" + e);
 		} finally {
@@ -158,7 +248,7 @@ public class BookDB {
 
 		return isUpdated;
 	}
-	
+
 	public boolean deleteBook(String id) {
 
 		Connection conn = null;
@@ -169,19 +259,18 @@ public class BookDB {
 
 			String sqlStr = "DELETE FROM javaassignment.book WHERE id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-			//set parameter value
+			// set parameter value
 			pstmt.setString(1, id);
 
-			
-				// Execute the INSERT query
-				int rowsAffected = pstmt.executeUpdate();
-				// Close resources
-				pstmt.close();
-				if (rowsAffected > 0) {
-					// Book inserted successfully
-					isDeleted = true;
-				}
-			
+			// Execute the INSERT query
+			int rowsAffected = pstmt.executeUpdate();
+			// Close resources
+			pstmt.close();
+			if (rowsAffected > 0) {
+				// Book inserted successfully
+				isDeleted = true;
+			}
+
 		} catch (Exception e) {
 			System.out.print("..........UserDetailsDB:" + e);
 		} finally {
@@ -196,8 +285,6 @@ public class BookDB {
 
 		return isDeleted;
 	}
-	
-	
 
 	/**
 	 * Author : Thet Htar San Date : 30/07/2023 Copyright Notice : NA

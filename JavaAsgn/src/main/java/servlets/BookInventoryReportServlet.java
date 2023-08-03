@@ -14,16 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import dbaccess.*;
 
 /**
- * Servlet implementation class ListTopFiveSales
+ * Servlet implementation class BookInventoryReportServlet
  */
-@WebServlet("/ListTopFiveSales")
-public class ListTopFiveSales extends HttpServlet {
+@WebServlet("/BookInventoryReportServlet")
+public class BookInventoryReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListTopFiveSales() {
+    public BookInventoryReportServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,12 +37,17 @@ public class ListTopFiveSales extends HttpServlet {
 		
 		ArrayList<Book> bookal = new ArrayList<Book>();
 		
+		ArrayList<Book> bookal2 = new ArrayList<Book>();
+		
 		try {
 			BookDB bdb = new BookDB();
-			bookal = bdb.listBookSales();
+			bookal = bdb.listTopSales();
+			bookal2 = bdb.listLeastSales();
 			
-			request.setAttribute("bookdata", bookal);
-			String url = "MainWebsite/ListBookSales.jsp";
+			request.setAttribute("topsales", bookal);
+			request.setAttribute("leastsales", bookal2);
+			
+			String url = "MainWebsite/BookInventoryReport.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(url);
 			rd.forward(request, response);
 		} catch (Exception e) {

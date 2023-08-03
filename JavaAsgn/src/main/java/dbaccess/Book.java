@@ -71,7 +71,13 @@ public class Book {
 		this.cat_id = cat_id;
 	}
 	public String getImage() {
-		return image;
+		// Assuming the image file name is stored in the "image" field of the Book object
+	    String imageName = this.image;
+
+	    // Construct the relative path to the "Graphics" folder
+	    String imagePath = "../Graphics/" + imageName;
+
+	    return imagePath;
 	}
 	public void setImage(String image) {
 		this.image = image;
