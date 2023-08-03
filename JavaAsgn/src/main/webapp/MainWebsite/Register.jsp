@@ -65,19 +65,31 @@ else if (message != null && message.equals("errorRegister")) {
 
 %>
 			<h1 align="center">Register</h1>
-			<form action="VerifyRegisterUser.jsp" method="POST" id="registerForm">
+			<form action="<%= request.getContextPath() %>/RegisterUserServlet" method="POST" id="registerForm">
 				<input type="text" name="username" id="username"
 					placeholder="Username" oninput="validateUsername(); checkErrors()">
 				<span id="username-error" class="error-message"></span> <br />
+				
 				<br /> <input type="text" name="email" id="email"
 					placeholder="Email" oninput="validateEmail(); checkErrors()">
 				<span id="email-error" class="error-message"></span> <br />
+				
 				<br /> <input type="text" name="phone" id="phone"
 					placeholder="Phone" oninput="validatePhone(); checkErrors()" /> <span
 					id="phone-error" class="error-message"></span> <br />
+					
+				<br/> <input type="text" name="address" id="address"
+				placeholder="Residential Address(#00-000,XXX street)" >
+				
+				
+				<br/> <input type="text" name="postalCode" id="postalCode"
+				placeholder="Postal Code(XXXXXX)" oninput="validatePostalCode(); checkErrors()">
+				<span id="postalcode-error" class="error-message"></span><br />
+				
 				<br /> <input type="password" name="password1" id="password1"
 					placeholder="Password" oninput="validatePassword(); checkErrors()" />
 				<span id="password-error" class="error-message"></span><br />
+				
 				<br /> <input type="password" name="password2" id="password2"
 					placeholder="Confirm Password" /> <br />
 

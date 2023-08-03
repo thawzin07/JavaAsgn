@@ -115,13 +115,14 @@ public class UserDAO {
         }
     }
 	
-	  public int insertUser(String username, String email, String phone, String password, String role, String image, String dateJoined) throws SQLException, ClassNotFoundException {
+	  public int insertUser(String username, String email, String phone, String password, String role, String image, String dateJoined, int addressid) throws SQLException, ClassNotFoundException {
 	        Connection conn = null;
 	        int nrow = 0;
+	        float totalspend=0;
 
 	        try {
 	            conn = DBConnection.getConnection();
-	            String sqlStr = "INSERT INTO user (username, email, phone, password, role, image, joinedDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	            String sqlStr = "INSERT INTO user (username, email, phone, password, role, image, joinedDate,total_spend,address_id) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 	            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 
 	            // Set parameter values
@@ -132,7 +133,8 @@ public class UserDAO {
 	            pstmt.setString(5, role);
 	            pstmt.setString(6, image);
 	            pstmt.setString(7, dateJoined);
-
+	            pstmt.setFloat(8, totalspend);
+	            pstmt.setInt(9, addressid);
 	            // Execute the INSERT query
 	            nrow = pstmt.executeUpdate();
 
@@ -149,7 +151,42 @@ public class UserDAO {
 
 	        return nrow;
 	    }
-	
+	  
+	  public int insertAddress(String address, String postal) throws SQLException, ClassNotFoundException {
+		    Connection conn = null;
+		    int addressId = 0;
+
+		    try {
+		        conn = DBConnection.getConnection();
+		        String sqlStr = "INSERT INTO address (residential, postal) VALUES (?, ?)";
+		        PreparedStatement pstmt = conn.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+
+		        // Set parameter values
+		        pstmt.setString(1, address);
+		        pstmt.setString(2, postal);
+
+		        // Execute the INSERT query
+		        int rowsAffected = pstmt.executeUpdate();
+
+		        if (rowsAffected > 0) {
+		            // Retrieve the auto-generated key (addressId)
+		            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+		            if (generatedKeys.next()) {
+		                addressId = generatedKeys.getInt(1);
+		            }
+		        }
+
+		        // Close resources
+		        pstmt.close();
+		    } finally {
+		        // Close the connection in the finally block to ensure proper cleanup
+		        if (conn != null) {
+		            conn.close();
+		        }
+		    }
+
+		    return addressId;
+		}
 	public int updateUser( int userid, User user) throws SQLException,ClassNotFoundException{
 		Connection conn=null;
 		int nrow=0;

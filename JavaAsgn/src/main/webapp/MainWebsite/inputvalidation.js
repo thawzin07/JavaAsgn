@@ -60,3 +60,14 @@ function validatePassword() {
 	var invalidElement = "Invalid password. Password must contain at least 8 characters containing at least 1 uppercase,1 lowercase,1 number and 1 special character."
 	validateInput(password, regex, passwordError, invalidElement);
 }
+
+
+//Funtion to validate postal code
+function validatePostalCode(){
+	var postalCode=document.getElementById("postalCode");
+	var postalCodeError=document.getElementById("postalCode-error");
+	var regex=/^\\d{6}$/;
+	var invalidElement="Invalid postal. Please enter six digits. "
+	validateInput(postalCode,regex,postalCodeError,invalidElement);
+	
+}

@@ -26,8 +26,11 @@ function validateForm(event) {
     var username = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var phone = document.getElementById("phone").value;
+    var address=document.getElementById("address").value;
+    var postal=document.getElementById("postalCode").value;
     var password1 = document.getElementById("password1").value;
     var password2 = document.getElementById("password2").value;
+    
     var passwordError = document.getElementById("passwordError");
     var fieldError = document.getElementById("fieldError");
   
@@ -35,7 +38,7 @@ function validateForm(event) {
     var isValid = true;
     
 
-    if (username === "" || email === "" || phone === "" || password1 === "" || password2 === "") {
+    if (username === "" || email === "" || phone === "" || address==="" || postal==="" || password1 === "" || password2 === "") {
         fieldError.style.display = "block";
         isValid = false;
     } else {
