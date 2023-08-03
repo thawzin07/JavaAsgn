@@ -11,7 +11,7 @@ public class Book {
 	private int cat_id ;
 	private String image ;
 	private int sold_count;
-	private int id ;
+	private int ID ;
 	
 	public Book(String isbn, String title, String author, String publisher,int quantity,double price, String pubdate ,int catid, String img) {
 		ISBN=isbn;
@@ -23,22 +23,40 @@ public class Book {
 		publication_date=pubdate;
 		cat_id=catid;
 		image=img;
-
-		
-		
+	}
+	
+	public Book(int id , String isbn, String title, String author, String publisher,int quantity,double price, String pubdate ,int catid, String img) {
+		ISBN=isbn;
+		Title=title;
+		Author=author;
+		Publisher=publisher;
+		Quantity=quantity;
+		Price=price;
+		publication_date=pubdate;
+		cat_id=catid;
+		image=img;
+		ID = id ;
 	}
      
 	
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
 	public Book() {
 		// TODO Auto-generated constructor stub
 	}
 
 
 	public int getId() {
-		return id;
+		return ID;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.ID = id;
 	}
 	public String getPublication_date() {
 		return publication_date;

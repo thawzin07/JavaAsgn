@@ -2,10 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.File;
-import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -17,22 +14,19 @@ import javax.servlet.http.Part;
 
 import dbaccess.Book;
 import dbaccess.BookDB;
-import dbaccess.UserDAO;
-
-
 
 /**
- * Servlet implementation class CreateBookServlet
+ * Servlet implementation class UpdateBookServlet
  */
-@WebServlet("/CreateBookServlet")
+@WebServlet("/UpdateBookServlet")
 @MultipartConfig
-public class CreateBookServlet extends HttpServlet {
+public class UpdateBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateBookServlet() {
+    public UpdateBookServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,13 +37,14 @@ public class CreateBookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		PrintWriter out = response.getWriter() ;
 		final String UPLOAD_DIRECTORY = "C:/Users/thawz/git/JavaAsgn/JavaAsgn/src/main/webapp/Graphics/";
 		
-		String  isbn , title , author , price , publisher , publication_date, quantity , cat_id ;
+		String id ,isbn , title , author , price , publisher , publication_date, quantity , cat_id ;
 		try {
 			// Retrieving the values of the input fields using request.getParameter
-			
+			id = request.getParameter("id");
 			isbn = request.getParameter("isbn");
 			title = request.getParameter("title");
 			author = request.getParameter("author");
@@ -67,14 +62,14 @@ public class CreateBookServlet extends HttpServlet {
 	        // Save the uploaded image to the server's directory
 	        String imagePath = UPLOAD_DIRECTORY  +  imageFileName;
 	        imagePart.write(imagePath);
-	        Book book = new Book(isbn , title , author , publisher, Integer.parseInt(quantity) , Double.parseDouble(price) , publication_date , Integer.parseInt(cat_id) ,storeFileName) ;
+	        Book book = new Book( Integer.parseInt(id) ,isbn , title , author , publisher, Integer.parseInt(quantity) , Double.parseDouble(price) , publication_date , Integer.parseInt(cat_id) ,storeFileName) ;
 	        
 	        BookDB bdb = new BookDB();
-			boolean isSuccess = bdb.createBook(book);
+			boolean isUpdated = bdb.updateBook(book);
 			
-			request.setAttribute("isSuccess", isSuccess);
-			out.print("all is well...userid=" + isSuccess);
-			String url = "MainWebsite/AdminCreateBookForm.jsp";
+			request.setAttribute("isUpdated", isUpdated);
+			out.print("all is well...userid=" + isUpdated);
+			
 			HttpSession session = request.getSession();
 
 			session.setAttribute("role" , "admin");
@@ -85,7 +80,6 @@ public class CreateBookServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 	private String getUniqueFileName(Part part) {
 		// Get the submitted file name from the Part
 	    String submittedFileName = part.getSubmittedFileName();

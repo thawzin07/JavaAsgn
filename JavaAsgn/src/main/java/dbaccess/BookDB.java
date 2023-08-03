@@ -112,6 +112,53 @@ public class BookDB {
 
 		return isSuccess;
 	}
+	
+	public boolean updateBook(Book book) {
+
+		Connection conn = null;
+		boolean isUpdated = false;
+
+		try {
+			conn = DBConnection.getConnection();
+
+			String sql = "UPDATE javaassignment.book SET ISBN=?, title=?, author=?, price=?, quantity=?, publisher=?, publication_date=?, cat_id=?, image=? WHERE id=?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+				// Set parameter values
+			pstmt.setString(1, book.getISBN());
+			pstmt.setString(2, book.getTitle());
+			pstmt.setString(3, book.getAuthor());
+			pstmt.setDouble(4, book.getPrice());
+			pstmt.setInt(5, book.getQuantity());
+			pstmt.setString(6, book.getPublisher());
+			pstmt.setString(7, book.getPublication_date());
+			pstmt.setInt(8, book.getCat_id());
+			pstmt.setString(9, book.getImage());
+			pstmt.setInt(10, book.getId());
+				// Execute the INSERT query
+				int rowsAffected = pstmt.executeUpdate();
+				// Close resources
+				pstmt.close();
+				if (rowsAffected > 0) {
+					// Book inserted successfully
+					isUpdated = true;
+				}
+			
+		} catch (Exception e) {
+			System.out.print("..........UserDetailsDB:" + e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return isUpdated;
+	}
+	
 
 	/**
 	 * Author : Thet Htar San Date : 30/07/2023 Copyright Notice : NA

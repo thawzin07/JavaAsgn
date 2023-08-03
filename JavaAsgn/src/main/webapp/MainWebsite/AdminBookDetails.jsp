@@ -168,7 +168,7 @@ input[type="text"] {
 				The book is under category "<%=rs.getString("name").toUpperCase()%>"
 			</h4>
 			<br>
-			<form action="AdminUpdateBook.jsp" method="post" id="updateForm">
+			<form action="<%= request.getContextPath()%>/UpdateBookServlet" method="post" id="updateForm" enctype="multipart/form-data">
 
 				<label for="ISBN">ISBN :</label> <input type="text" id="isbn"
 					name="isbn" value="<%=rs.getString("ISBN")%>" readonly><br>
@@ -189,6 +189,9 @@ input[type="text"] {
 					for="publication_date">Publication Date :</label> <input
 					type="text" id="publication_date" name="publication_date"
 					value="<%=rs.getString("publication_date")%>" readonly><br>
+					
+					<label for="image">Book Cover Image :</label>
+			 <input type="file" name="image" id="image" accept="image/*" />
 
 				<input type="hidden" id="id" name="id" value="<%=id%>">
 
@@ -211,7 +214,7 @@ input[type="text"] {
 				</script>
 
 				<button class="confirm_button" name="confirm"
-					onClick="validateUpdate()">Confirm Update</button>
+					>Confirm Update</button>
 
 
 			</form>
