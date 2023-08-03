@@ -125,7 +125,7 @@ if (isLoggedIn == null || !isLoggedIn) {
 <form action="<%= request.getContextPath() %>/ChangeQuantityServlet" method="post">
     <table border="1">
         <tr> 
-            <th>Select</th>
+           
             <th>Title</th>
             <th>Price</th>
             <th>Image</th>
@@ -136,6 +136,7 @@ if (isLoggedIn == null || !isLoggedIn) {
         <%
         String userIdStr = session.getAttribute("sessUserID").toString();
         int userid = Integer.parseInt(userIdStr);
+    		float total=0;
       
 
         // Step 1: Load JDBC Driver
@@ -171,12 +172,11 @@ if (isLoggedIn == null || !isLoggedIn) {
                 int count = rs.getInt("count");
                 int bookid = rs.getInt("id");
                 int qty = rs.getInt("quantity");
+                total+=count*price;
              
         %>
             <tr>
-                <td>
-                    <input type="checkbox" name="selectedItems" value="<%= bookid %>" checked>
-                </td>
+                
                 <td><%= title %></td>
                 <td>$<%= price %></td>
                 <td><img src="<%= image %>" alt="Book Cover"></td>
@@ -203,7 +203,7 @@ if (isLoggedIn == null || !isLoggedIn) {
 </form>
 
 <p>
-    Total price will be calculated at checkout.
+    Total price : <%=total %>
 </p>
 		
 </body>

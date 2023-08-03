@@ -15,6 +15,8 @@ public class User {
 	private String image;
 	private String password;
 	private int userid;
+	private float totalspent;
+	private int addressid;
 	
 	
 	public int getUserid() {
@@ -58,6 +60,18 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public int getAddressId() {
+		return addressid;
+	}
+	public void setAddressid(int addressid) {
+		this.addressid = addressid;
+	}
+	public float getTotalSpent() {
+		return totalspent;
+	}
+	public void setTotalSpent(float totalspent) {
+		this.totalspent=totalspent;
 	}
 
 	

@@ -243,4 +243,9 @@ public class UserDAO {
 	    
 	    return nrow;
 	}
+	
+	public int getAddress(int userid)throws SQLException,ClassNotFoundException{
+	int nrow=0;
+	return nrow;
+	}
 }

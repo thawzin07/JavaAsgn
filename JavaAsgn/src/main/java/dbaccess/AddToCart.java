@@ -18,9 +18,10 @@ Admission no        : P2235077
 Class             : DIT/FT/2A/03
 **/
 public class AddToCart {
-	public int addToCart(int userid, int bookid, int count) throws SQLException, ClassNotFoundException {
+	public int addToCart(CartItem item) throws SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    int nrow = 0;
+	    int count=item.getCount();
 
 	    try {
 	        // Step1: Load JDBC Driver
@@ -28,8 +29,8 @@ public class AddToCart {
 	        //check cart for existing items
 	        String checkCartSQL = "SELECT count FROM cart WHERE user_id = ? AND book_id = ?";
 	        PreparedStatement checkCartStmt = conn.prepareStatement(checkCartSQL);
-	        checkCartStmt.setInt(1, userid);
-	        checkCartStmt.setInt(2, bookid);
+	        checkCartStmt.setInt(1, item.getUserid());
+	        checkCartStmt.setInt(2, item.getBookid());
 	        ResultSet checkCartRs = checkCartStmt.executeQuery();
 
 	        if (checkCartRs.next()) {
@@ -40,8 +41,8 @@ public class AddToCart {
 	            String updateCartSQL = "UPDATE cart SET count = ? WHERE user_id = ? AND book_id = ?";
 	            PreparedStatement updateCartStmt = conn.prepareStatement(updateCartSQL);
 	            updateCartStmt.setInt(1, count);
-	            updateCartStmt.setInt(2, userid);
-	            updateCartStmt.setInt(3, bookid);
+	            updateCartStmt.setInt(2, item.getUserid());
+	            updateCartStmt.setInt(3, item.getBookid());
 	            updateCartStmt.executeUpdate();
 
 	            // Close the resources for the update operation
@@ -50,8 +51,8 @@ public class AddToCart {
 
 	        String sqlStr = "INSERT INTO cart (user_id, book_id, count) VALUES (?, ?, ?)";
 	        PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-	        pstmt.setInt(1, userid);
-	        pstmt.setInt(2, bookid);
+	        pstmt.setInt(1, item.getUserid());
+	        pstmt.setInt(2, item.getBookid());
 	        pstmt.setInt(3, count);
 
 	        nrow = pstmt.executeUpdate();

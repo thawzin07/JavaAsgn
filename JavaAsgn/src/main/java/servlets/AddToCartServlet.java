@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dbaccess.AddToCart;
+import dbaccess.CartItem;
 import dbaccess.DBConnection;
 import mybooks.CartItems;
 
@@ -55,11 +56,12 @@ public class AddToCartServlet extends HttpServlet {
 		 int userId = Integer.parseInt(request.getParameter("userid"));
 		    int bookId = Integer.parseInt(request.getParameter("bookid"));
 		    int count = Integer.parseInt(request.getParameter("count"));
+		    CartItem c= new CartItem(userId,bookId,count);
 
 		    // Call the addToCart method from the AddToCart class to add the book to the cart
 		    AddToCart addToCart = new AddToCart();
 		    try {
-		        int rowsAffected = addToCart.addToCart(userId, bookId, count);
+		        int rowsAffected = addToCart.addToCart(c);
 		        
 		        List<CartItems> cartItems = AddToCart.getCartItems(userId);
 
