@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import dbaccess.*;
 
@@ -17,6 +18,7 @@ import dbaccess.*;
  * Servlet implementation class BookInventoryReportServlet
  */
 @WebServlet("/BookInventoryReportServlet")
+@MultipartConfig
 public class BookInventoryReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,19 +41,33 @@ public class BookInventoryReportServlet extends HttpServlet {
 		
 		ArrayList<Book> bookal2 = new ArrayList<Book>();
 		
+		ArrayList<Book> bookal3 = new ArrayList<Book>();
+		
 		try {
 			BookDB bdb = new BookDB();
 			bookal = bdb.listTopSales();
 			bookal2 = bdb.listLeastSales();
+			bookal3 = bdb.listLowStock();
 			
-			request.setAttribute("topsales", bookal);
-			request.setAttribute("leastsales", bookal2);
+			HttpSession session = request.getSession();
+            session.setAttribute("topsales", bookal);
+            session.setAttribute("leastsales", bookal2);
+            session.setAttribute("lowstock", bookal3);
+			
+			//request.setAttribute("topsales", bookal);
+			//request.setAttribute("leastsales", bookal2);
+			//request.setAttribute("lowstock", bookal3);
 			
 			String url = "MainWebsite/BookInventoryReport.jsp";
-			RequestDispatcher rd = request.getRequestDispatcher(url);
-			rd.forward(request, response);
+			response.sendRedirect(url);
+			
+			//RequestDispatcher rd = request.getRequestDispatcher(url);
+			//rd.forward(request , response);
+			
+			
 		} catch (Exception e) {
-			e.printStackTrace();		}
+			e.printStackTrace();		
+			}
 	} 
 
 	/**

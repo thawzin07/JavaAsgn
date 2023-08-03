@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dbaccess.Book;
 import dbaccess.BookDB;
@@ -34,7 +36,8 @@ public class SearchBookServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-	    
+		PrintWriter out = response.getWriter();
+		out.print("SearchBook is called");
 	    
 	    try {
 	    	String title = (String) request.getParameter("searchtext");
@@ -43,13 +46,15 @@ public class SearchBookServlet extends HttpServlet {
 			
 			Book book = bdb.bookSearchBar(title);
 			
+			HttpSession session = request.getSession();
+            session.setAttribute("searchresult", book);
 			
-			request.setAttribute("searchresult", book);
+            //request.setAttribute("searchresult", book);
 
 			String url = "MainWebsite/BookSearchResult.jsp";
-		
-			RequestDispatcher rd = request.getRequestDispatcher(url);
-			rd.forward(request, response);
+			response.sendRedirect(url);
+			//RequestDispatcher rd = request.getRequestDispatcher(url);
+			//rd.forward(request, response);
 			
 		} catch (Exception e) {
 			e.printStackTrace();		}

@@ -120,7 +120,7 @@ h5 {
 <body>
     <button class="btn" onclick="goBack()">Go Back</button>
     <%   
-        Book book = (Book) request.getAttribute("searchresult");
+        Book book = (Book) session.getAttribute("searchresult");
 
         if (book == null) {
     %>

@@ -43,7 +43,7 @@ public class BookDB {
 
 			}
 		} catch (Exception e) {
-			System.out.print("..........UserDetailsDB:" + e);
+			System.out.print("..........BookDetailsDB:" + e);
 		} finally {
 			conn.close();
 		}
@@ -84,13 +84,55 @@ public class BookDB {
 
 			}
 		} catch (Exception e) {
-			System.out.print("..........UserDetailsDB:" + e);
+			System.out.print("..........BookDetailsDB:" + e);
 		} finally {
 			conn.close();
 		}
 
 		return books2;
 	}
+	
+	public ArrayList<Book> listLowStock() throws SQLException {
+		Book uBean = null;
+		Connection conn = null;
+		ArrayList<Book> books3 = new ArrayList<Book>();
+
+		try {
+			conn = DBConnection.getConnection();
+			String sqlStr = "SELECT * FROM javaassignment.book WHERE quantity < 5 ORDER BY quantity ASC" ;
+
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				uBean = new Book();
+				uBean.setId(Integer.parseInt(rs.getString("id")));
+				uBean.setISBN(rs.getString("ISBN"));
+				uBean.setTitle(rs.getString("title"));
+				uBean.setAuthor(rs.getString("author"));
+				uBean.setPrice(Double.parseDouble(rs.getString("price")));
+				uBean.setQuantity(Integer.parseInt(rs.getString("quantity")));
+				uBean.setPublisher(rs.getString("publisher"));
+				uBean.setPublication_date(rs.getString("publication_date"));
+
+				uBean.setCat_id(Integer.parseInt(rs.getString("cat_id")));
+				uBean.setImage(rs.getString("image"));
+				uBean.setSold_count(Integer.parseInt(rs.getString("sold_count")));
+
+				books3.add(uBean);
+				System.out.print("....done writing to bean!....");
+
+			}
+		} catch (Exception e) {
+			System.out.print("..........BookDetailsDB:" + e);
+		} finally {
+			conn.close();
+		}
+
+		return books3;
+	}
+	
 
 	public Book bookSearchBar(String title) {
 
@@ -125,7 +167,7 @@ public class BookDB {
 			}
 
 		} catch (Exception e) {
-			System.out.print("..........UserDetailsDB:" + e);
+			System.out.print("..........BookDetailsDB:" + e);
 		} finally {
 			try {
 				if (conn != null) {
@@ -189,7 +231,7 @@ public class BookDB {
 				}
 			}
 		} catch (Exception e) {
-			System.out.print("..........UserDetailsDB:" + e);
+			System.out.print("..........BookDetailsDB:" + e);
 		} finally {
 			try {
 				if (conn != null) {
@@ -235,7 +277,7 @@ public class BookDB {
 			}
 
 		} catch (Exception e) {
-			System.out.print("..........UserDetailsDB:" + e);
+			System.out.print("..........BookDetailsDB:" + e);
 		} finally {
 			try {
 				if (conn != null) {
@@ -272,7 +314,7 @@ public class BookDB {
 			}
 
 		} catch (Exception e) {
-			System.out.print("..........UserDetailsDB:" + e);
+			System.out.print("..........BookDetailsDB:" + e);
 		} finally {
 			try {
 				if (conn != null) {

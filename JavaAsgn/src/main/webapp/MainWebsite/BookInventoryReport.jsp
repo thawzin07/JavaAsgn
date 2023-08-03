@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>ListBookSales</title>
+<title>BookInventoryReport</title>
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -99,22 +99,23 @@ h5 {
 }
 
 .btn {
-    display: inline-block;
-    background-color: #3498db;
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+	display: inline-block;
+	background-color: #3498db;
+	color: #fff;
+	padding: 8px 16px;
+	border-radius: 4px;
+	text-decoration: none;
+	margin-top: 10px;
+	transition: background-color 0.3s;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
 }
 
 .btn:hover {
-    background-color: #2980b9;
+	background-color: #2980b9;
 }
+
 
 </style>
 
@@ -125,23 +126,32 @@ h5 {
     }
 </script>
 
-    
-<body>
-<button class="btn" onclick="goBack()">Go Back</button>
-	<%
-	ArrayList<Book> books = (ArrayList<Book>) request.getAttribute("topsales");
 
-	ArrayList<Book> books2 = (ArrayList<Book>) request.getAttribute("leastsales");
+<body>
+	<button class="btn" onclick="goBack()">Go Back</button>
+	<%
+	@SuppressWarnings("unchecked")
+	ArrayList<Book> books = (ArrayList<Book>) session.getAttribute("topsales");
+	@SuppressWarnings("unchecked")
+	ArrayList<Book> books2 = (ArrayList<Book>) session.getAttribute("leastsales");
+	@SuppressWarnings("unchecked")
+	ArrayList<Book> books3 = (ArrayList<Book>) session.getAttribute("lowstock");
+	
+	
+	//ArrayList<Book> books3 = (ArrayList<Book>) session.getAttribute("lowstock");
 	%>
 	<div class="search-container">
-        <form action="<%= request.getContextPath()%>/SearchBookServlet" method="GET">
-            <input type="text" class="search-input" name="searchtext" placeholder="Search Book by title">
-            <button type="submit" class="search-button">Search</button>
-        </form>
-    </div>
-    
+		<form action="<%= request.getContextPath()%>/SearchBookServlet"
+			method="GET">
+			<input type="text" class="search-input" name="searchtext"
+				placeholder="Search Book by title">
+			<button type="submit" class="search-button">Search</button>
+		</form>
+	</div>
+
 
 	<h2>Top 3 Selling Books</h2>
+	
 	<div class="book-container">
 		<%
 		for (int x = 0; x < books.size(); x++) {
@@ -175,6 +185,7 @@ h5 {
 		}
 		%>
 	</div>
+
 	<h2>3 Least Selling Books</h2>
 	<div class="book-container">
 		<%
@@ -209,5 +220,40 @@ h5 {
 		}
 		%>
 	</div>
+	
+	<h2 style="color: red;">Low Stock Level Books</h2>
+	<div class="book-container">
+		<%
+		for (int x = 0; x < books3.size(); x++) {
+		%>
+		<div class="book-card">
+			<img
+				src="<%=request.getContextPath() + "/Graphics/" + books3.get(x).getImage()%>">
+			<!-- Display other book details -->
+			<h3><%=books3.get(x).getTitle()%></h3>
+			<h6>Book ID</h6>
+			<%=books3.get(x).getId()%>
+			<h6>Category ID</h6>
+			<%=books3.get(x).getCat_id()%>
+			<h6>ISBN</h6>
+			<%=books3.get(x).getISBN()%>
+			<h6>Author</h6>
+			<%=books3.get(x).getAuthor()%>
+			<h6>Price Per Book</h6>
+			<%=books3.get(x).getPrice()%>
+			<h6>Current Stock Count</h6>
+			<%=books3.get(x).getQuantity()%>
+			
+			<h5 class="red-text">Sold Count</h5>
+			<%=books3.get(x).getSold_count()%>
+
+			
+		</div>
+		<%
+		}
+		%>
+	</div>
+	
+
 </body>
 </html>
