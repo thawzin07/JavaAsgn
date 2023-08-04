@@ -160,6 +160,7 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
                 <td>
                     <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" disabled >
                 </td>
+                
                
             </tr>
         <%
@@ -169,7 +170,9 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
         // Step 6: Close connection
         conn.close();
         %>
-    </table>  
+    </table> 
+    <p>Total Price: <%=total %></p>
+     
 
 <input type="text" name="address" value="${address}" disabled />
 <input type="text" name="postal" value="${postal}" disabled />
@@ -193,6 +196,7 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
     <!-- Credit Card form -->
     <form id="creditCardForm" action="<%= request.getContextPath() %>/MakePaymentServlet" method="post">
         <h2>Credit Card Payment</h2>
+        <input type="hidden" name="total" value="<%=total %>">
          <input type="hidden" name="userid" value="<%= userid %>">
         
         <label for="cardNumber">Card Number:</label><br/>

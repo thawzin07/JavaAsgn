@@ -5,10 +5,46 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Purchase {
-	public void insertPurchaseRecord(int userid) throws SQLException, ClassNotFoundException {
+	 public ArrayList<PurchaseData> getAllPurchases() throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        ArrayList<PurchaseData> purchaseList = new ArrayList<>();
+
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlSelect = "SELECT p.book_id, b.title AS book_name,b.price, u.username, p.count, p.purchase_date "
+	                    + "FROM purchase p "
+	                    + "JOIN book b ON p.book_id = b.id "
+	                    + "JOIN users u ON p.user_id = u.id";
+	            PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
+	            ResultSet rs = selectStmt.executeQuery();
+
+	            while (rs.next()) {
+	                int bookId = rs.getInt("book_id");
+	                String bookName = rs.getString("book_name");
+	                String username = rs.getString("username");
+	                int count = rs.getInt("count");
+	                String datePurchased = rs.getString("purchase_date");
+
+	                PurchaseData purchaseData = new PurchaseData(bookId, bookName, username, count, datePurchased);
+	                purchaseList.add(purchaseData);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+
+	        return purchaseList;
+	    }
+	
+	public void insertPurchaseRecord(int userid,float total) throws SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    int book_id = 0;
 	    int count = 0;
@@ -20,6 +56,15 @@ public class Purchase {
 	    
 	    try {
 	        conn = DBConnection.getConnection();
+	        
+	        String sqlUpdate="UPDATE user SET total_spend=total_spend + ? WHERE id=?";
+	        PreparedStatement updateStmt=conn.prepareStatement(sqlUpdate);
+	        updateStmt.setFloat(1, total);
+	        updateStmt.setInt(2, userid);
+	        updateStmt.executeUpdate();
+	        
+	        
+	        
 	        String sqlSelect = "SELECT book_id, count FROM cart WHERE user_id = ?";
 	        PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
 	        selectStmt.setInt(1, userid);
@@ -37,6 +82,12 @@ public class Purchase {
 	            insertStmt.setInt(3, count);
 	            insertStmt.setString(4, datePurchased);
 	            nrow = insertStmt.executeUpdate();
+	            
+	            String updateQty="UPDATE book SET quantity=quantity-? WHERE id=?";
+	            PreparedStatement qtyStmt=conn.prepareStatement(updateQty);
+	            qtyStmt.setInt(1, count);
+	            qtyStmt.setInt(2, book_id);
+	            qtyStmt.executeUpdate();
 	        }
 
 	        // Step 5: Delete cart items for the specific user

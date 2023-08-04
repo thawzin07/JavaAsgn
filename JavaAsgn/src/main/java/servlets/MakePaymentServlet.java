@@ -38,13 +38,14 @@ public class MakePaymentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		  int userId = Integer.parseInt(request.getParameter("userid"));
+		  float total = Float.parseFloat(request.getParameter("total"));
 		  
 
 	        try {
 	            // Create an instance of the Purchase class
 	            Purchase purchase = new Purchase();
 	            // Call the insertPurchaseRecord method with the userId
-	            purchase.insertPurchaseRecord(userId);
+	            purchase.insertPurchaseRecord(userId,total);
 
 	            // Redirect to a success page or display a success message
 	            response.sendRedirect("MainWebsite/PaymentSuccess.jsp");
