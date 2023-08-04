@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dbaccess.Purchase;
+
 /**
  * Servlet implementation class MakePaymentServlet
  */
@@ -35,7 +37,32 @@ public class MakePaymentServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		  int userId = Integer.parseInt(request.getParameter("userid"));
+		  
+
+	        try {
+	            // Create an instance of the Purchase class
+	            Purchase purchase = new Purchase();
+	            // Call the insertPurchaseRecord method with the userId
+	            purchase.insertPurchaseRecord(userId);
+
+	            // Redirect to a success page or display a success message
+	            response.sendRedirect("MainWebsite/PaymentSuccess.jsp");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            // Redirect to an error page or display an error message
+	            response.sendRedirect("Error.jsp");
+	        }
+	    }
+	
+	
+
+
+
+
+
+
+		
 	}
 
-}
+

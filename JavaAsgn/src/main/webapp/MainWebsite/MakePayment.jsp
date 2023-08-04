@@ -171,10 +171,8 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
         %>
     </table>  
 
-<input="text" name="address" value="${address}"  disabled />
-<Label for="address">Address: </Label>
-<input="text" name="postal" value="${postal}"disabled />
-<Label for="postal">Postal: </Label>
+<input type="text" name="address" value="${address}" disabled />
+<input type="text" name="postal" value="${postal}" disabled />
 
  <form id="paypalForm" action="<%= paypalEndpoint %>" method="post">
         <!-- Required PayPal parameters for Buy Now button -->
@@ -193,8 +191,9 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
     </form>
     
     <!-- Credit Card form -->
-    <form id="creditCardForm" action="<%= request.getContextPath() %>/MakePayment" method="post">
+    <form id="creditCardForm" action="<%= request.getContextPath() %>/MakePaymentServlet" method="post">
         <h2>Credit Card Payment</h2>
+         <input type="hidden" name="userid" value="<%= userid %>">
         
         <label for="cardNumber">Card Number:</label><br/>
         <input type="text" id="cardNumber" name="cardNumber"  oninput="validateCardNumber(); checkErrors()"><br/>
