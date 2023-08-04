@@ -1,21 +1,15 @@
 package dbaccess;
 
-public class PurchaseData {
+public class PurchaseItem {
 	private int bookid;
 	private String bookname;
 	private String username;
 	private int count;
 	private String datePurchased;
 	private float total;
+	private float price;
 
-	public PurchaseData(int bookId,String bookName,String userName,int Count,String datepurchased,float Total) {
-		bookid=bookId;
-		bookname=bookName;
-		username=userName;
-		count=Count;
-		datePurchased=datepurchased;
-		total=Total;
-	}
+	
 	
 	public int getBookid() {
 		return bookid;
@@ -54,5 +48,11 @@ public class PurchaseData {
 
 	public void setTotal(float total) {
 		this.total = total;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
 	}
 }

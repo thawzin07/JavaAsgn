@@ -10,32 +10,114 @@ import java.util.Date;
 import java.util.List;
 
 public class Purchase {
-	 public ArrayList<PurchaseData> getAllPurchases() throws SQLException, ClassNotFoundException {
+	
+	
+	
+	
+	 public ArrayList<PurchaseItem> getAllPurchases() throws SQLException, ClassNotFoundException {
 	        Connection conn = null;
-	        ArrayList<PurchaseData> purchaseList = new ArrayList<>();
-	        float total=0;
+	        ArrayList<PurchaseItem> purchaseList = new ArrayList<>();
+	        PurchaseItem purchaseBean=null;
+	       
 
 	        try {
 	            conn = DBConnection.getConnection();
-	            String sqlSelect = "SELECT p.book_id, b.title AS book_name,b.price, u.username, p.count, p.purchase_date "
+	            String sqlSelect = "SELECT p.book_id, b.title AS book_name,b.price, u.username, p.count, p.purchased_date "
 	                    + "FROM purchase p "
 	                    + "JOIN book b ON p.book_id = b.id "
-	                    + "JOIN users u ON p.user_id = u.id";
+	                    + "JOIN user u ON p.user_id = u.id";
 	            PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
 	            ResultSet rs = selectStmt.executeQuery();
 
 	            while (rs.next()) {
-	                int bookId = rs.getInt("book_id");
-	                String bookName = rs.getString("book_name");
-	                String username = rs.getString("username");
-	                int count = rs.getInt("count");
-	                String datePurchased = rs.getString("purchase_date");
-	                Float price=rs.getFloat("price");
-	                 total=price*count;
+	            	purchaseBean = new PurchaseItem();
+					purchaseBean.setBookid(Integer.parseInt(rs.getString("book_id")));
+					purchaseBean.setBookname(rs.getString("book_name"));
+					purchaseBean.setUsername(rs.getString("username"));
+					purchaseBean.setCount(rs.getInt("count"));
+					purchaseBean.setDatePurchased(rs.getString("purchased_date"));
+					
+	                
 	                
 
-	                PurchaseData purchaseData = new PurchaseData(bookId, bookName, username, count, datePurchased,total);
-	                purchaseList.add(purchaseData);
+	              
+	                purchaseList.add(purchaseBean);
+	                System.out.println("purchaseList size: " + purchaseList.size()); 
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+	        System.out.print("purchaseList"+purchaseList);
+	        return purchaseList;
+	    }
+	 
+	 public ArrayList<PurchaseItem> getPurchaesByPeriod(String datefrom, String dateto) throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        ArrayList<PurchaseItem> purchaseList = new ArrayList<>();
+	        PurchaseItem purchaseBean=null;
+	       
+
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlSelect = "SELECT p.book_id, b.title AS book_name,b.price, u.username, p.count, p.purchased_date "
+	                    + "FROM purchase p "
+	                    + "JOIN book b ON p.book_id = b.id "
+	                    + "JOIN user u ON p.user_id = u.id"
+	                    +"WHERE p.purchased_date BETWEEN ? AND ?";
+	            PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
+	            selectStmt.setString(1,datefrom);
+	            selectStmt.setString(2,dateto);
+	            
+	            ResultSet rs = selectStmt.executeQuery();
+
+	            while (rs.next()) {
+	            	purchaseBean = new PurchaseItem();
+					purchaseBean.setBookid(Integer.parseInt(rs.getString("book_id")));
+					purchaseBean.setBookname(rs.getString("book_name"));
+					purchaseBean.setUsername(rs.getString("username"));
+					int count=rs.getInt("count");
+					purchaseBean.setCount(count);
+					float price=rs.getFloat("price");
+					purchaseBean.setPrice(price);
+					purchaseBean.setTotal(count*price);
+					purchaseBean.setDatePurchased(rs.getString("purchased_date"));
+					
+	                
+	                
+
+	              
+	                purchaseList.add(purchaseBean);
+	                System.out.println("purchaseList size: " + purchaseList.size()); 
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+	        System.out.print("purchaseList"+purchaseList);
+	        return purchaseList;
+	    }
+	 
+	 public float getTotalPriceOfAllPurchases() throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        float totalPrice = 0;
+
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlSelect = "SELECT SUM(b.price * p.count) AS total_price "
+	                    + "FROM purchase p "
+	                    + "JOIN book b ON p.book_id = b.id";
+	            PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
+	            ResultSet rs = selectStmt.executeQuery();
+
+	            if (rs.next()) {
+	                totalPrice = rs.getFloat("total_price");
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -45,7 +127,7 @@ public class Purchase {
 	            }
 	        }
 
-	        return purchaseList;
+	        return totalPrice;
 	    }
 	
 	public void insertPurchaseRecord(int userid,float total) throws SQLException, ClassNotFoundException {
