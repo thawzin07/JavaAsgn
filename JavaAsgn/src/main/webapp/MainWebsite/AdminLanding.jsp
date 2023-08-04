@@ -248,8 +248,12 @@ table td button:last-child {
 				<button onClick="window.location.href='AdminViewMembers.jsp'">View
 					Members</button>
 					
+					<form action="<%=request.getContextPath()%>/ViewMemberServlet">
+		<input type="submit" value="View Members">
+	</form>
+					
 					<form action="<%=request.getContextPath()%>/BookInventoryReportServlet">
-		<input type="submit" value="List Book Sales">
+		<input type="submit" value="Sales Report">
 	</form>
 
 					

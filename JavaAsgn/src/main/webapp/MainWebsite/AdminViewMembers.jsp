@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@page import="java.sql.*"%>
+<%@ page import="dbaccess.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,39 +59,11 @@ td:first-child img {
 		response.sendRedirect("CategoryPublic.jsp?");
 	}
 
-	ArrayList<String[]> userArray = new ArrayList<String[]>();
+	ArrayList<User> userArray = (ArrayList<User>) session.getAttribute("userArray");
+	
+	
 
-	try {
-		// Step1: Load JDBC Driver
-		Class.forName("com.mysql.jdbc.Driver");
-
-		// Step 2: Define Connection URL
-		String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
-
-		// Step 3: Establish connection to URL
-		Connection conn = DriverManager.getConnection(connURL);
-		// Step 4: Create Statement object
-		Statement stmt = conn.createStatement();
-		// Step 5: Execute SQL Command
-
-		String sqlmember = "SELECT * from javaassignment.user";
-		ResultSet rs = stmt.executeQuery(sqlmember);
-
-		// Step 6 : Process the results
-		while (rs.next()) {
-			String[] randomUser = new String[] { rs.getString("id"), rs.getString("username"), rs.getString("role"),
-			rs.getString("phone"), rs.getString("email"), rs.getString("joinedDate"), rs.getString("password"),
-			rs.getString("last_updated"), rs.getString("image") };
-			userArray.add(randomUser);
-		}
-
-		// Step 7: Close connection
-		conn.close();
-	} catch (Exception e) {
-		out.println("Error :" + e);
-	}
-
-	session.setAttribute("userArray", userArray);
+	//session.setAttribute("userArray", userArray);
 	%>
 	<div class="container">
 		<table border=1>
@@ -102,7 +75,7 @@ td:first-child img {
 				<th>Phone</th>
 				<th>Email</th>
 				<th>JoinedDate</th>
-				<th>Password</th>
+				<th>Total_spend</th>
 				<th>Last_update</th>
 				<th>Admin Tools</th>
 			</tr>
@@ -111,28 +84,31 @@ td:first-child img {
 			for (int i = 0; i < userArray.size(); i++) {
 			%>
 			<tr>
-				<td><img alt="" src=" <%=userArray.get(i)[8]%> "></td>
+				<td><img alt="" src=" <%=userArray.get(i).getImage() %> "></td>
 
+				<td><%= userArray.get(i).getUserid() %></td>
+				<td><%= userArray.get(i).getUsername() %></td>
+				<td><%= userArray.get(i).getRole() %></td>
+				<td><%= userArray.get(i).getPhone() %></td>
+				<td><%= userArray.get(i).getEmail() %></td>
+				<td><%= userArray.get(i).getJoinedDate() %></td>
+				<td><%= userArray.get(i).getTotalspent() %></td>
+				<td><%= userArray.get(i).getLast_update() %></td>
+				
 				<%
-				for (int j = 0; j < userArray.get(i).length - 1; j++) {
-				%>
-				<td><%=userArray.get(i)[j]%></td>
-				<%
-				}
-				%>
-				<%
-				String role = userArray.get(i)[2];
+				String role = userArray.get(i).getRole();
 				String userStr = "Member";
 				if (role.equals("admin")) {
 					userStr = "Admin";
 				}
 
 				if (role.equals("user")) {
+				   session.setAttribute("tempArray", userArray);
 				%>
 				<td>
 					<form action="AdminUpdateMemberForm.jsp" method="post">
 						<button type="submit" onClick="" name="id"
-							value="<%=userArray.get(i)[0]%>"
+							value="<%=userArray.get(i).getUserid() %>"
 							style="background-color: #00FFFF">
 							Update
 							<%=userStr%>
@@ -140,7 +116,7 @@ td:first-child img {
 					</form>
 					<form action="DeleteMember.jsp" method="post">
 						<button type="submit" onClick="return confirmDelete();" name="id"
-							value="<%=userArray.get(i)[0]%>">
+							value="<%=userArray.get(i).getUserid() %>">
 							Delete
 							<%=userStr%></button>
 					</form>

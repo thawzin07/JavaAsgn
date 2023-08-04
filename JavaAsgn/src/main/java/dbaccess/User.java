@@ -7,6 +7,10 @@ Description         : JavaAsgn
 Admission no        : P2235077
 Class             : DIT/FT/2A/03
 **/
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 public class User {
 	private String username;
 	private String role;
@@ -16,9 +20,45 @@ public class User {
 	private String password;
 	private int userid;
 	private float totalspent;
+	public String getLast_update() {
+		return last_update;
+	}
+	public void setLast_update(String last_update) {
+		this.last_update = last_update;
+	}
+	
+	public User(String username , String phone , String email , String role , int userid ) {
+		this.userid = userid ;
+		this.phone = phone ;
+		this.email = email ;
+	    this.role = role ;
+	    this.username = username ;
+	}
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
 	private int addressid;
+	private String joinedDate ;
+	private String last_update ;
 	
 	
+	public float getTotalspent() {
+		return totalspent;
+	}
+	public void setTotalspent(float totalspent) {
+		this.totalspent = totalspent;
+	}
+	public String getJoinedDate() {
+		return joinedDate;
+	}
+	public void setJoinedDate(String joinedDate) {
+		this.joinedDate = joinedDate;
+	}
+	public int getAddressid() {
+		return addressid;
+	}
 	public int getUserid() {
 		return userid;
 	}
