@@ -6,13 +6,15 @@ public class PurchaseData {
 	private String username;
 	private int count;
 	private String datePurchased;
+	private float total;
 
-	public PurchaseData(int bookId,String bookName,String userName,int Count,String datepurchased) {
+	public PurchaseData(int bookId,String bookName,String userName,int Count,String datepurchased,float Total) {
 		bookid=bookId;
 		bookname=bookName;
 		username=userName;
 		count=Count;
 		datePurchased=datepurchased;
+		total=Total;
 	}
 	
 	public int getBookid() {
@@ -44,5 +46,13 @@ public class PurchaseData {
 	}
 	public void setDatePurchased(String datePurchased) {
 		this.datePurchased = datePurchased;
+	}
+
+	public float getTotal() {
+		return total;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
 	}
 }

@@ -13,6 +13,7 @@ public class Purchase {
 	 public ArrayList<PurchaseData> getAllPurchases() throws SQLException, ClassNotFoundException {
 	        Connection conn = null;
 	        ArrayList<PurchaseData> purchaseList = new ArrayList<>();
+	        float total=0;
 
 	        try {
 	            conn = DBConnection.getConnection();
@@ -29,8 +30,11 @@ public class Purchase {
 	                String username = rs.getString("username");
 	                int count = rs.getInt("count");
 	                String datePurchased = rs.getString("purchase_date");
+	                Float price=rs.getFloat("price");
+	                 total=price*count;
+	                
 
-	                PurchaseData purchaseData = new PurchaseData(bookId, bookName, username, count, datePurchased);
+	                PurchaseData purchaseData = new PurchaseData(bookId, bookName, username, count, datePurchased,total);
 	                purchaseList.add(purchaseData);
 	            }
 	        } catch (Exception e) {
