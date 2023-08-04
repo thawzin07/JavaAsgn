@@ -85,4 +85,50 @@ public class UserDB {
 
 		return isUpdated;
 	}
+	
+	public boolean deleteUser(String id) {
+
+		Connection conn = null;
+		boolean isDeleted = false;
+
+		try {
+			conn = DBConnection.getConnection();
+
+			String sqlStr = "DELETE FROM javaassignment.user WHERE id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			// set parameter value
+			pstmt.setString(1, id);
+
+			// Execute the INSERT query
+			int rowsAffected = pstmt.executeUpdate();
+			// Close resources
+			pstmt.close();
+			
+			
+			String sqlStr2 = "DELETE FROM javaassignment.cart WHERE user_id = ?";
+			PreparedStatement pstmt2 = conn.prepareStatement(sqlStr2);
+			
+			pstmt.setString(1, id);
+			
+			int rowsAffected2 = pstmt.executeUpdate();
+			
+			if (rowsAffected > 0 || rowsAffected2 > 0) {
+				// Book inserted successfully
+				isDeleted = true;
+			}
+
+		} catch (Exception e) {
+			System.out.print("..........BookDetailsDB:" + e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return isDeleted;
+	}
 }

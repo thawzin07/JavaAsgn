@@ -63,9 +63,10 @@ input[type="text"] {
 }
 </style>
 <script>
-	function goBack() {
-		history.back();
-	}
+function goBack() {
+    window.location.href = "AdminViewMembers.jsp";
+}
+
 	function reloadPage() {
 		location.reload();
 	}

@@ -114,7 +114,7 @@ td:first-child img {
 							<%=userStr%>
 						</button>
 					</form>
-					<form action="DeleteMember.jsp" method="post">
+					<form action="<%= request.getContextPath()%>/DeleteMemberServlet" method="post">
 						<button type="submit" onClick="return confirmDelete();" name="id"
 							value="<%=userArray.get(i).getUserid() %>">
 							Delete
