@@ -54,6 +54,7 @@ td:first-child img {
 </script>
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 	if (session.getAttribute("role") == null || !session.getAttribute("role").equals("admin")) {
 		response.sendRedirect("CategoryPublic.jsp?");
@@ -137,6 +138,6 @@ td:first-child img {
 		</table>
 	</div>
 
-
+<%@include file="footer.html" %>
 </body>
 </html>

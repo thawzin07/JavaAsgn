@@ -130,6 +130,7 @@ input[type="text"] {
 
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 	Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 	if (isLoggedIn == null || !isLoggedIn) {
@@ -239,5 +240,6 @@ input[type="text"] {
 	out.println("Error :" + e);
 	}
 	%>
+	<%@include file="footer.html" %>
 </body>
 </html>

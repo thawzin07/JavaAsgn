@@ -21,6 +21,7 @@ Class             : DIT/FT/2A/03
 --%>
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 	String bookId= request.getParameter("bookId");
 int bookid= Integer.parseInt(bookId);
@@ -82,5 +83,6 @@ try {
 	//session.setAttribute("userid",userid);
 	response.sendRedirect("ViewCart.jsp");
 %>
+<%@include file="footer.html" %>
 </body>
 </html>

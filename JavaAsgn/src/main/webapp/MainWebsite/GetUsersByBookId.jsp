@@ -9,7 +9,7 @@
 <title>Get Users By Book ID</title>
 </head>
 <body>
-
+<%@include file="header.html" %>
 <%String booktitle=(String)request.getAttribute("bookTitle");
  int bookid=Integer.parseInt((String)request.getParameter("bookid"));%>
 <h2>Users who bought <%=booktitle %> (Book Id=<%=bookid %>)</h2>
@@ -47,6 +47,6 @@
     </table>
 
 
-
+<%@include file="footer.html" %>
 </body>
 </html>

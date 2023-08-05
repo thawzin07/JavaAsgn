@@ -172,6 +172,7 @@ img {
 </style>
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn == null || !isLoggedIn) {
@@ -194,30 +195,59 @@ else if (message != null && message.equals("duplicate")){
 		<h1>Profile</h1>
 		<div class="form">
 			<form action="VerifyUpdateProfile.jsp">
-				<img src="<%=session.getAttribute("sessPhoto") %>"> <label
+				<img src="<%=session.getAttribute("sessPhoto") %>"> <br/>
+				<label
 					for="username">Username:</label> <input type="text" id="username"
 					name="username" value="<%= session.getAttribute("sessUsername") %>"
 					readonly onclick="enableEdit('username')"
 					oninput="validateUsername(); checkErrors()"><br> <span
 					id="username-error" class="error-message"></span><br />
+					
+					
 				<br /> <label for="phone">Phone:</label> <input type="text"
 					id="phone" name="phone"
 					value="<%= session.getAttribute("sessPhone") %>" readonly
 					onclick="enableEdit('phone')"
 					oninput="validatePhone(); checkErrors()"><br> <span
 					id="phone-error" class="error-message"></span><br />
+					
+					
 				<br /> <label for="email">Email:</label> <input type="text"
 					id="email" name="email"
 					value="<%= session.getAttribute("sessEmail") %>" readonly
 					onclick="enableEdit('email')"
 					oninput="validateEmail(); checkErrors()"><br> <span
 					id="email-error" class="error-message"></span><br />
+					
+					<br /> <label for="address">Address:</label> <input type="text"
+					id="address" name="address"
+					value="<%= session.getAttribute("address") %>" readonly
+					onclick="enableEdit('address')"><br> 
+					
+					<br /> <label for="postal">Postal:</label> <input type="text"
+					id="postal" name="postal"
+					value="<%= session.getAttribute("postal") %>" readonly
+					onclick="enableEdit('postal')"
+					oninput="validatePostalCode(); checkErrors()"><br> <span
+					id="postal-error" class="error-message"></span><br />
+					
+					
 				<br /> <label for="password">Password:</label> <input
 					type="password" id="password" name="password"
 					value="<%= session.getAttribute("sessPassword") %>" readonly
 					onclick="enableEdit('password')"
 					oninput="validatePassword(); checkErrors()"><br> <span
 					id="password-error" class="error-message"></span><br />
+					
+					
+					<br /> <label for="password">Password:</label> <input
+					type="password" id="password" name="password"
+					value="<%= session.getAttribute("sessPassword") %>" readonly
+					onclick="enableEdit('password')"
+					oninput="validatePassword(); checkErrors()"><br> <span
+					id="password-error" class="error-message"></span><br />
+					
+					
 				<br /> <label for="userID">User ID:</label> <input type="text"
 					id="userID" name="userID"
 					value="<%= session.getAttribute("sessUserID") %>" readonly><br>
@@ -226,13 +256,19 @@ else if (message != null && message.equals("duplicate")){
 					onClick="validateForm(event)" disabled>Update Profile</button>
 			</form>
 			<button class="logoutButton" onclick="logout()">Logout</button>
-			<form action="DeleteProfile.jsp" method="post">
+			<form action="<%= request.getContextPath() %>/DeleteProfileServlet" method="post">
 				<button type="submit" onClick="return confirmDelete();" name="id"
 					value="<%= session.getAttribute("sessUserID") %>">Delete
 					Profile</button>
 			</form>
+			
+			<form action="<%= request.getContextPath() %>/GetPurchaseHistoryServlet" method="post">
+			<input type="hidden" name="userid" value="<%= session.getAttribute("sessUserID")%>">
+			<input type="submit" name="Purchase History">
+			</form>
 
 		</div>
 	</div>
+	<%@include file="footer.html" %>
 </body>
 </html>

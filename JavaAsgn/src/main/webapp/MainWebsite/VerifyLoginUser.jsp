@@ -46,7 +46,7 @@ String pwd=request.getParameter("password");
           // Step 4: Create Statement object
           Statement stmt = conn.createStatement();
           // Step 5: Execute SQL Command
-          String sqlStr = "SELECT * FROM user WHERE username=? and password=?";  
+          String sqlStr = "SELECT * , a.residential, a.postal FROM user, address a WHERE username=? and password=? and a.id=user.address_id";  
         //  String rownum="SELECT ROW_NUMBER() OVER () as row_number * FROM member";
         System.out.println(sqlStr);
         PreparedStatement pstmt=conn.prepareStatement(sqlStr);
@@ -68,6 +68,8 @@ String pwd=request.getParameter("password");
         	session.setAttribute("sessUserID",id);
         	session.setAttribute("sessPhoto",profilePhoto);
         	session.setAttribute("role", rs.getString("role"));
+        	session.setAttribute("address",rs.getString("residential"));
+        	session.setAttribute("postal",rs.getString("postal"));
         	
         	
         	

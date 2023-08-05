@@ -220,18 +220,54 @@ public class UserDAO {
 		
 		return nrow;
 	}
-	public int deleteUser(int userid) throws SQLException, ClassNotFoundException {
-
+	public int deleteUser(int userId) throws SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    int nrow = 0;
-	    
+
 	    try {
 	        conn = DBConnection.getConnection();
-	        String sqlStr = "DELETE FROM user WHERE id=?";
-	        PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-	        pstmt.setInt(1, userid);
-	        
-	        nrow = pstmt.executeUpdate();
+
+	        // Step 1: Delete rows from the cart table for the given user_id
+	        String cartDeleteQuery = "DELETE FROM cart WHERE user_id=?";
+	        PreparedStatement cartStmt = conn.prepareStatement(cartDeleteQuery);
+	        cartStmt.setInt(1, userId);
+	        int deletedCartRows = cartStmt.executeUpdate();
+	        cartStmt.close();
+
+	        // Step 2: Delete rows from the purchase table for the given user_id
+	        String purchaseDeleteQuery = "DELETE FROM purchase WHERE user_id=?";
+	        PreparedStatement purchaseStmt = conn.prepareStatement(purchaseDeleteQuery);
+	        purchaseStmt.setInt(1, userId);
+	        int deletedPurchaseRows = purchaseStmt.executeUpdate();
+	        purchaseStmt.close();
+
+	        // Step 3: Get the address_id from the user table for the given user_id
+	        int addressId = 0;
+	        String addressIdQuery = "SELECT address_id FROM user WHERE id=?";
+	        PreparedStatement addressIdStmt = conn.prepareStatement(addressIdQuery);
+	        addressIdStmt.setInt(1, userId);
+	        ResultSet addressIdResultSet = addressIdStmt.executeQuery();
+	        if (addressIdResultSet.next()) {
+	            addressId = addressIdResultSet.getInt("address_id");
+	        }
+	        addressIdResultSet.close();
+	        addressIdStmt.close();
+
+	        // Step 4: Delete rows from the address table for the obtained address_id
+	        if (addressId > 0) {
+	            String addressDeleteQuery = "DELETE FROM address WHERE id=?";
+	            PreparedStatement addressStmt = conn.prepareStatement(addressDeleteQuery);
+	            addressStmt.setInt(1, addressId);
+	            int deletedAddressRows = addressStmt.executeUpdate();
+	            addressStmt.close();
+	        }
+
+	        // Step 5: Delete the user from the user table
+	        String userDeleteQuery = "DELETE FROM user WHERE id=?";
+	        PreparedStatement userStmt = conn.prepareStatement(userDeleteQuery);
+	        userStmt.setInt(1, userId);
+	        nrow = userStmt.executeUpdate();
+	        userStmt.close();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        System.out.println(".....deleteUser: " + e);
@@ -240,7 +276,7 @@ public class UserDAO {
 	            conn.close();
 	        }
 	    }
-	    
+
 	    return nrow;
 	}
 	

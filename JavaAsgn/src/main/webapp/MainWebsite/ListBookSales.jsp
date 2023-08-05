@@ -55,6 +55,7 @@
 </style>
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 	ArrayList<Book> books = (ArrayList<Book>) request.getAttribute("bookdata");
 	%>
@@ -90,5 +91,6 @@
 	}
 	%>
 	</div>
+	<%@include file="footer.html" %>
 </body>
 </html>

@@ -128,6 +128,7 @@ h5 {
 
 
 <body>
+<%@include file="header.html" %>
 	<button class="btn" onclick="goBack()">Go Back</button>
 	<%
 	@SuppressWarnings("unchecked")
@@ -253,7 +254,7 @@ h5 {
 		}
 		%>
 	</div>
-	
+	<%@include file="footer.html" %>
 
 </body>
 </html>

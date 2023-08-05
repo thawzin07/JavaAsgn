@@ -118,6 +118,7 @@ h5 {
     }
 </script>
 <body>
+<%@include file="header.html" %>
     <button class="btn" onclick="goBack()">Go Back</button>
     <%   
         Book book = (Book) session.getAttribute("searchresult");
@@ -167,5 +168,6 @@ h5 {
     <%
     }
     %>
+    <%@include file="footer.html" %>
 </body>
 </html>

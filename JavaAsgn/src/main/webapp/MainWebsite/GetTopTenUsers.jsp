@@ -15,6 +15,7 @@ function goBack() {
 </script>
 </head>
 <body>
+<%@include file="header.html" %>
 <% if (request.getAttribute("toptenusers") != null) { %>
         <%-- Fetch data and calculate total price from the request attributes --%>
         <% ArrayList<User> toptenusers = (ArrayList<User>) request.getAttribute("toptenusers"); %>
@@ -48,6 +49,6 @@ function goBack() {
       
         
     </table>
-
+<%@include file="footer.html" %>
 </body>
 </html>

@@ -10,7 +10,7 @@
     
 </head>
 <body>
-
+<%@include file="header.html" %>
     <% // Fetch data and calculate total price
         ArrayList<PurchaseItem> purchasedItems = new ArrayList<>();
    
@@ -121,6 +121,6 @@
     <input type="submit" name="Submit">
     </form>
     
-    
+    <%@include file="footer.html" %>
 </body>
 </html>

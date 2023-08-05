@@ -179,7 +179,7 @@ table td button:last-child {
 
 </head>
 <body>
-
+<%@include file="header.html" %>
 	<%
 	
 	//---------------START - initialisation of variables--------------------
@@ -369,6 +369,7 @@ table td button:last-child {
 		</div>
 
 	</div>
+	<%@include file="footer.html" %>
 </body>
 
 </html>

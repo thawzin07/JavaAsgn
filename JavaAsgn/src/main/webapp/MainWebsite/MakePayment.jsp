@@ -79,6 +79,7 @@ img {
 
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn == null || !isLoggedIn) {
@@ -222,6 +223,6 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
     <button type="button" name="creditCardForm" onClick="showCreditCardForm()">Credit Card</button>
 
 
-
+<%@include file="footer.html" %>
 </body>
 </html>

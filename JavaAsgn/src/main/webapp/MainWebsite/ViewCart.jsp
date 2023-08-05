@@ -110,6 +110,7 @@ img {
 </style>
 </head>
 <body>
+<%@include file="header.html" %>
 	<%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn == null || !isLoggedIn) {
@@ -205,6 +206,6 @@ if (isLoggedIn == null || !isLoggedIn) {
 <p>
     Total price : <%=total %>
 </p>
-		
+		<%@include file="footer.html" %>
 </body>
 </html>

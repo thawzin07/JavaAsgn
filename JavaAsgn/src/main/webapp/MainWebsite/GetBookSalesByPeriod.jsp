@@ -15,6 +15,7 @@ function goBack() {
 </script>
 </head>
 <body>
+<%@include file="header.html" %>
 <button onClick="goBack()">Go Back</button>     
  <% if (request.getAttribute("purchasedItems") != null) { %>
         <%-- Fetch data and calculate total price from the request attributes --%>
@@ -50,5 +51,6 @@ function goBack() {
             <% } %>
         </table>
     <% } %>
+    <%@include file="footer.html" %>
 </body>
 </html>

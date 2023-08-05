@@ -111,6 +111,7 @@ function goBack() {
 
 </head>
 <body>
+<%@include file="header.html" %>
 	<button type="button" class="goBack" onclick="goBack()">Go
 		Back</button>
 
@@ -154,6 +155,7 @@ function goBack() {
 		</form>
 
 	</div>
+	<%@include file="footer.html" %>
 </body>
 
 

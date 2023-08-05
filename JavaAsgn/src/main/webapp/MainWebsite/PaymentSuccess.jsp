@@ -7,6 +7,9 @@
 <title>Payment Success</title>
 </head>
 <body>
+<%@include file="header.html" %>
+<h2>Payment Success!</h2>
+<%@include file="footer.html" %>
 
 </body>
 </html>

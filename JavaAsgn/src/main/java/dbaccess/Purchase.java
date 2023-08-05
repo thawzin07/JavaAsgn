@@ -55,6 +55,50 @@ public class Purchase {
 	        return purchaseList;
 	    }
 	 
+	 public ArrayList<PurchaseItem> getAllPurchasesByUserId(int userid) throws SQLException, ClassNotFoundException {
+	        Connection conn = null;
+	        ArrayList<PurchaseItem> purchaseList = new ArrayList<>();
+	        PurchaseItem purchaseBean=null;
+	       
+
+	        try {
+	            conn = DBConnection.getConnection();
+	            String sqlSelect = "SELECT p.book_id, b.title AS book_name, b.price, p.count, p.purchased_date "
+	            	    + "FROM purchase p "
+	            	    + "JOIN book b ON p.book_id = b.id "
+	            	    + "JOIN user u ON p.user_id = u.id "
+	            	    + "WHERE p.user_id = ?";
+	            PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
+	            selectStmt.setInt(1, userid);
+	            ResultSet rs = selectStmt.executeQuery();
+
+	            while (rs.next()) {
+	            	purchaseBean = new PurchaseItem();
+					purchaseBean.setBookid(Integer.parseInt(rs.getString("book_id")));
+					purchaseBean.setBookname(rs.getString("book_name"));
+					purchaseBean.setPrice(rs.getFloat("price"));
+					
+					//System.out.print(rs.getFloat("price"));
+					purchaseBean.setCount(rs.getInt("count"));
+					purchaseBean.setDatePurchased(rs.getString("purchased_date"));
+					
+	                
+	                
+
+	              
+	                purchaseList.add(purchaseBean);
+	                //System.out.println("purchaseList size: " + purchaseList.size()); 
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        }
+	        System.out.print("purchaseList"+purchaseList);
+	        return purchaseList;
+	    }
 	 public ArrayList<PurchaseItem> getPurchaesByPeriod(String datefrom, String dateto) throws SQLException, ClassNotFoundException {
 	        Connection conn = null;
 	        ArrayList<PurchaseItem> purchaseList = new ArrayList<>();
@@ -130,6 +174,7 @@ public class Purchase {
 	        return totalPrice;
 	    }
 	
+	 
 	public void insertPurchaseRecord(int userid,float total) throws SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    int book_id = 0;
