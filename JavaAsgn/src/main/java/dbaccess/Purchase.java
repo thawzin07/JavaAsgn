@@ -214,10 +214,11 @@ public class Purchase {
 	            insertStmt.setString(4, datePurchased);
 	            nrow = insertStmt.executeUpdate();
 	            
-	            String updateQty="UPDATE book SET quantity=quantity-? WHERE id=?";
+	            String updateQty="UPDATE book SET quantity=quantity-? ,sold_count=sold_count+? WHERE id=?";
 	            PreparedStatement qtyStmt=conn.prepareStatement(updateQty);
 	            qtyStmt.setInt(1, count);
-	            qtyStmt.setInt(2, book_id);
+	            qtyStmt.setInt(2, count);
+	            qtyStmt.setInt(3, book_id);
 	            qtyStmt.executeUpdate();
 	        }
 
