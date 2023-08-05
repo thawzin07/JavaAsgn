@@ -44,38 +44,43 @@ public class BookInventoryReportTPServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         Client client = ClientBuilder.newClient();
-        String restUrl = "http://localhost:8081/bookshopws/ListTopSales";
-        WebTarget target = client.target(restUrl);
-        Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
-        Response resp = invocationBuilder.get();
-        System.out.println("status: " + resp.getStatus());
+        String restUrlTopSales = "http://localhost:8081/bookshopws/ListTopSales";
+        String restUrlLeastSales = "http://localhost:8081/bookshopws/ListLeastSales";
+        String restUrlLowStock = "http://localhost:8081/bookshopws/ListLowStocks";
 
-        if (resp.getStatus() == Response.Status.OK.getStatusCode()) {
-            System.out.println("success");
+        WebTarget targetTopSales = client.target(restUrlTopSales);
+        WebTarget targetLeastSales = client.target(restUrlLeastSales);
+        WebTarget targetLowStock = client.target(restUrlLowStock);
 
-            ArrayList<Book> bookal = resp.readEntity(new GenericType<ArrayList<Book>>() {});
-            ArrayList<Book> bookal2 = new ArrayList<>();
-            ArrayList<Book> bookal3 = new ArrayList<>();
+        Invocation.Builder invocationBuilderTopSales = targetTopSales.request(MediaType.APPLICATION_JSON);
+        Invocation.Builder invocationBuilderLeastSales = targetLeastSales.request(MediaType.APPLICATION_JSON);
+        Invocation.Builder invocationBuilderLowStock = targetLowStock.request(MediaType.APPLICATION_JSON);
 
-            try {
-                
-                BookDB bdb = new BookDB();
-                 bookal2 = bdb.listLeastSales();
-                 bookal3 = bdb.listLowStock();
+        Response respTopSales = invocationBuilderTopSales.get();
+        Response respLeastSales = invocationBuilderLeastSales.get();
+        Response respLowStock = invocationBuilderLowStock.get();
 
-                request.setAttribute("topsales", bookal);
-                request.setAttribute("leastsales", bookal2);
-                request.setAttribute("lowstock", bookal3);
+        System.out.println("status: " + respTopSales.getStatus());
+        System.out.println("status: " + respLeastSales.getStatus());
+        System.out.println("status: " + respLowStock.getStatus());
 
-                String url = "ThirdParty/BookInventoryReportTp.jsp";
+        if (respTopSales.getStatus() == Response.Status.OK.getStatusCode() &&
+            respLeastSales.getStatus() == Response.Status.OK.getStatusCode() &&
+            respLowStock.getStatus() == Response.Status.OK.getStatusCode()) {
+            
+            ArrayList<Book> bookal = respTopSales.readEntity(new GenericType<ArrayList<Book>>() {});
+            ArrayList<Book> bookal2 = respLeastSales.readEntity(new GenericType<ArrayList<Book>>() {});
+            ArrayList<Book> bookal3 = respLowStock.readEntity(new GenericType<ArrayList<Book>>() {});
 
-                // Forward the request to the JSP
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
+            request.setAttribute("topsales", bookal);
+            request.setAttribute("leastsales", bookal2);
+            request.setAttribute("lowstock", bookal3);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String url = "ThirdParty/BookInventoryReportTp.jsp";
+
+            // Forward the request to the JSP
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
 
         } else {
             System.out.println("failed");
