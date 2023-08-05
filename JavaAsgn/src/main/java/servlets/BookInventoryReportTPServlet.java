@@ -58,10 +58,10 @@ public class BookInventoryReportTPServlet extends HttpServlet {
             ArrayList<Book> bookal3 = new ArrayList<>();
 
             try {
-                // You can remove the following lines since you have already obtained the data from the response
-                // BookDB bdb = new BookDB();
-                // bookal2 = bdb.listLeastSales();
-                // bookal3 = bdb.listLowStock();
+                
+                BookDB bdb = new BookDB();
+                 bookal2 = bdb.listLeastSales();
+                 bookal3 = bdb.listLowStock();
 
                 request.setAttribute("topsales", bookal);
                 request.setAttribute("leastsales", bookal2);

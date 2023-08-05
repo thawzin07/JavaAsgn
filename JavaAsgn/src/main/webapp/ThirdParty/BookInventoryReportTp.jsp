@@ -129,7 +129,7 @@ h5 {
 
 <body>
 <%@include file="header.html" %>
-	<button class="btn" onclick="goBack()">Go Back</button>
+
 	<%
 	@SuppressWarnings("unchecked")
 	ArrayList<Book> books = (ArrayList<Book>) request.getAttribute("topsales");
@@ -141,14 +141,7 @@ h5 {
 	
 	//ArrayList<Book> books3 = (ArrayList<Book>) session.getAttribute("lowstock");
 	%>
-	<div class="search-container">
-		<form action="<%= request.getContextPath()%>/SearchBookServlet"
-			method="GET">
-			<input type="text" class="search-input" name="searchtext"
-				placeholder="Search Book by title">
-			<button type="submit" class="search-button">Search</button>
-		</form>
-	</div>
+	
 
 
 	<h2>Top 3 Selling Books</h2>
