@@ -255,6 +255,9 @@ table td button:last-child {
 					<form action="<%=request.getContextPath()%>/BookInventoryReportServlet">
 		<input type="submit" value="Sales Report">
 	</form>
+	
+		<button onClick="window.location.href='SalesManagement.jsp'">Sales Management
+				</button>
 
 					
 

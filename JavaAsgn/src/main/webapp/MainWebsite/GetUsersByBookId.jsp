@@ -1,26 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="java.util.*,dbaccess.*" %>
     
+    <%@page import="java.util.*, dbaccess.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Top Ten Users</title>
-<script>
-
-function goBack() {
-    window.location.href="SalesManagement.jsp";
-}
-</script>
+<title>Get Users By Book ID</title>
 </head>
 <body>
-<% if (request.getAttribute("toptenusers") != null) { %>
+
+<%String booktitle=(String)request.getAttribute("bookTitle");
+ int bookid=Integer.parseInt((String)request.getParameter("bookid"));%>
+<h2>Users who bought <%=booktitle %> (Book Id=<%=bookid %>)</h2>
+<% if (request.getAttribute("usersByBookId") != null) { %>
         <%-- Fetch data and calculate total price from the request attributes --%>
-        <% ArrayList<User> toptenusers = (ArrayList<User>) request.getAttribute("toptenusers"); %>
-  
-  <button onClick="goBack()">Go Back</button>     
- <h2>Top Ten Users</h2>
+        <% ArrayList<User> usersByBookId = (ArrayList<User>) request.getAttribute("usersByBookId"); %>
+       
+ 
    
 
     
@@ -29,16 +26,16 @@ function goBack() {
             <th>Username</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Total Spend</th>
+           
            
            
         </tr>
-        <% for (User user : toptenusers) { %>
+        <% for (User user : usersByBookId) { %>
         <tr>
             <td><%= user.getUsername() %></td>
             <td><%= user.getPhone() %></td>
             <td><%= user.getEmail() %></td>
-            <td><%= user.getTotalSpent() %></td>
+          
          
             
         </tr>
@@ -48,6 +45,8 @@ function goBack() {
       
         
     </table>
+
+
 
 </body>
 </html>

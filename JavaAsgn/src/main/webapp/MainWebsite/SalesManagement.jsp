@@ -111,13 +111,15 @@
        <form action="<%= request.getContextPath() %>/GetTopTenUsers" method="get">
     <h3>Get Top Ten Users</h3>
   
-  
-    
-   
-    
     <input type="submit" name="Submit">
     </form>
     
+      <form action="<%= request.getContextPath() %>/GetUsersByBookId" method="post">
+    <h3>Get Users By Book ID</h3>
+    <label for="bookid">Enter Book ID:</label>
+  <input type="text" name="bookid"><br/>
+    <input type="submit" name="Submit">
+    </form>
     
     
 </body>

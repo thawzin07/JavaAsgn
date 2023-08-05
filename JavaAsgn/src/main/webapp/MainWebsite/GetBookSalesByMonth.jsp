@@ -7,8 +7,15 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Get Books Sales By Month</title>
+<script>
+
+function goBack() {
+    window.location.href="SalesManagement.jsp";
+}
+</script>
 </head>
 <body>
+<button onClick="goBack()">Go Back</button>     
  <% if (request.getAttribute("purchasedItems") != null) { %>
         <%-- Fetch data and calculate total price from the request attributes --%>
         <% ArrayList<PurchaseItem> purchasedItems = (ArrayList<PurchaseItem>) request.getAttribute("purchasedItems"); %>
