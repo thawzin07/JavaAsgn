@@ -35,7 +35,7 @@ public class BookDB {
 				uBean.setPublication_date(rs.getString("publication_date"));
 
 				uBean.setCat_id(Integer.parseInt(rs.getString("cat_id")));
-				//uBean.setImage(rs.getString("image"));
+				uBean.setImage(rs.getString("image"));
 				uBean.setSold_count(Integer.parseInt(rs.getString("sold_count")));
 
 				books.add(uBean);
@@ -76,7 +76,7 @@ public class BookDB {
 				uBean.setPublication_date(rs.getString("publication_date"));
 
 				uBean.setCat_id(Integer.parseInt(rs.getString("cat_id")));
-				//uBean.setImage(rs.getString("image"));
+				uBean.setImage(rs.getString("image"));
 				uBean.setSold_count(Integer.parseInt(rs.getString("sold_count")));
 
 				books2.add(uBean);
@@ -117,7 +117,7 @@ public class BookDB {
 				uBean.setPublication_date(rs.getString("publication_date"));
 
 				uBean.setCat_id(Integer.parseInt(rs.getString("cat_id")));
-				//uBean.setImage(rs.getString("image"));
+				uBean.setImage(rs.getString("image"));
 				uBean.setSold_count(Integer.parseInt(rs.getString("sold_count")));
 
 				books3.add(uBean);
