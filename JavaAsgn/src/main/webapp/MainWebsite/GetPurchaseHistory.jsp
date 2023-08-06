@@ -6,9 +6,24 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<script>
+function goBack() {
+    window.location.href="MainWebsite/Profile.jsp";
+}</script>
 </head>
 <body>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+
+if (isLoggedIn == null || !isLoggedIn) {
+	
+	
+    response.sendRedirect("Login2.jsp");
+	
+}
+%>
 <%@include file="header.html" %>
+ <button onClick="goBack()">Go Back</button>  
    <h2>Purchase History</h2>
     <table border="1">
         <tr>

@@ -15,6 +15,16 @@ function goBack() {
 </script>
 </head>
 <body>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+String role=(String)session.getAttribute("role");
+if (isLoggedIn == null || !isLoggedIn) {
+	if(role!="admin")
+	{
+    response.sendRedirect("Login2.jsp");
+	}
+}
+%>
 <%@include file="header.html" %>
 <% if (request.getAttribute("toptenusers") != null) { %>
         <%-- Fetch data and calculate total price from the request attributes --%>

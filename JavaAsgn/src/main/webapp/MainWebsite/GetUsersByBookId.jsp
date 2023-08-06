@@ -9,7 +9,18 @@
 <title>Get Users By Book ID</title>
 </head>
 <body>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+String role=(String)session.getAttribute("role");
+if (isLoggedIn == null || !isLoggedIn) {
+	if(role!="admin")
+	{
+    response.sendRedirect("Login2.jsp");
+	}
+}
+%>
 <%@include file="header.html" %>
+<button onClick="goBack()">Go Back</button>   
 <%String booktitle=(String)request.getAttribute("bookTitle");
  int bookid=Integer.parseInt((String)request.getParameter("bookid"));%>
 <h2>Users who bought <%=booktitle %> (Book Id=<%=bookid %>)</h2>

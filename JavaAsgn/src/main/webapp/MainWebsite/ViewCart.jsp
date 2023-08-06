@@ -107,17 +107,45 @@ img {
 	width: 150px;
 	height: auto;
 }
+
+.checkout-button {
+    background-color: blue; 
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+}
+
+
+.checkout-button.disabled {
+    background-color: grey;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;
+}
 </style>
 </head>
 <body>
-<%@include file="header.html" %>
-	<%
+<%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn == null || !isLoggedIn) {
     response.sendRedirect("Login2.jsp");
 }
 %>
-	<button onClick="goBack()">Go Back</button>
+<%@include file="header.html" %>
+	
+<button onClick="goBack()">Go Back</button>
 	<h1>View Cart</h1>
 	
     <!--  <input type="checkbox" id="selectAll" name="selectAll" onchange="toggleSelectAll(this)">
@@ -138,6 +166,7 @@ if (isLoggedIn == null || !isLoggedIn) {
         String userIdStr = session.getAttribute("sessUserID").toString();
         int userid = Integer.parseInt(userIdStr);
     		float total=0;
+    		boolean isCartEmpty = true;
       
 
         // Step 1: Load JDBC Driver
@@ -174,6 +203,7 @@ if (isLoggedIn == null || !isLoggedIn) {
                 int bookid = rs.getInt("id");
                 int qty = rs.getInt("quantity");
                 total+=count*price;
+                 isCartEmpty = false;
              
         %>
             <tr>
@@ -200,9 +230,8 @@ if (isLoggedIn == null || !isLoggedIn) {
 </form>
 
 <form action="MakePayment.jsp" method="post">
-    <button class="blue-button" type="submit" onClick="submitCheckoutForm()">Checkout</button>
+    <button class="<% if (isCartEmpty) { %> checkout-button disabled <% } else { %> checkout-button <% } %>" type="submit" onClick="submitCheckoutForm()" <% if (isCartEmpty) { %> disabled <% } %>>Checkout</button>
 </form>
-
 <p>
     Total price : <%=total %>
 </p>

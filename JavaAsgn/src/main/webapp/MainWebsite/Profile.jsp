@@ -40,7 +40,7 @@ Class             : DIT/FT/2A/03
     }
 
     function goBack() {
-        window.history.back();
+    	  window.location.href = "CategoryPublic.jsp";
     }
     
     function logout() {
@@ -264,7 +264,7 @@ else if (message != null && message.equals("duplicate")){
 			
 			<form action="<%= request.getContextPath() %>/GetPurchaseHistoryServlet" method="post">
 			<input type="hidden" name="userid" value="<%= session.getAttribute("sessUserID")%>">
-			<input type="submit" name="Purchase History">
+			<input type="submit" value="Purchase History">
 			</form>
 
 		</div>

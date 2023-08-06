@@ -15,6 +15,16 @@ function goBack() {
 </script>
 </head>
 <body>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+String role=(String)session.getAttribute("role");
+if (isLoggedIn == null || !isLoggedIn) {
+	if(role!="admin")
+	{
+    response.sendRedirect("Login2.jsp");
+	}
+}
+%>
 <%@include file="header.html" %>
 <button onClick="goBack()">Go Back</button>     
  <% if (request.getAttribute("purchasedItems") != null) { %>

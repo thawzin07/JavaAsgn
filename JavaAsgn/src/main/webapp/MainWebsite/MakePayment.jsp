@@ -79,21 +79,21 @@ img {
 
 </head>
 <body>
-<%@include file="header.html" %>
-	<%
-Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+<%Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
 if (isLoggedIn == null || !isLoggedIn) {
     response.sendRedirect("Login2.jsp");
-}
+} %>
+<%@include file="header.html" %>
+	<%
+
 
 // Replace these variables with your sandbox merchant account credentials
 String merchantEmail = "sb-5rg1f15257391@business.example.com";
-String currencyCode = "SGD"; // Change this to the appropriate currency code
-String returnURL = "http://localhost:8080/JavaAsgn/MainWebsite/PaymentSuccess.jsp"; // Replace with your success page URL
-String cancelURL = "http://localhost:8080/JavaAsgn/MainWebsite/ViewCart.jsp"; // Replace with your cancel page URL
+String currencyCode = "SGD"; 
+String returnURL = "http://localhost:8080/JavaAsgn/MainWebsite/PaymentSuccess.jsp"; 
+String cancelURL = "http://localhost:8080/JavaAsgn/MainWebsite/ViewCart.jsp";
 
-// Total amount to be paid (you can fetch this from your backend)
-double totalAmount = 100.0; // Replace with the total amount to be paid
+
 
 // PayPal sandbox endpoint
 String paypalEndpoint = "https://api.sandbox.paypal.com";
@@ -174,24 +174,26 @@ String paypalEndpoint = "https://api.sandbox.paypal.com";
     </table> 
     <p>Total Price: <%=total %></p>
      
+<label for="address">Address:</label>
+<input type="text" name="address" value="${address}" disabled /><br>
 
-<input type="text" name="address" value="${address}" disabled />
-<input type="text" name="postal" value="${postal}" disabled />
+<label for="address">Postal:</label>
+<input type="text" name="postal" value="${postal}" disabled /><br>
 
  <form id="paypalForm" action="<%= paypalEndpoint %>" method="post">
         <!-- Required PayPal parameters for Buy Now button -->
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="<%= merchantEmail %>">
         <input type="hidden" name="item_name" value="Your Item Name">
-        <input type="hidden" name="amount" value="<%= totalAmount %>">
+        <input type="hidden" name="amount" value="<%= total %>">
         <input type="hidden" name="currency_code" value="<%= currencyCode %>">
         <input type="hidden" name="return" value="<%= returnURL %>">
         <input type="hidden" name="cancel_return" value="<%= cancelURL %>">
 
        
   
-
-        <input type="button" name="submit" onClick="buyNow()">
+		
+        <input type="submit" name="PayPal" onClick="buyNow()">
     </form>
     
     <!-- Credit Card form -->

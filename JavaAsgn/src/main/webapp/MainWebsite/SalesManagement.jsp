@@ -10,14 +10,13 @@
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="#">Sales Of Books</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Purchased Items</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Get Purchase Data By Period</a></li>
-            <!-- Add other navigation items as needed -->
-        </ul>
-    </nav>
+<%
+Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
+if (isLoggedIn == null || !isLoggedIn) {
+    response.sendRedirect("Login2.jsp");
+}
+%>
+  
 <%@include file="header.html" %>
     <% // Fetch data and calculate total price
         ArrayList<PurchaseItem> purchasedItems = new ArrayList<>();

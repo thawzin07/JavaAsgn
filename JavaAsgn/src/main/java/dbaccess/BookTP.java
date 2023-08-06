@@ -26,6 +26,10 @@ public class BookTP {
 		image=img;
 		sold_count=soldcount;
 	}
+	public BookTP() {
+		
+	}
+	
 	
 	
      

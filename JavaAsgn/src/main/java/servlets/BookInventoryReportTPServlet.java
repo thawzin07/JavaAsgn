@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -41,48 +41,65 @@ public class BookInventoryReportTPServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        Client client = ClientBuilder.newClient();
-        String restUrl = "http://localhost:8081/bookshopws/ListTopSales";
-        WebTarget target = client.target(restUrl);
-        Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
-        Response resp = invocationBuilder.get();
-        System.out.println("status: " + resp.getStatus());
+    	   PrintWriter out = response.getWriter();
+    	    Client client = ClientBuilder.newClient();
+    	    HttpSession session=request.getSession();
 
-        if (resp.getStatus() == Response.Status.OK.getStatusCode()) {
-            System.out.println("success");
+    	    // Call the first web service to get topsales
+    	    String restUrlTopSales = "http://localhost:8081/bookshopws/ListTopSales";
+    	    WebTarget targetTopSales = client.target(restUrlTopSales);
+    	    Invocation.Builder invocationBuilderTopSales = targetTopSales.request(MediaType.APPLICATION_JSON);
+    	    Response respTopSales = invocationBuilderTopSales.get();
 
-            ArrayList<Book> bookal = resp.readEntity(new GenericType<ArrayList<Book>>() {});
-            //ArrayList<Book> bookal2 = new ArrayList<>();
-            //ArrayList<Book> bookal3 = new ArrayList<>();
+    	    // Call the second web service to get leastsales
+    	    String restUrlLeastSales = "http://localhost:8081/bookshopws/ListLeastSales";
+    	    WebTarget targetLeastSales = client.target(restUrlLeastSales);
+    	    Invocation.Builder invocationBuilderLeastSales = targetLeastSales.request(MediaType.APPLICATION_JSON);
+    	    Response respLeastSales = invocationBuilderLeastSales.get();
 
-            try {
-                // You can remove the following lines since you have already obtained the data from the response
-                // BookDB bdb = new BookDB();
-                // bookal2 = bdb.listLeastSales();
-                // bookal3 = bdb.listLowStock();
+    	    // Call the third web service to get lowstock
+    	    String restUrlLowStock = "http://localhost:8081/bookshopws/ListLowStocks";
+    	    WebTarget targetLowStock = client.target(restUrlLowStock);
+    	    Invocation.Builder invocationBuilderLowStock = targetLowStock.request(MediaType.APPLICATION_JSON);
+    	    Response respLowStock = invocationBuilderLowStock.get();
 
-                request.setAttribute("topsales", bookal);
-                //request.setAttribute("leastsales", bookal2);
-                //request.setAttribute("lowstock", bookal3);
+    	    System.out.println("topsales status: " + respTopSales.getStatus());
+    	    System.out.println("leastsales status: " + respLeastSales.getStatus());
+    	    System.out.println("lowstock status: " + respLowStock.getStatus());
 
-                String url = "ThirdParty/BookInventoryReportTp.jsp";
+    	    if (respTopSales.getStatus() == Response.Status.OK.getStatusCode() &&
+    	        respLeastSales.getStatus() == Response.Status.OK.getStatusCode() &&
+    	        respLowStock.getStatus() == Response.Status.OK.getStatusCode()) {
 
-                // Forward the request to the JSP
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
+    	        System.out.println("success");
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    	        ArrayList<Book> bookal = respTopSales.readEntity(new GenericType<ArrayList<Book>>() {});
+    	        ArrayList<Book> bookal2 = respLeastSales.readEntity(new GenericType<ArrayList<Book>>() {});
+    	        ArrayList<Book> bookal3 = respLowStock.readEntity(new GenericType<ArrayList<Book>>() {});
 
-        } else {
-            System.out.println("failed");
-            String url = "ThirdParty/error.jsp";
-            request.setAttribute("err", "Not Found");
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-        }
+    	        try {
+    	            session.setAttribute("topsales", bookal);
+    	            session.setAttribute("leastsales", bookal2);
+    	            session.setAttribute("lowstock", bookal3);
+
+    	            String url = "ThirdParty/BookInventoryReportTp.jsp";
+
+    	            // Forward the request to the JSP
+    	            //RequestDispatcher rd = request.getRequestDispatcher(url);
+    	            //rd.forward(request, response);
+    	            response.sendRedirect(url);
+
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	    } else {
+    	        System.out.println("failed");
+    	        String url = "ThirdParty/error.jsp";
+    	        request.setAttribute("err", "Not Found");
+    	        RequestDispatcher rd = request.getRequestDispatcher(url);
+    	        rd.forward(request, response);
+    	    }
     }
 
 	/**
