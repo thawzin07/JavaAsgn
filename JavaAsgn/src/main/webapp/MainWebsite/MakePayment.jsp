@@ -11,6 +11,10 @@
 <title>Make Payment</title>
 <script src="inputvalidation.js"></script>
 <script>
+function goBack(){
+	window.location.href="MainWebsite/ViewCart.jsp";
+	
+}
 function buyNow() {
     // Get the PayPal form element
     var paypalForm = document.getElementById('paypalForm');
@@ -84,6 +88,8 @@ if (isLoggedIn == null || !isLoggedIn) {
     response.sendRedirect("Login2.jsp");
 } %>
 <%@include file="header.html" %>
+<button onClick="goBack()">Go Back</button>  
+
 	<%
 
 

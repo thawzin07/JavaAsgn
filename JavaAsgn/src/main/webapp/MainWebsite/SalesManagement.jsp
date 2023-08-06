@@ -5,10 +5,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="ISO-8859-1">
     <title>Sales Management</title>
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
+function goBack(){
+	window.location.href="AdminLanding.jsp";
+}
+</script>
+
 </head>
+
 <body>
 <%
 Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
@@ -18,6 +26,7 @@ if (isLoggedIn == null || !isLoggedIn) {
 %>
   
 <%@include file="header.html" %>
+<button onClick="goBack()">Go Back</button>  
     <% // Fetch data and calculate total price
         ArrayList<PurchaseItem> purchasedItems = new ArrayList<>();
    

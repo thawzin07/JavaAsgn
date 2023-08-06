@@ -10,7 +10,7 @@
 <script>
 
 function goBack() {
-    window.location.href="SalesManagement.jsp";
+	  window.location.href="MainWebsite/SalesManagement.jsp";
 }
 </script>
 </head>

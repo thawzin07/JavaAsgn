@@ -7,6 +7,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Get Users By Book ID</title>
+<script>
+
+function goBack(){
+	  window.location.href="MainWebsite/SalesManagement.jsp";
+}
+</script>
 </head>
 <body>
 <%
