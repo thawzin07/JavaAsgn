@@ -46,7 +46,8 @@ public class CreateBookServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		PrintWriter out = response.getWriter() ;
-		final String UPLOAD_DIRECTORY = "C:/Users/thawz/git/JavaAsgn/JavaAsgn/src/main/webapp/Graphics/";
+		//final String UPLOAD_DIRECTORY = "C:/Users/thawz/git/JavaAsgn/JavaAsgn/src/main/webapp/Graphics/";
+		final String UPLOAD_DIRECTORY="C:/Users/Ren/eclipse-workspace/JavaAsgn/JavaAsgn/src/main/webapp/Graphics/";
 		
 		String  isbn , title , author , price , publisher , publication_date, quantity , cat_id ;
 		try {
@@ -60,6 +61,7 @@ public class CreateBookServlet extends HttpServlet {
 			cat_id = request.getParameter("cat_id");
 			quantity = request.getParameter("quantity");
 			publication_date = request.getParameter("publication_date");
+			
 			
 			// Handling the image upload
 	        Part imagePart = request.getPart("image");

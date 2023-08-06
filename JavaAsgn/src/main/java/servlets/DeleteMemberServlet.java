@@ -36,19 +36,22 @@ public class DeleteMemberServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 
-		boolean isDeleted = false ;
+boolean isDeleted = false ;
 		
 		try {
 			String id = request.getParameter("id");
 			
-			
+			UserDB bdb = new UserDB();
+			isDeleted = bdb.deleteUser(id);
 			
 			request.setAttribute("isDeleted", isDeleted);
 			
 			
-			
+			HttpSession session = request.getSession();
+
+			session.setAttribute("role" , "admin");
 			 // Get a reference to the RequestDispatcher
-		    RequestDispatcher dispatcher = request.getRequestDispatcher("ThirdParty/DeleteBookTp");
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewMemberServlet");
 		    
 		    // Forward the request to the SecondServlet
 		    dispatcher.forward(request, response);

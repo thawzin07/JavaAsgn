@@ -94,6 +94,16 @@ public class CreateBookTpServlet extends HttpServlet {
 	                quantity = 1; 
 	            }
 	        }
+	        
+	       String isbnStr="";
+	        if (isbn != null && !isbn.isEmpty()) {
+	            try {
+	                isbnStr = isbn;
+	            } catch (Exception e) {
+	                
+	                isbnStr = "123"; 
+	            }
+	        }
 
 	        double price = 1;
 	        if (priceStr != null && !priceStr.isEmpty()) {
@@ -117,7 +127,7 @@ public class CreateBookTpServlet extends HttpServlet {
 	        }
 	        
 	        
-	        BookTP book = new BookTP(isbn , title , author , publisher, quantity , price , publication_date , cat_id ,storeFileName,sold_count) ;
+	        BookTP book = new BookTP(isbnStr , title , author , publisher, quantity , price , publication_date , cat_id ,storeFileName,sold_count) ;
 	        
 	        String restUrl = "http://localhost:8081/bookshopws/createBook";
 	        Client client = ClientBuilder.newClient();
