@@ -1,228 +1,138 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@page import="java.util.Arrays" %>
-    <%@ page import="java.sql.*"%>
-    <%@page import="dbaccess.*" %>
-    
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*, dbaccess.*" %>
+<%@ page import="java.sql.*" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Make Payment</title>
-<script src="inputvalidation.js"></script>
-<script>
-function buyNow() {
-    // Get the PayPal form element
-    var paypalForm = document.getElementById('paypalForm');
-
-    // Submit the form to redirect the user to PayPal payment page
-    paypalForm.submit();
-}
-
-function showCreditCardForm() {
-    // Get the credit card form element
-    var creditCardForm = document.getElementById('creditCardForm');
-    
-    // Display the credit card form
-    creditCardForm.style.display = 'block';
-}
-
-function checkErrors() {
-    var errorMessages = document.querySelectorAll(".error-message");
-    var submitButton = document.getElementById("submitButton");
-    
-    for (var i = 0; i < errorMessages.length; i++) {
-        if (errorMessages[i].innerText !== "") {
-            submitButton.disabled = true;
-            submitButton.classList.add("disabled");
-            return;
-        }
-    }
-    
-    submitButton.disabled = false;
-    submitButton.classList.remove("disabled");
-}
-
-</script>
-<style>
-.container {
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-}
-
-body {
-	background-color: #E8DFDF;
-}
-
-img {
-	width: 150px;
-	height: auto;
-}
-#creditCardForm {
-    display: none;
-}
-
-.creditCardBtn {
-    display: none;
-}
-.error-message {
-	position: relative;
-	color: red;
-	font-size: 12px;
-	bottom: -20px;
-}
-
-</style>
-
+    <meta charset="ISO-8859-1">
+    <title>Sales Management</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="#">Sales Of Books</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Purchased Items</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Get Purchase Data By Period</a></li>
+            <!-- Add other navigation items as needed -->
+        </ul>
+    </nav>
 <%@include file="header.html" %>
-	<%
-Boolean isLoggedIn = (Boolean) session.getAttribute("isLoggedIn");
-if (isLoggedIn == null || !isLoggedIn) {
-    response.sendRedirect("Login2.jsp");
-}
+    <% // Fetch data and calculate total price
+        ArrayList<PurchaseItem> purchasedItems = new ArrayList<>();
+   
+        float grandTotal = 0;
 
-// Replace these variables with your sandbox merchant account credentials
-String merchantEmail = "sb-5rg1f15257391@business.example.com";
-String currencyCode = "SGD"; // Change this to the appropriate currency code
-String returnURL = "http://localhost:8080/JavaAsgn/MainWebsite/PaymentSuccess.jsp"; // Replace with your success page URL
-String cancelURL = "http://localhost:8080/JavaAsgn/MainWebsite/ViewCart.jsp"; // Replace with your cancel page URL
-
-// Total amount to be paid (you can fetch this from your backend)
-double totalAmount = 100.0; // Replace with the total amount to be paid
-
-// PayPal sandbox endpoint
-String paypalEndpoint = "https://api.sandbox.paypal.com";
-
-%>
-<h1>Make Payment</h1>
-    
-   <table border="1">
-        <tr> 
-           
-            <th>Title</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Qty</th>
-           
-        </tr>
-
-        <%
-        String userIdStr = session.getAttribute("sessUserID").toString();
-        int userid = Integer.parseInt(userIdStr);
-    		float total=0;
       
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sqlSelect = "SELECT p.book_id, b.title AS book_name, b.price, u.username, p.count, p.purchased_date "
+                    + "FROM purchase p JOIN book b ON p.book_id = b.id JOIN user u ON p.user_id = u.id";
+            PreparedStatement selectStmt = conn.prepareStatement(sqlSelect);
+            ResultSet rs = selectStmt.executeQuery();
+            
+          
+            
 
-        // Step 1: Load JDBC Driver
-        Class.forName("com.mysql.jdbc.Driver");
-
-        // Step 2: Define Connection URL
-        String connURL = "jdbc:mysql://localhost/javaassignment?user=root&password=root1234&serverTimezone=UTC";
-
-        // Step 3: Establish connection to URL
-        Connection conn = DriverManager.getConnection(connURL);
-
-        // Step 4: Create PreparedStatement object
-        String sqlStr = "SELECT b.title, b.id, b.price, b.quantity, b.image, b.quantity, c.count " +
-                "FROM cart c " +
-                "JOIN book b ON c.book_id = b.id " +
-                "WHERE c.user_id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-        pstmt.setInt(1, userid);
-
-        // Step 5: Execute the query to fetch cart items for the specific user
-        ResultSet rs = pstmt.executeQuery();
-        if (!rs.next()) {
-        %>
-            <tr>
-                <td colspan="3">Your cart is empty.</td>
-            </tr>
-        <%
-        } else {
-            do {
-                String title = rs.getString("title");
-                float price = rs.getFloat("price");
-                String image = rs.getString("image");
-                int count = rs.getInt("count");
-                int bookid = rs.getInt("id");
-                int qty = rs.getInt("quantity");
-                total+=count*price;
-             
-        %>
-            <tr>
-                
-                <td><%= title %></td>
-                <td>$<%= price %></td>
-                <td><img src="<%= image %>" alt="Book Cover"></td>
-                <td>
-                    <input type="number" name="quantity_<%= bookid %>" value="<%= count %>" disabled >
-                </td>
-                
-               
-            </tr>
-        <%
-            } while (rs.next());
+            while (rs.next()) {
+                PurchaseItem purchaseBean = new PurchaseItem();
+                purchaseBean.setBookid(Integer.parseInt(rs.getString("book_id")));
+                purchaseBean.setBookname(rs.getString("book_name"));
+                purchaseBean.setUsername(rs.getString("username"));
+                purchaseBean.setCount(rs.getInt("count"));
+                purchaseBean.setDatePurchased(rs.getString("purchased_date"));
+				float price=rs.getFloat("price");
+				int count=rs.getInt("count");
+				float total=price*count;
+				grandTotal+=total;
+                purchasedItems.add(purchaseBean);
+            }
+            rs.close();
+            selectStmt.close();
+            conn.close();
+            
+            
+           
+          
+           
+           
+           
+          
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    %>
 
-        // Step 6: Close connection
-        conn.close();
-        %>
-    </table> 
-    <p>Total Price: <%=total %></p>
-     
 
-<input type="text" name="address" value="${address}" disabled />
-<input type="text" name="postal" value="${postal}" disabled />
+    <div class="container mt-4">
+        <h2>Sales Of Books</h2>
+        <p>Total Price of All Purchases: $<%= grandTotal %></p>
 
- <form id="paypalForm" action="<%= paypalEndpoint %>" method="post">
-        <!-- Required PayPal parameters for Buy Now button -->
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="<%= merchantEmail %>">
-        <input type="hidden" name="item_name" value="Your Item Name">
-        <input type="hidden" name="amount" value="<%= totalAmount %>">
-        <input type="hidden" name="currency_code" value="<%= currencyCode %>">
-        <input type="hidden" name="return" value="<%= returnURL %>">
-        <input type="hidden" name="cancel_return" value="<%= cancelURL %>">
+        <h3>Purchased Items</h3>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                    <th>Username</th>
+                    <th>Count</th>
+                    <th>Date Purchased</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (PurchaseItem item : purchasedItems) { %>
+                    <tr>
+                        <td><%= item.getBookid() %></td>
+                        <td><%= item.getBookname() %></td>
+                        <td><%= item.getUsername() %></td>
+                        <td><%= item.getCount() %></td>
+                        <td><%= item.getDatePurchased() %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
 
-       
-  
-
-        <input type="button" name="submit" onClick="buyNow()">
+        <!-- Add the forms for other functionalities as needed -->
+        <form action="<%= request.getContextPath() %>/GetBookSalesByPeriod" method="post">
+            <h3>Get Purchase Data By Period</h3>
+            <div class="form-group">
+                <label for="datefrom">Date From: (Example: 2023-08-04)</label>
+                <input type="text" class="form-control" name="datefrom">
+            </div>
+            <div class="form-group">
+                <label for="dateto">Date To: (Example: 2023-08-04)</label>
+                <input type="text" class="form-control" name="dateto">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    
+      <form action="<%= request.getContextPath() %>/GetBookSalesByMonth" method="post">
+    <h3>Get Purchase Data By Month</h3>
+    <label for="month">Month: (Example: 08)</label> <br/>
+    <input type="text" name="month"><br/>
+    
+   
+    
+    <input type="submit" name="Submit">
     </form>
     
-    <!-- Credit Card form -->
-    <form id="creditCardForm" action="<%= request.getContextPath() %>/MakePaymentServlet" method="post">
-        <h2>Credit Card Payment</h2>
-        <input type="hidden" name="total" value="<%=total %>">
-         <input type="hidden" name="userid" value="<%= userid %>">
-        
-        <label for="cardNumber">Card Number:</label><br/>
-        <input type="text" id="cardNumber" name="cardNumber"  oninput="validateCardNumber(); checkErrors()"><br/>
-        <span id="cardnumber-error" class="error-message"></span> <br />
-        
-        <label for="cardholder">Card Holder Name:</label><br/>
-        <input type="text" id="cardholder" name="cardholder"  oninput="validateCardholder(); checkErrors()"><br/>
-         <span id="cardholder-error" class="error-message"></span> <br />
-         
-        <label for="expirydate">Expiry Date:</label><br/>
-        <input type="text" id="expirydate" name="expirydate"  oninput="validateExpiry(); checkErrors()"><br/>
-         <span id="expirydate-error" class="error-message"></span> <br />
-         
-        <label for="cvv">CVV:</label><br/>
-        <input type="text" id="cvv" name="cvv"  oninput="validateCVV(); checkErrors()"><br/>
-         <span id="cvv-error" class="error-message"></span> <br />
-         
-        <input type="submit" id="submitButton" name="submitCreditCard" value="Pay with Credit Card">
+       <form action="<%= request.getContextPath() %>/GetTopTenUsers" method="get">
+    <h3>Get Top Ten Users</h3>
+  
+    <input type="submit" name="Submit">
     </form>
-
-    <!-- "Credit Card" button -->
-    <button type="button" name="creditCardForm" onClick="showCreditCardForm()">Credit Card</button>
-
-
-<%@include file="footer.html" %>
+    
+      <form action="<%= request.getContextPath() %>/GetUsersByBookId" method="post">
+    <h3>Get Users By Book ID</h3>
+    <label for="bookid">Enter Book ID:</label>
+  <input type="text" name="bookid"><br/>
+    <input type="submit" name="Submit">
+    </form>
+    </div>
+    <%@include file="footer.html" %>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
