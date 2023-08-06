@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,17 +41,14 @@ public class DeleteMemberServlet extends HttpServlet {
 		try {
 			String id = request.getParameter("id");
 			
-			UserDB bdb = new UserDB();
-			isDeleted = bdb.deleteUser(id);
+			
 			
 			request.setAttribute("isDeleted", isDeleted);
 			
 			
-			HttpSession session = request.getSession();
-
-			session.setAttribute("role" , "admin");
+			
 			 // Get a reference to the RequestDispatcher
-		    RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewMemberServlet");
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("ThirdParty/DeleteBookTp");
 		    
 		    // Forward the request to the SecondServlet
 		    dispatcher.forward(request, response);

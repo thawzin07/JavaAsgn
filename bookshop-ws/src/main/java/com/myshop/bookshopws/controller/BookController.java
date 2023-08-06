@@ -67,7 +67,7 @@ public class BookController {
 			path="/createBook",
 			consumes="application/json",
 			method = RequestMethod.POST)
-	public boolean createUser(@RequestBody Book book) {
+	public boolean createBook(@RequestBody Book book) {
 		boolean isCreated = false ;
 		try {
 			BookDB db = new BookDB();
@@ -84,8 +84,40 @@ public class BookController {
 		return isCreated ; //using the default ResponseBody with custom status from Spring
 	}
 	
+	@RequestMapping(
+			path="/updateBook",
+			consumes="application/json",
+			method = RequestMethod.PUT)
+	public boolean updateUser(@RequestBody Book book) {
+		boolean isUpdated = false ;
+		try {
+			BookDB db = new BookDB();
+			String isbn = book.getISBN();
+			System.out.print("...inside BookController...Id: " + isbn);
+			String title = book.getTitle();
+			System.out.print("...inside BookController...Id: " + title);
+			isUpdated = db.updateBook(book);
+			
+			System.out.print("...done create user..." + isUpdated);
+		}catch (Exception e) {
+			System.out.print("Error : "  + e.toString());
+		}
+		return isUpdated ; //using the default ResponseBody with custom status from Spring
+	}
 
+	@RequestMapping(method=RequestMethod.DELETE, path="/deleteBook/{id}")
+	public boolean deleteBook(@PathVariable("id") String uid) {
+		boolean isDeleted = false ;
 	
+		try {
+			BookDB db = new BookDB();
+			
+			isDeleted = db.deleteBook(uid);
+		} catch (Exception e) {
+			System.out.print(e.toString());
+		}
+		return isDeleted;
+	}
 	
 
 }

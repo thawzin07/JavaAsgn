@@ -133,10 +133,10 @@ h5 {
 	<%
 	@SuppressWarnings("unchecked")
 	ArrayList<Book> books = (ArrayList<Book>) request.getAttribute("topsales");
-	@SuppressWarnings("unchecked")
-	ArrayList<Book> books2 = (ArrayList<Book>) request.getAttribute("leastsales");
-	@SuppressWarnings("unchecked")
-	ArrayList<Book> books3 = (ArrayList<Book>) request.getAttribute("lowstock");
+	//@SuppressWarnings("unchecked")
+	//ArrayList<Book> books2 = (ArrayList<Book>) request.getAttribute("leastsales");
+	//@SuppressWarnings("unchecked")
+	//ArrayList<Book> books3 = (ArrayList<Book>) request.getAttribute("lowstock");
 	
 	
 	//ArrayList<Book> books3 = (ArrayList<Book>) session.getAttribute("lowstock");
@@ -180,73 +180,7 @@ h5 {
 		%>
 	</div>
 
-	<h2>3 Least Selling Books</h2>
-	<div class="book-container">
-		<%
-		for (int x = 0; x < books2.size(); x++) {
-		%>
-		<div class="book-card">
-			<img
-				src="<%=request.getContextPath() + "/Graphics/" + books2.get(x).getImage()%>">
-			<!-- Display other book details -->
-			<h3><%=books2.get(x).getTitle()%></h3>
-			<h6>ISBN</h6>
-			<%=books2.get(x).getISBN()%>
-			<h6>Author</h6>
-			<%=books2.get(x).getAuthor()%>
-			<h6>Price Per Book</h6>
-			<%=books2.get(x).getPrice()%>
-			<h6>In Stock</h6>
-			<%=books2.get(x).getQuantity()%>
-			<h6>Publisher</h6>
-			<%=books2.get(x).getPublisher()%>
-			<h6>Publication Date</h6>
-			<%=books2.get(x).getPublication_date()%>
-			<h5 class="red-text">Sold Count</h5>
-			<%=books2.get(x).getSold_count()%>
-
-			<h6>Book ID</h6>
-			<%=books2.get(x).getId()%>
-			<h6>Category ID</h6>
-			<%=books2.get(x).getCat_id()%>
-		</div>
-		<%
-		}
-		%>
-	</div>
 	
-	<h2 style="color: red;">Low Stock Level Books</h2>
-	<div class="book-container">
-		<%
-		for (int x = 0; x < books3.size(); x++) {
-		%>
-		<div class="book-card">
-			<img
-				src="<%=request.getContextPath() + "/Graphics/" + books3.get(x).getImage()%>">
-			<!-- Display other book details -->
-			<h3><%=books3.get(x).getTitle()%></h3>
-			<h6>Book ID</h6>
-			<%=books3.get(x).getId()%>
-			<h6>Category ID</h6>
-			<%=books3.get(x).getCat_id()%>
-			<h6>ISBN</h6>
-			<%=books3.get(x).getISBN()%>
-			<h6>Author</h6>
-			<%=books3.get(x).getAuthor()%>
-			<h6>Price Per Book</h6>
-			<%=books3.get(x).getPrice()%>
-			<h6>Current Stock Count</h6>
-			<%=books3.get(x).getQuantity()%>
-			
-			<h5 class="red-text">Sold Count</h5>
-			<%=books3.get(x).getSold_count()%>
-
-			
-		</div>
-		<%
-		}
-		%>
-	</div>
 	<%@include file="footer.html" %>
 
 </body>
