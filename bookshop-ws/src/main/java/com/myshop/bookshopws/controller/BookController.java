@@ -84,27 +84,7 @@ public class BookController {
 		return isCreated ; //using the default ResponseBody with custom status from Spring
 	}
 	
-	@RequestMapping(
-			path="/deleteBook",
-			consumes="application/json",
-			method = RequestMethod.POST)
-	public boolean deleteBook(@RequestBody int bookid) {
-		boolean isCreated = false ;
-		try {
-			BookDB db = new BookDB();
-			String isbn = book.getISBN();
-			System.out.print("...inside BookController...Id: " + isbn);
-			String title = book.getTitle();
-			System.out.print("...inside BookController...Id: " + title);
-			isCreated = db.createBook(book);
-			
-			System.out.print("...done create user..." + isCreated);
-		}catch (Exception e) {
-			System.out.print("Error : "  + e.toString());
-		}
-		return isCreated ; //using the default ResponseBody with custom status from Spring
-	}
-	
+
 	
 	
 
